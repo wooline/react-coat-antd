@@ -49,8 +49,8 @@ class Component extends React.PureComponent<Props, State> {
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
   const app = state.project.app;
   return {
-    projectConfigLoaded: app.projectConfig.title !== "",
-    curUserLoaded: app.curUser.uid !== "",
+    projectConfigLoaded: app.projectConfigLoaded,
+    curUserLoaded: app.curUserLoaded,
     curUser: app.curUser,
     globalLoading: app.loading.global,
   };

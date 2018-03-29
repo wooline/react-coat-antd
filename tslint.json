@@ -12,6 +12,7 @@
     "arrow-parens": [true, "ban-single-arg-parens"],
     "no-var-requires": false,
     "jsx-boolean-value": false,
-    "no-console": false
+    "no-console": false,
+    "semicolon": [true, "always", "ignore-bound-class-methods"]
   }
 }

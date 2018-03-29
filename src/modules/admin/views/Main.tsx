@@ -10,8 +10,8 @@ import { match, Route } from "react-router-dom";
 import { Dispatch } from "redux";
 
 import GlobalHeader from "./GlobalHeader";
+import GlobalSider from "./GlobalSider";
 
-const { Content } = Layout;
 const Product = asyncComponent(() => import(/* webpackChunkName: "product" */ "modules/product/views"));
 const Todos = asyncComponent(() => import(/* webpackChunkName: "todos" */ "modules/todos/views"));
 
@@ -52,15 +52,15 @@ class Component extends React.PureComponent<Props, State> {
         <ContainerQuery query={query}>
           {params => (
             <div className={classNames(params)}>
-              <Layout>
-                <div>SiderMenu</div>
+              <Layout style={{ minHeight: "100vh", overflow: "hidden" }}>
+                <GlobalSider>SiderMenu</GlobalSider>
                 <Layout>
                   <GlobalHeader />
-                  <Content style={{ height: "100%" }}>
+                  <Layout.Content>
                     <Route exact={true} path={`${match.url}/todos`} component={Todos} />
                     <Route exact={true} path={`${match.url}/product`} component={Product} />
-                  </Content>
-                  <div>GlobalFooter</div>
+                  </Layout.Content>
+                  <Layout.Footer>GlobalFooter</Layout.Footer>
                 </Layout>
               </Layout>
             </div>

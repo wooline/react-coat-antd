@@ -1,9 +1,9 @@
-export interface GetSettingsResponse {
-  title: string;
-}
+import { ProjectConfig } from "../model/type";
+
+export type GetProjectConfigResponse = ProjectConfig;
 
 export class API {
-  getSettings(): Promise<GetSettingsResponse> {
+  getSettings(): Promise<GetProjectConfigResponse> {
     return Promise.resolve({ title: "Hello world" });
   }
   reportError(error: any): Promise<boolean> {

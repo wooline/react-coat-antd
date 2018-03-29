@@ -15,10 +15,7 @@ export interface MenuItemData {
   children?: MenuItemData[];
   target?: string;
 }
-export interface Notices {
-  count: number;
-  dataSource: Array<{ title: string; list: NoticeItem[] }>;
-}
+export type Notices = Array<{ title: string; type: string; list: NoticeItem[] }>;
 export interface FooterData {
   links: Array<{
     key: string;

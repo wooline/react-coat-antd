@@ -88,16 +88,11 @@ module.exports = {
     // `web` extension prefixes have been added for better support
     // for React Native Web.
     extensions: [
-      '.mjs',
-      '.web.ts',
       '.ts',
-      '.web.tsx',
       '.tsx',
-      '.web.js',
       '.js',
-      '.json',
-      '.web.jsx',
       '.jsx',
+      '.json',
     ],
     alias: {
       

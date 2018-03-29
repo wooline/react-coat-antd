@@ -1,20 +1,14 @@
-export interface GetCurUserResponse {
-  uid: string;
-  username: string;
-  hasLogin: boolean;
-}
-export interface LoginResponse {
-  uid: string;
-  username: string;
-  hasLogin: boolean;
-}
+import { CurUser } from "../model/type";
+
+export type GetCurUserResponse = CurUser;
+export type LoginResponse = CurUser;
 
 export class API {
   getCurUser(): Promise<GetCurUserResponse> {
-    return Promise.resolve({ uid: "0", username: "guest", hasLogin: false });
+    return Promise.resolve({ notices: 0, avatar: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png", uid: "0", username: "guest", hasLogin: false });
   }
   login(username: string, password: string): Promise<LoginResponse> {
-    return Promise.resolve({ uid: "1", username: "jimmy", hasLogin: true });
+    return Promise.resolve({ notices: 10, avatar: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png", uid: "1", username: "jimmy", hasLogin: true });
   }
 }
 

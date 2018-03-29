@@ -30,7 +30,7 @@ class Component extends React.PureComponent<Props, State> {
     return hasLogined ? (
       <Redirect to={from} />
     ) : (
-      <form className="app-login" onSubmit={login}>
+      <form className="app-Login" onSubmit={login}>
         <h3>请登录</h3>
         <ul>
           <li>
