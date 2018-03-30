@@ -13,6 +13,7 @@
     "no-var-requires": false,
     "jsx-boolean-value": false,
     "no-console": false,
+    "no-namespace": false,
     "semicolon": [true, "always", "ignore-bound-class-methods"]
   }
 }

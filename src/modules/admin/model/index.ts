@@ -8,7 +8,7 @@ import {
 import { call, put } from "redux-saga/effects";
 
 import * as ajax from "../api";
-import { footerData, globalSearchData } from "./meta";
+import { footerData, globalSearchData } from "./metadata";
 import { FooterData, MenuItemData, Notices } from "./type";
 
 // 定义本模块的State
