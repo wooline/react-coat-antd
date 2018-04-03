@@ -1,7 +1,7 @@
 import { Avatar, Dropdown, Icon, Layout, Menu, Tooltip } from "antd";
 import RootState from "core/RootState";
 import thisModule from "modules/admin";
-import React, { PureComponent } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -40,7 +40,7 @@ const menu = (
   </Menu>
 );
 
-class Component extends PureComponent<Props, State> {
+class Component extends React.PureComponent<Props, State> {
   toggleSider = () => {
     const { collapsed } = this.props;
     this.props.dispatch(thisModule.actions.admin_setSiderCollapsed(!collapsed));

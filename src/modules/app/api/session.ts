@@ -1,4 +1,4 @@
-import sessionService from "service/session";
+import globalService from "service/global";
 
 import { CurUser } from "../model/type";
 
@@ -7,10 +7,10 @@ export type LoginResponse = CurUser;
 
 export class API {
   getCurUser(): Promise<GetCurUserResponse> {
-    return sessionService.query({});
+    return globalService.getCurUser({});
   }
   login(username: string, password: string): Promise<LoginResponse> {
-    return sessionService.create({ username, password });
+    return globalService.login({ username, password });
   }
 }
 

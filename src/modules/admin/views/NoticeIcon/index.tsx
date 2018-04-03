@@ -2,7 +2,7 @@ import { Badge, Icon, Popover, Spin, Tabs } from "antd";
 import RootState from "core/RootState";
 import thisModule from "modules/admin";
 import { NoticeItem, Notices } from "modules/admin/model/type";
-import React, { PureComponent } from "react";
+import React from "react";
 import { LoadingState } from "react-coat-pkg";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -28,7 +28,7 @@ interface OwnProps {}
 
 interface State {}
 
-class Component extends PureComponent<Props, State> {
+class Component extends React.PureComponent<Props, State> {
   handleVisibleChange = visible => {
     if (visible) {
       this.props.dispatch(thisModule.actions.admin_getNotices(null));

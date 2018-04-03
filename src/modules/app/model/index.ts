@@ -1,4 +1,5 @@
 import RootState from "core/RootState";
+import { enquireScreen } from "enquire-js";
 import thisModule from "modules/app";
 import {
     BaseModuleState, buildActionByEffect, buildActionByReducer, buildLoading, buildModel,
@@ -11,6 +12,11 @@ import * as sessionService from "../api/session";
 import * as settingsService from "../api/settings";
 import { CurUser, ProjectConfig } from "./type";
 
+let isMobile;
+enquireScreen(b => {
+  isMobile = b;
+});
+
 // 定义本模块的State
 interface State extends BaseModuleState {
   projectConfigLoaded: boolean;
@@ -18,6 +24,7 @@ interface State extends BaseModuleState {
   projectConfig: ProjectConfig;
   curUser: CurUser;
   loginError: string;
+  isMobile: boolean;
   loading: {
     global: string;
     login: string;
@@ -38,6 +45,7 @@ const state: State = {
     notices: 0,
   },
   loginError: "",
+  isMobile,
   loading: {
     global: "Stop",
     login: "Stop",

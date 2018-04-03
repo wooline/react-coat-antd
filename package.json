@@ -4,12 +4,31 @@
   "private": true,
   "dllDependencies": {
     "polyfill": ["babel-polyfill"],
-    "react": ["react", "react-dom", "redux", "react-redux", "history", "history/DOMUtils", "history/LocationUtils", "history/PathUtils", "react-router-redux", "react-router-dom", "redux-saga", "redux-saga/effects", "react-coat-pkg", "react-container-query", "react-document-title", "classnames"]
+    "react": [
+      "react",
+      "react-dom",
+      "redux",
+      "react-redux",
+      "history",
+      "history/DOMUtils",
+      "history/LocationUtils",
+      "history/PathUtils",
+      "react-router-redux",
+      "react-router-dom",
+      "redux-saga",
+      "redux-saga/effects",
+      "react-coat-pkg",
+      "react-container-query",
+      "react-document-title",
+      "classnames",
+      "enquire-js"
+    ]
   },
   "dependencies": {
     "antd": "^3.3.3",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
+    "enquire-js": "^0.2.1",
     "lodash": "^4.17.5",
     "lodash-decorators": "^5.0.0",
     "react-coat-pkg": "^1.1.2",
@@ -42,9 +61,9 @@
     "less": "^3.0.1",
     "less-loader": "^4.1.0",
     "object-assign": "4.1.1",
-    "promise": "8.0.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
+    "promise": "8.0.1",
     "raf": "3.4.0",
     "react-dev-utils": "4.2.1",
     "source-map-loader": "^0.2.1",

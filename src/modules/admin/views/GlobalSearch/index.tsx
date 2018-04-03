@@ -1,7 +1,7 @@
 import { AutoComplete, Icon, Input } from "antd";
 import classNames from "classnames";
 import RootState from "core/RootState";
-import React, { PureComponent } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -19,7 +19,7 @@ interface State {
 
 interface OwnProps {}
 
-class Component extends PureComponent<Props, State> {
+class Component extends React.PureComponent<Props, State> {
   state = {
     searchMode: false,
     value: "",
