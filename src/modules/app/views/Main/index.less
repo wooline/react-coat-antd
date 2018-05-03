@@ -1,0 +1,24 @@
+.application {
+  > .errors {
+    top: 0;
+    left: 0;
+    padding: 5px;
+    position: fixed;
+    z-index: 10000;
+    width: 100%;
+
+    .ant-alert {
+      margin-bottom: 2px;
+      font-size: 12px;
+      background: rgba(255, 210, 210, 0.8);
+    }
+
+    .ant-alert-message {
+      text-overflow: ellipsis;
+      margin-right: 20px;
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  }
+}

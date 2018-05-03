@@ -94,7 +94,7 @@ class Component extends React.Component<Props, State> {
     }
   }
   shouldComponentUpdate(nextProps: Props, nextState: State) {
-    return nextState.openKeys.join(" ") !== this.state.openKeys.join(" ") || nextState.selectedKey !== this.state.selectedKey;
+    return nextProps.collapsed !== this.props.collapsed || nextState.openKeys.join(" ") !== this.state.openKeys.join(" ") || nextState.selectedKey !== this.state.selectedKey;
   }
   folderHandler = ({ key }: { key: string }) => {
     let openKeys = [...this.state.openKeys];
@@ -153,7 +153,7 @@ class Component extends React.Component<Props, State> {
     // Don't show popup menu when it is been collapsed
     const menuProps = collapsed ? {} : { openKeys };
     return (
-      <Menu key="Menu" theme="dark" mode="inline" {...menuProps} selectedKeys={[selectedKey]} style={{ padding: "16px 0", width: "100%" }}>
+      <Menu key="SiderMenu" theme="dark" mode="inline" {...menuProps} selectedKeys={[selectedKey]} style={{ padding: "16px 0", width: "100%" }}>
         {this.generateMenu(dataSource)}
       </Menu>
     );

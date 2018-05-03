@@ -1,11 +1,10 @@
+import { Spin } from "antd";
 import React from "react";
-
+import { LoadingState } from "react-coat-pkg";
 import "./Loading.less";
 
-const loadingIcon = require("./loading.gif");
-
 interface Props {
-  loading: string;
+  loading: LoadingState;
 }
 
 interface State {}
@@ -15,7 +14,7 @@ const Component = function(props: Props, state: State) {
   return loading === "Start" || loading === "Depth" ? (
     <div className={"comp-loading " + loading}>
       <div className="loading-icon">
-        <img src={loadingIcon} />
+        <Spin />
       </div>
     </div>
   ) : null;

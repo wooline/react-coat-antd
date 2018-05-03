@@ -2,15 +2,15 @@ import globalService from "service/global";
 
 import { MenuItemData, Notices } from "../model/type";
 
-export type GetMenuResponse = MenuItemData[];
-export type GetNoticesResponse = Notices;
-
 export class API {
-  getNotices(): Promise<GetNoticesResponse> {
+  getNotices(): Promise<Notices> {
     return globalService.getNotices({});
   }
-  getMenu(): Promise<GetMenuResponse> {
+  getMenu(): Promise<MenuItemData[]> {
     return globalService.getMenu({});
+  }
+  emptyNotices(type: string): Promise<void> {
+    return globalService.emptyNotices({ type });
   }
 }
 

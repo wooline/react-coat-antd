@@ -7,8 +7,44 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "启动程序",
-      "program": "${workspaceFolder}\\scripts\\build.js"
+      "name": "Launch Program",
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+      "args": [
+        "-r",
+        "${workspaceRoot}/mock_server/node_modules/tsconfig-paths/register.js",
+        "${workspaceRoot}/mock_server/src/main.ts" // 入口文件
+      ],
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}/mock_server",
+      "protocol": "inspector"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "mockServer直接启动",
+      "program": "${workspaceRoot}/mock_server/node_modules/ts-node/dist/_bin.js", //"program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "-r",
+        "${workspaceRoot}/mock_server/node_modules/tsconfig-paths/register.js",
+        "${workspaceRoot}/mock_server/src/main.ts" // 入口文件
+      ],
+      "sourceMaps": true,
+      "cwd": "${workspaceRoot}/mock_server",
+      "protocol": "inspector"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "通过npm启动",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start"],
+      "port": 9229 // "start": "node --nolazy --inspect-brk=9229 scripts/start.js",
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "直接启动",
+      "program": "${workspaceFolder}/scripts/start.js"
     }
   ]
 }

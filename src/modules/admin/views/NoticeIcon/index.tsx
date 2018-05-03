@@ -3,7 +3,6 @@ import RootState from "core/RootState";
 import thisModule from "modules/admin";
 import { NoticeItem, Notices } from "modules/admin/model/type";
 import React from "react";
-import { LoadingState } from "react-coat-pkg";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -31,14 +30,16 @@ interface State {}
 class Component extends React.PureComponent<Props, State> {
   handleVisibleChange = visible => {
     if (visible) {
-      this.props.dispatch(thisModule.actions.admin_getNotices(null));
+      this.props.dispatch(thisModule.actions.admin_getNotices());
     }
   };
   handleItemClick(type: string, item: NoticeItem) {
     console.log(type);
   }
   handleClear(type: string) {
-    console.log(type);
+    const action = thisModule.actions.admin_emptyNotices(type);
+    console.log(action);
+    this.props.dispatch(action);
   }
   render() {
     const { list, loading, count } = this.props;
@@ -72,7 +73,7 @@ class Component extends React.PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
   return {
-    loading: state.project.admin.loading.notices !== LoadingState.Stop,
+    loading: state.project.admin.loading.notices !== "Stop",
     count: state.project.app.curUser.notices,
     list: state.project.admin.notices,
   };

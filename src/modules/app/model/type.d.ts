@@ -1,5 +1,7 @@
 export interface ProjectConfig {
-  title: string;
+  theme: "blue" | "green" | "red";
+  videoDir: string;
+  pageSize: number;
 }
 export interface CurUser {
   avatar: string;

@@ -9,7 +9,9 @@ import { Dispatch } from "redux";
 
 import SiderMenu from "./SiderMenu";
 
-// import { Link } from "react-router-dom";
+require("./index.less");
+const Logo = require("./imgs/logo.svg");
+
 interface Props {
   dispatch: Dispatch<any>;
   siderCollapsed: boolean;
@@ -27,9 +29,10 @@ class Component extends React.PureComponent<Props, State> {
   render() {
     const { siderCollapsed, menuData } = this.props;
     return (
-      <Layout.Sider width={256} breakpoint="lg" collapsible collapsed={siderCollapsed} onCollapse={this.handleMenuCollapse} trigger={null}>
-        <div className="logo" key="logo">
+      <Layout.Sider width={256} breakpoint="lg" collapsible collapsed={siderCollapsed} onCollapse={this.handleMenuCollapse} trigger={null} className="admin-GlobalSider">
+        <div className="logo">
           <Link to="/">
+            <img src={Logo} alt="logo" />
             <h1>Ant Design Pro</h1>
           </Link>
         </div>

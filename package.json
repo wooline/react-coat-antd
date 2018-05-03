@@ -25,14 +25,13 @@
     ]
   },
   "dependencies": {
-    "antd": "^3.3.3",
+    "antd": "^3.4.4",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
     "enquire-js": "^0.2.1",
-    "lodash": "^4.17.5",
-    "lodash-decorators": "^5.0.0",
-    "react-coat-pkg": "^1.1.2",
+    "react-coat-pkg": "^1.2.3",
     "react-container-query": "^0.11.0",
+    "react-countup": "^3.0.3",
     "react-document-title": "^2.0.3"
   },
   "scripts": {
@@ -78,7 +77,7 @@
     "tsconfig-paths-webpack-plugin": "^2.0.0",
     "tslint": "^5.7.0",
     "tslint-react": "^3.2.0",
-    "typescript": "^2.7.2",
+    "typescript": "^2.8.3",
     "uglifyjs-webpack-plugin": "^1.1.8",
     "url-loader": "0.6.2",
     "webpack": "3.8.1",
@@ -114,11 +113,12 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "mockServer": "http://localhost:3002",
   "proxy": {
     "/ajax": {
       "target": "http://localhost:3002",
       "secure": false,
-      "changeOrigin": false
+      "changeOrigin": true
     }
   }
 }

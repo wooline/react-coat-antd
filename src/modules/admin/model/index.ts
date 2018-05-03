@@ -1,12 +1,9 @@
 import RootState from "core/RootState";
 import thisModule from "modules/admin";
+import appModule from "modules/app";
 import * as actionNames from "modules/admin/actionNames";
-import {
-    BaseModuleState, buildActionByEffect, buildActionByReducer, buildLoading, buildModel,
-    LoadingState,
-} from "react-coat-pkg";
+import { BaseModuleState, LoadingState, buildActionByEffect, buildActionByReducer, buildLoading, buildModel } from "react-coat-pkg";
 import { call, put } from "redux-saga/effects";
-
 import * as ajax from "../api";
 import { footerData, globalSearchData } from "./metadata";
 import { FooterData, MenuItemData, Notices } from "./type";
@@ -22,8 +19,8 @@ interface State extends BaseModuleState {
   };
   notices: Notices;
   loading: {
-    global: string;
-    notices: string;
+    global: LoadingState;
+    notices: LoadingState;
   };
 }
 // 定义本模块State的初始值
@@ -34,8 +31,8 @@ const state: State = {
   globalSearch: globalSearchData,
   notices: [],
   loading: {
-    notices: LoadingState.Stop,
-    global: LoadingState.Stop,
+    notices: "Stop",
+    global: "Stop",
   },
 };
 // 定义本模块的Action
@@ -49,17 +46,33 @@ class ModuleActions {
   [actionNames.SET_SIDER_COLLAPSED] = buildActionByReducer(function(siderCollapsed: boolean, moduleState: State, rootState: RootState): State {
     return { ...moduleState, siderCollapsed };
   });
+  @buildLoading()
+  [actionNames.EMPTY_NOTICES] = buildActionByEffect(function*(type: string, moduleState: State, rootState: RootState) {
+    yield call(ajax.api.emptyNotices, type);
+    let olist: any[] = [];
+    const notices = moduleState.notices.map(data => {
+      if (data.type === type) {
+        olist = data.list;
+        return { ...data, list: [] };
+      } else {
+        return data;
+      }
+    });
+    yield put(thisModule.actions.admin_updateNotices(notices));
+    const curUser = rootState.project.app.curUser;
+    yield put(appModule.actions.app_setCurUser({ ...curUser, notices: curUser.notices - olist.length }));
+  });
   @buildLoading(actionNames.NAMESPACE, "notices")
-  [actionNames.GET_NOTICES] = buildActionByEffect(function*(data: null, moduleState: State, rootState: RootState) {
-    const notices: ajax.GetNoticesResponse = yield call(ajax.api.getNotices);
+  [actionNames.GET_NOTICES] = buildActionByEffect(function*(data: null) {
+    const notices: Notices = yield call(ajax.api.getNotices);
     yield put(thisModule.actions.admin_updateNotices(notices));
   });
 }
 // 定义本模块的监听
 class ModuleHandlers {
   @buildLoading()
-  [actionNames.INIT] = buildActionByEffect(function*(data: null, moduleState: State, rootState: RootState) {
-    const menuData: ajax.GetMenuResponse = yield call(ajax.api.getMenu);
+  [actionNames.INIT] = buildActionByEffect(function*(data: null) {
+    const menuData: MenuItemData[] = yield call(ajax.api.getMenu);
     yield put(thisModule.actions.admin_updateInitData(menuData));
   });
 }

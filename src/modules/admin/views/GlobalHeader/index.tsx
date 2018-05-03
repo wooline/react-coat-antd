@@ -1,6 +1,7 @@
 import { Avatar, Dropdown, Icon, Layout, Menu, Tooltip } from "antd";
 import RootState from "core/RootState";
 import thisModule from "modules/admin";
+import appModule from "modules/app";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -22,29 +23,37 @@ interface OwnProps {}
 
 interface State {}
 
-const menu = (
-  <Menu className="adminLayout-header-menu" selectedKeys={[]}>
-    <Menu.Item disabled>
-      <Icon type="user" />个人中心
-    </Menu.Item>
-    <Menu.Item disabled>
-      <Icon type="setting" />设置
-    </Menu.Item>
-    <Menu.Item key="triggerError">
-      <Icon type="close-circle" />触发报错
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item key="logout">
-      <Icon type="logout" />退出登录
-    </Menu.Item>
-  </Menu>
-);
-
 class Component extends React.PureComponent<Props, State> {
+  onMenuItemClick = ({ key }: { key: string }) => {
+    if (key === "logout") {
+      this.props.dispatch(appModule.actions.app_logout());
+    } else if (key === "triggerError") {
+      setTimeout(() => {
+        throw new Error("自定义出错！");
+      }, 0);
+    }
+  };
   toggleSider = () => {
     const { collapsed } = this.props;
     this.props.dispatch(thisModule.actions.admin_setSiderCollapsed(!collapsed));
   };
+  menu = (
+    <Menu className="adminLayout-header-menu" selectedKeys={[]} onClick={this.onMenuItemClick}>
+      <Menu.Item disabled>
+        <Icon type="user" /> 个人中心
+      </Menu.Item>
+      <Menu.Item disabled>
+        <Icon type="setting" /> 设置
+      </Menu.Item>
+      <Menu.Item key="triggerError">
+        <Icon type="close-circle" /> 触发报错
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="logout">
+        <Icon type="logout" /> 退出登录
+      </Menu.Item>
+    </Menu>
+  );
   render() {
     const { collapsed, curUser } = this.props;
     return (
@@ -58,7 +67,7 @@ class Component extends React.PureComponent<Props, State> {
             </a>
           </Tooltip>
           <NoticeIcon />
-          <Dropdown overlay={menu}>
+          <Dropdown overlay={this.menu}>
             <span className="action account">
               <Avatar size="small" className="avatar" src={curUser.avatar} />
               <span className="name">{curUser.username}</span>
