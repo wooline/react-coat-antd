@@ -1,7 +1,7 @@
 import { Spin } from "antd";
 import React from "react";
 import { LoadingState } from "react-coat-pkg";
-import "./Loading.less";
+import "./index.less";
 
 interface Props {
   loading: LoadingState;

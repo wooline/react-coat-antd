@@ -65,6 +65,20 @@ export namespace getNotices {
   export type Action = (request: Request) => Promise<Response>;
 }
 
+export namespace getNoticesByType {
+  export interface Request {
+    type: string;
+    page: number;
+  }
+  export interface Response {
+    title: string;
+    type: string;
+    list: global.notice.Item[];
+  }
+  export const metadata = { method: "GET", path: "/ajax/global/notices/:type" };
+  export type Action = (request: Request) => Promise<Response>;
+}
+
 export namespace emptyNotices {
   export interface Request {
     type: string;
@@ -89,8 +103,9 @@ export interface Service {
   logout: logout.Action;
   getMenu: getMenu.Action;
   getNotices: getNotices.Action;
+  getNoticesByType: getNoticesByType.Action;
   emptyNotices: emptyNotices.Action;
   getDashboardData: getDashboardData.Action;
 }
 
-export default { getSettings, updateSettings, getCurUser, getPushData, login, logout, getMenu, getNotices, emptyNotices, getDashboardData };
+export default { getSettings, updateSettings, getCurUser, getPushData, login, logout, getMenu, getNotices, getNoticesByType, emptyNotices, getDashboardData };
