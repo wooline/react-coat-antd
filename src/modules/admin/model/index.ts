@@ -1,6 +1,6 @@
 import RootState from "core/RootState";
 import thisModule from "modules/admin";
-import appModule from "modules/app";
+// import appModule from "modules/app";
 import * as actionNames from "modules/admin/actionNames";
 import { BaseModuleState, LoadingState, buildActionByEffect, buildActionByReducer, buildLoading, buildModel } from "react-coat-pkg";
 import { call, put } from "redux-saga/effects";
@@ -49,8 +49,7 @@ class ModuleActions {
   @buildLoading()
   [actionNames.EMPTY_NOTICES] = buildActionByEffect(function*(type: string, moduleState: State, rootState: RootState) {
     yield call(ajax.api.emptyNotices, type);
-    let olist: any[] = [];
-    const notices = moduleState.notices.map(data => {
+    /* const notices = moduleState.notices.map(data => {
       if (data.type === type) {
         olist = data.list;
         return { ...data, list: [] };
@@ -60,7 +59,7 @@ class ModuleActions {
     });
     yield put(thisModule.actions.admin_updateNotices(notices));
     const curUser = rootState.project.app.curUser;
-    yield put(appModule.actions.app_setCurUser({ ...curUser, notices: curUser.notices - olist.length }));
+    yield put(appModule.actions.app_setCurUser({ ...curUser, notices: curUser.notices - olist.length })); */
   });
   @buildLoading(actionNames.NAMESPACE, "notices")
   [actionNames.GET_NOTICES] = buildActionByEffect(function*(data: null) {

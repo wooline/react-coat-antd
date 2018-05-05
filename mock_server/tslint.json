@@ -22,6 +22,7 @@
     "semicolon": [true, "always", "ignore-bound-class-methods"],
     "no-empty-interface": false,
     "arrow-parens": [true, "ban-single-arg-parens"],
+    "object-literal-key-quotes": false,
     "max-classes-per-file": [false]
   }
 }

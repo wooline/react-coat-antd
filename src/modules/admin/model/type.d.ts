@@ -1,3 +1,4 @@
+import { common } from "core/type.d";
 export interface NoticeItem {
   key?: string;
   id: string;
@@ -15,7 +16,12 @@ export interface MenuItemData {
   children?: MenuItemData[];
   target?: string;
 }
-export type Notices = Array<{ title: string; type: string; list: NoticeItem[] }>;
+export interface NoticesChannel {
+  title: string;
+  type: string;
+  list: common.List<NoticeItem>;
+}
+export type Notices = NoticesChannel[];
 export interface FooterData {
   links: Array<{
     key: string;

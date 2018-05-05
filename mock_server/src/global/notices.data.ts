@@ -1,119 +1,69 @@
+import * as Mock from "mockjs";
+//  var Mock = require('mockjs')
+
 export function getNotices() {
   return datasource;
 }
 export function emptyNotice(type: string) {
   datasource.forEach(data => {
     if (data.type === type) {
-      data.list.length = 0;
+      data.list.list.length = 0;
     }
   });
 }
 export function getNoticesNum() {
   return datasource.reduce((pre, cur) => {
-    return pre + cur.list.length;
+    return pre + cur.list.list.length;
   }, 0);
 }
+function createList(type?: string) {
+  const item = {
+    id: "@id",
+    title: "@ctitle(5, 20)",
+    description: "@ctitle(0, 100)",
+    extra: "@name",
+    avatar:
+      // tslint:disable-next-line:max-line-length
+      "@pick(['https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png','https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png','https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png', 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg'])",
+    datetime: "@datetime",
+  };
+  if (type === "notice") {
+    item.extra = "";
+  } else if (type === "todo") {
+    item.extra = "@pick(['未开始','马上到期','正在进行','已耗时3天'])";
+  } else if (type === "unread") {
+    item.extra = "@pick(['未开始','Jimmy','','正在进行','','wooline'])";
+  }
+  return Mock.mock({
+    pagination: {
+      page: 1,
+      pageSize: 5,
+      total: 52,
+      totalPage: Math.ceil(52 / 5),
+    },
+    "list|3": [item],
+  });
+}
+
 const datasource = [
+  {
+    type: "unread",
+    title: "未读",
+    list: createList("unread"),
+  },
   {
     type: "notice",
     title: "通知",
-    list: [
-      {
-        id: "000000001",
-        avatar: "https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png",
-        title: "你收到了 14 份新周报",
-        datetime: "6 个月前",
-        key: "000000001",
-      },
-      {
-        id: "000000002",
-        avatar: "https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png",
-        title: "你推荐的 曲妮妮 已通过第三轮面试",
-        datetime: "6 个月前",
-        key: "000000002",
-      },
-      {
-        id: "000000003",
-        avatar: "https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png",
-        title: "这种模板可以区分多种通知类型",
-        datetime: "6 个月前",
-        read: true,
-        key: "000000003",
-      },
-      {
-        id: "000000004",
-        avatar: "https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png",
-        title: "左侧图标用于区分不同的类型",
-        datetime: "6 个月前",
-        key: "000000004",
-      },
-      {
-        id: "000000005",
-        avatar: "https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png",
-        title: "内容不要超过两行字，超出时自动截断",
-        datetime: "6 个月前",
-        key: "000000005",
-      },
-    ],
+    list: createList("notice"),
   },
   {
     type: "message",
     title: "消息",
-    list: [
-      {
-        id: "000000006",
-        avatar: "https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg",
-        title: "曲丽丽 评论了你",
-        description: "描述信息描述信息描述信息",
-        datetime: "6 个月前",
-        key: "000000006",
-      },
-      {
-        id: "000000007",
-        avatar: "https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg",
-        title: "朱偏右 回复了你",
-        description: "这种模板用于提醒谁与你发生了互动，左侧放『谁』的头像",
-        datetime: "6 个月前",
-        key: "000000007",
-      },
-      {
-        id: "000000008",
-        avatar: "https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg",
-        title: "标题",
-        description: "这种模板用于提醒谁与你发生了互动，左侧放『谁』的头像",
-        datetime: "6 个月前",
-        key: "000000008",
-      },
-    ],
+    list: createList("message"),
   },
   {
     type: "todo",
     title: "待办",
-    list: [
-      {
-        id: "000000009",
-        title: "任务名称",
-        description: "任务需要在 2017-01-12 20:00 前启动",
-        extra: "未开始",
-      },
-      {
-        id: "000000010",
-        title: "第三方紧急代码变更",
-        description: "冠霖提交于 2017-01-06，需在 2017-01-07 前完成代码变更任务",
-        extra: "马上到期",
-      },
-      {
-        id: "000000011",
-        title: "信息安全考试",
-        description: "指派竹尔于 2017-01-09 前完成更新并发布",
-        extra: "已耗时 8 天",
-      },
-      {
-        id: "000000012",
-        title: "ABCD 版本发布",
-        description: "冠霖提交于 2017-01-06，需在 2017-01-07 前完成代码变更任务",
-        extra: "进行中",
-      },
-    ],
+    list: createList("todo"),
   },
 ];

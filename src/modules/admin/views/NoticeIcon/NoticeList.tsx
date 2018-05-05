@@ -1,6 +1,6 @@
-import { Avatar, List } from "antd";
+import { Avatar, List, Pagination, Button } from "antd";
 import classNames from "classnames";
-import { NoticeItem } from "modules/admin/model/type";
+import { NoticeItem, NoticesChannel } from "modules/admin/model/type";
 import React from "react";
 
 require("./NoticeList.less");
@@ -12,7 +12,7 @@ declare module "antd/lib/list/Item" {
 }
 
 interface Props {
-  dataSource: NoticeItem[];
+  dataSource: NoticesChannel;
   onClick: (item: NoticeItem) => void;
   onClear: () => void;
 }
@@ -47,13 +47,22 @@ export default class Component extends React.PureComponent<Props, State> {
     );
   };
   public render() {
-    const { dataSource, onClear } = this.props;
-    if (dataSource.length) {
+    const {
+      dataSource: {
+        type,
+        list: { pagination, list },
+      },
+      onClear,
+    } = this.props;
+    if (list.length) {
       return (
         <div className="admin-NoticeList">
-          <List className="list" dataSource={dataSource} renderItem={this.createItem} />
-          <div className="clear" onClick={onClear}>
-            清空信息
+          <List className="list" dataSource={list} renderItem={this.createItem} />
+          <div className="con" onClick={onClear}>
+            <Button icon="delete" size="small" className="clear">
+              清空
+            </Button>
+            <Pagination className="pagination" size="small" pageSize={pagination.pageSize} total={pagination.total} />
           </div>
         </div>
       );

@@ -2,7 +2,6 @@
 
 .admin-NoticeList {
   .list {
-    max-height: 400px;
     overflow: auto;
 
     .item {
@@ -40,7 +39,9 @@
 
       .description {
         font-size: 12px;
-        line-height: @line-height-base;
+        line-height: 20px;
+        max-height: 40px;
+        overflow: hidden;
       }
 
       .datetime {
@@ -71,18 +72,20 @@
     }
   }
 
-  .clear {
+  .con {
     height: 46px;
     line-height: 46px;
-    text-align: center;
-    color: @text-color;
     border-radius: 0 0 @border-radius-base @border-radius-base;
     border-top: 1px solid @border-color-split;
     transition: all 0.3s;
-    cursor: pointer;
+    padding: 10px 10px 0 15px;
 
-    &:hover {
-      color: @heading-color;
+    > .clear {
+      float: left;
+    }
+
+    > .pagination {
+      float: right;
     }
   }
 }

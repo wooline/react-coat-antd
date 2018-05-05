@@ -8,6 +8,6 @@ storeEnhancers?: Function[]
 */
 
 // ie9请使用 import createHashHistory from "history/createHashHistory";
-// ie9请使用 createApp(appViews.Main, "root", [], [], createHashHistory());
+// ie9请使用 createApp(appViews.Main, "root", [], [],  {}, createHashHistory());
 
 createApp(appViews.Main, "root");

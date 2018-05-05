@@ -1,3 +1,5 @@
+import { common } from "./common";
+
 export namespace global {
   export namespace settings {
     export type ThemeValue = "blue" | "green" | "red";
@@ -18,7 +20,9 @@ export namespace global {
       description?: string;
       datetime?: string;
     }
+    export type List = common.List<Item>;
   }
+
   export namespace menu {
     export interface Item {
       name: string;

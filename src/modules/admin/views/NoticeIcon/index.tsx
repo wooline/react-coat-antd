@@ -52,7 +52,7 @@ class Component extends React.PureComponent<Props, State> {
             const onClear = () => this.handleClear(item.type);
             return (
               <Tabs.TabPane tab={item.title} key={item.type}>
-                <NoticeList dataSource={item.list} onClick={onClick} onClear={onClear} />
+                <NoticeList dataSource={item} onClick={onClick} onClear={onClear} />
               </Tabs.TabPane>
             );
           })}

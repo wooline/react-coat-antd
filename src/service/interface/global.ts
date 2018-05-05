@@ -60,7 +60,7 @@ export namespace getMenu {
 
 export namespace getNotices {
   export interface Request {}
-  export type Response = Array<{ title: string; type: string; list: global.notice.Item[] }>;
+  export type Response = Array<{ title: string; type: string; list: global.notice.List }>;
   export const metadata = { method: "GET", path: "/ajax/global/notices" };
   export type Action = (request: Request) => Promise<Response>;
 }
