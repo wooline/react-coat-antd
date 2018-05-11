@@ -1,11 +1,12 @@
 export namespace common {
-  export interface List<Item> {
+  export interface List<Item, Filter> {
     pagination: {
       page: number;
       pageSize: number;
       total: number;
       totalPage: number;
     };
+    filter: Filter;
     list: Item[];
   }
   export enum ErrorCode {

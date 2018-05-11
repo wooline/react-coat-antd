@@ -6,7 +6,7 @@ import { BaseModuleState, LoadingState, buildActionByEffect, buildActionByReduce
 import { call, put } from "redux-saga/effects";
 import * as ajax from "../api";
 import { footerData, globalSearchData } from "./metadata";
-import { FooterData, MenuItemData, Notices } from "./type";
+import { FooterData, MenuItemData, Notices, NoticesChannelFilter } from "./type";
 
 // 定义本模块的State
 interface State extends BaseModuleState {
@@ -47,8 +47,8 @@ class ModuleActions {
     return { ...moduleState, siderCollapsed };
   });
   @buildLoading()
-  [actionNames.EMPTY_NOTICES] = buildActionByEffect(function*(type: string, moduleState: State, rootState: RootState) {
-    yield call(ajax.api.emptyNotices, type);
+  [actionNames.FILTER_NOTICES] = buildActionByEffect(function*(payload: NoticesChannelFilter, moduleState: State, rootState: RootState) {
+    yield call(ajax.api.filterNotices, payload);
     /* const notices = moduleState.notices.map(data => {
       if (data.type === type) {
         olist = data.list;

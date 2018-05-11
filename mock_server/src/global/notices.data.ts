@@ -22,6 +22,7 @@ function createList(type?: string) {
     title: "@ctitle(5, 20)",
     description: "@ctitle(0, 100)",
     extra: "@name",
+    unread: "@boolean",
     avatar:
       // tslint:disable-next-line:max-line-length
       "@pick(['https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png','https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png','https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png', 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg'])",
@@ -31,8 +32,6 @@ function createList(type?: string) {
     item.extra = "";
   } else if (type === "todo") {
     item.extra = "@pick(['未开始','马上到期','正在进行','已耗时3天'])";
-  } else if (type === "unread") {
-    item.extra = "@pick(['未开始','Jimmy','','正在进行','','wooline'])";
   }
   return Mock.mock({
     pagination: {
@@ -41,16 +40,14 @@ function createList(type?: string) {
       total: 52,
       totalPage: Math.ceil(52 / 5),
     },
-    "list|3": [item],
+    filter: {
+      unread: false,
+    },
+    "list|5": [item],
   });
 }
 
 const datasource = [
-  {
-    type: "unread",
-    title: "未读",
-    list: createList("unread"),
-  },
   {
     type: "notice",
     title: "通知",

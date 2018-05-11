@@ -1,6 +1,6 @@
 import globalService from "service/global";
 
-import { MenuItemData, Notices } from "../model/type";
+import { MenuItemData, Notices, NoticesChannel, NoticesChannelFilter } from "../model/type";
 
 export class API {
   getNotices(): Promise<Notices> {
@@ -9,8 +9,8 @@ export class API {
   getMenu(): Promise<MenuItemData[]> {
     return globalService.getMenu({});
   }
-  emptyNotices(type: string): Promise<void> {
-    return globalService.emptyNotices({ type });
+  filterNotices(filter: NoticesChannelFilter): Promise<NoticesChannel> {
+    return globalService.filterNotices(filter);
   }
 }
 

@@ -10,17 +10,20 @@ export namespace global {
     }
   }
   export namespace notice {
-    export interface Item {
-      key?: string;
-      id: string;
-      read?: boolean;
-      avatar?: string;
-      title: string;
-      extra?: string;
-      description?: string;
-      datetime?: string;
+    export interface Filter {
+      page: number;
+      unread: boolean;
     }
-    export type List = common.List<Item>;
+    export interface Item {
+      id: string;
+      unread: boolean;
+      avatar: string;
+      title: string;
+      extra: string;
+      description: string;
+      datetime: string;
+    }
+    export type List = common.List<Item, Filter>;
   }
 
   export namespace menu {

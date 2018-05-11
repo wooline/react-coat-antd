@@ -1,5 +1,12 @@
+function obj2String(obj, arr = [], idx = 0) {
+  for (let item in obj) {
+    arr[idx++] = [item, obj[item]];
+  }
+  return new URLSearchParams(arr).toString();
+}
+
 export function request(method: string, path: string, args: {}) {
-  const url = path.replace(/:\w+/g, flag => {
+  let url = path.replace(/:\w+/g, flag => {
     const key = flag.substr(1);
     return args[key] || "";
   });
@@ -12,6 +19,9 @@ export function request(method: string, path: string, args: {}) {
       },
       body: JSON.stringify(args),
     };
+  } else if (method === "get") {
+    const searchStr = obj2String(args);
+    url += "?" + searchStr;
   }
   return fetch(url, {
     method,

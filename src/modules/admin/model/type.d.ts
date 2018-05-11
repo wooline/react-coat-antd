@@ -1,13 +1,12 @@
 import { common } from "core/type.d";
 export interface NoticeItem {
-  key?: string;
   id: string;
-  read?: boolean;
-  avatar?: string;
+  unread: boolean;
+  avatar: string;
   title: string;
-  extra?: string;
-  description?: string;
-  datetime?: string;
+  extra: string;
+  description: string;
+  datetime: string;
 }
 export interface MenuItemData {
   name: string;
@@ -16,10 +15,17 @@ export interface MenuItemData {
   children?: MenuItemData[];
   target?: string;
 }
+export interface NoticesFilter {
+  page: number;
+  unread: boolean;
+}
+export interface NoticesChannelFilter extends NoticesFilter {
+  type: string;
+}
 export interface NoticesChannel {
   title: string;
   type: string;
-  list: common.List<NoticeItem>;
+  list: common.List<NoticeItem, NoticesFilter>;
 }
 export type Notices = NoticesChannel[];
 export interface FooterData {

@@ -33,14 +33,13 @@ class Component extends React.PureComponent<Props, State> {
       this.props.dispatch(thisModule.actions.admin_getNotices());
     }
   };
-  handleItemClick(type: string, item: NoticeItem) {
+  handleItemClick = (type: string, item: NoticeItem) => {
     console.log(type);
-  }
-  handleClear(type: string) {
-    const action = thisModule.actions.admin_emptyNotices(type);
-    console.log(action);
+  };
+  handleFilter = (type: string, page: number, unread: boolean) => {
+    const action = thisModule.actions.admin_filterNotices({ type, page, unread });
     this.props.dispatch(action);
-  }
+  };
   render() {
     const { list, loading, count } = this.props;
 
@@ -49,10 +48,9 @@ class Component extends React.PureComponent<Props, State> {
         <Tabs className="tabs">
           {list.map(item => {
             const onClick = (subItem: NoticeItem) => this.handleItemClick(item.type, subItem);
-            const onClear = () => this.handleClear(item.type);
             return (
               <Tabs.TabPane tab={item.title} key={item.type}>
-                <NoticeList dataSource={item} onClick={onClick} onClear={onClear} />
+                <NoticeList onFilter={this.handleFilter} dataSource={item} onClick={onClick} />
               </Tabs.TabPane>
             );
           })}
