@@ -1,6 +1,6 @@
 import { Icon, Menu } from "antd";
 import RootState from "core/RootState";
-import { MenuItemData } from "modules/admin/model/type";
+import { global } from "core/entity/global.type";
 import pathToRegexp from "path-to-regexp";
 import React from "react";
 import { connect } from "react-redux";
@@ -11,7 +11,7 @@ const { SubMenu } = Menu;
 
 interface Props {
   collapsed: boolean;
-  dataSource: MenuItemData[];
+  dataSource: global.menu.Item[];
   pathname: string;
 }
 
@@ -22,11 +22,11 @@ interface State {
 
 interface OwnProps {}
 
-function mapMenuData(menus: MenuItemData[]) {
+function mapMenuData(menus: global.menu.Item[]) {
   const maps: { [key: string]: string[] } = {};
   const links: string[] = [];
   const folders: string[] = [];
-  const checkData = (item: MenuItemData, parent?: string) => {
+  const checkData = (item: global.menu.Item, parent?: string) => {
     if (!maps[item.path]) {
       maps[item.path] = [];
     }
@@ -109,7 +109,7 @@ class Component extends React.Component<Props, State> {
       openKeys,
     });
   };
-  generateMenu(menusData: MenuItemData[]) {
+  generateMenu(menusData: global.menu.Item[]) {
     return menusData.map(item => {
       if (item.children && item.children.length) {
         return (

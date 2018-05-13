@@ -1,5 +1,4 @@
 import { getSettings, updateSettings } from "@interface/global";
-import { global } from "@interface/entity/global";
 import { Component, HttpException, HttpStatus } from "@nestjs/common";
 
 const settings: getSettings.Response = {

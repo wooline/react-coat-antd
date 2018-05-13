@@ -1,20 +1,13 @@
 import * as Mock from "mockjs";
+import { getNotices as GetNotices } from "@interface/global";
 //  var Mock = require('mockjs')
 
-export function getNotices() {
-  return datasource;
-}
-export function emptyNotice(type: string) {
-  datasource.forEach(data => {
-    if (data.type === type) {
-      data.list.list.length = 0;
-    }
-  });
+export function getNotices(filter: GetNotices.Request): GetNotices.Response {
+  const type: string = filter.type;
+  return { ...datasource[type], filter: { page: 1, pageSize: 5, ...filter } };
 }
 export function getNoticesNum() {
-  return datasource.reduce((pre, cur) => {
-    return pre + cur.list.list.length;
-  }, 0);
+  return 10;
 }
 function createList(type?: string) {
   const item = {
@@ -34,33 +27,14 @@ function createList(type?: string) {
     item.extra = "@pick(['未开始','马上到期','正在进行','已耗时3天'])";
   }
   return Mock.mock({
-    pagination: {
-      page: 1,
-      pageSize: 5,
-      total: 52,
-      totalPage: Math.ceil(52 / 5),
-    },
-    filter: {
-      unread: false,
-    },
+    filter: { page: 1 },
+    summary: { total: 100, unread: 10 },
     "list|5": [item],
   });
 }
 
-const datasource = [
-  {
-    type: "notice",
-    title: "通知",
-    list: createList("notice"),
-  },
-  {
-    type: "message",
-    title: "消息",
-    list: createList("message"),
-  },
-  {
-    type: "todo",
-    title: "待办",
-    list: createList("todo"),
-  },
-];
+const datasource = {
+  inform: createList("notice"),
+  message: createList("message"),
+  todo: createList("todo"),
+};

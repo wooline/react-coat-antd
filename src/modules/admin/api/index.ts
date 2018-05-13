@@ -1,16 +1,13 @@
 import globalService from "service/global";
 
-import { MenuItemData, Notices, NoticesChannel, NoticesChannelFilter } from "../model/type";
+import { global } from "core/entity/global.type";
 
 export class API {
-  getNotices(): Promise<Notices> {
-    return globalService.getNotices({});
+  getNotices(filter: global.notice.ListFilter): Promise<global.notice.List> {
+    return globalService.getNotices(filter);
   }
-  getMenu(): Promise<MenuItemData[]> {
+  getMenu(): Promise<global.menu.Item[]> {
     return globalService.getMenu({});
-  }
-  filterNotices(filter: NoticesChannelFilter): Promise<NoticesChannel> {
-    return globalService.filterNotices(filter);
   }
 }
 

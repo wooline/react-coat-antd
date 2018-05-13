@@ -1,13 +1,16 @@
 import { Badge, Icon, Popover, Spin, Tabs } from "antd";
 import RootState from "core/RootState";
+import { global } from "core/entity/global.type";
 import thisModule from "modules/admin";
-import { NoticeItem, Notices } from "modules/admin/model/type";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-
 import "./index.less";
+
 import NoticeList from "./NoticeList";
+
+type NoticeType = global.notice.NoticeType;
+const noticeType = global.notice.NoticeType;
 
 declare module "antd/lib/popover" {
   interface PopoverProps {
@@ -20,7 +23,8 @@ interface Props {
   dispatch: Dispatch<any>;
   loading: boolean;
   count: number;
-  list: Notices;
+  curNotice: NoticeType;
+  notices: { [key in NoticeType]: global.notice.List };
 }
 
 interface OwnProps {}
@@ -30,30 +34,36 @@ interface State {}
 class Component extends React.PureComponent<Props, State> {
   handleVisibleChange = visible => {
     if (visible) {
-      this.props.dispatch(thisModule.actions.admin_getNotices());
+      this.props.dispatch(thisModule.actions.admin_emptyNotices());
+      this.onTabClick(this.props.curNotice);
     }
   };
-  handleItemClick = (type: string, item: NoticeItem) => {
-    console.log(type);
-  };
-  handleFilter = (type: string, page: number, unread: boolean) => {
-    const action = thisModule.actions.admin_filterNotices({ type, page, unread });
+  onTabClick = (activeKey: NoticeType) => {
+    const action = thisModule.actions.admin_changeCurNotice(activeKey);
     this.props.dispatch(action);
   };
+  // handleItemClick = (type: string, item: NoticeItem) => {
+  //   console.log(type);
+  // };
+  // handleFilter = (type: string, page: number, unread: boolean) => {
+  //   const action = thisModule.actions.admin_filterNotices({ type, page, unread });
+  //   this.props.dispatch(action);
+  // };
   render() {
-    const { list, loading, count } = this.props;
+    const { curNotice, loading, count } = this.props;
 
     const notificationBox = (
       <Spin spinning={loading} delay={0}>
-        <Tabs className="tabs">
-          {list.map(item => {
-            const onClick = (subItem: NoticeItem) => this.handleItemClick(item.type, subItem);
-            return (
-              <Tabs.TabPane tab={item.title} key={item.type}>
-                <NoticeList onFilter={this.handleFilter} dataSource={item} onClick={onClick} />
-              </Tabs.TabPane>
-            );
-          })}
+        <Tabs className="tabs" activeKey={curNotice} onTabClick={this.onTabClick}>
+          <Tabs.TabPane tab="通知" key={noticeType.inform}>
+            <NoticeList type={noticeType.inform} />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="消息" key={noticeType.message}>
+            <NoticeList type={noticeType.message} />
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="待办" key={noticeType.todo}>
+            <NoticeList type={noticeType.todo} />
+          </Tabs.TabPane>
         </Tabs>
       </Spin>
     );
@@ -70,10 +80,12 @@ class Component extends React.PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+  const admin = state.project.admin;
   return {
     loading: state.project.admin.loading.notices !== "Stop",
     count: state.project.app.curUser.notices,
-    list: state.project.admin.notices,
+    curNotice: admin.curNotice,
+    notices: admin.notices,
   };
 };
 const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {

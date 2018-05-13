@@ -1,12 +1,11 @@
 import { Layout } from "antd";
 import RootState from "core/RootState";
+import { global } from "core/entity/global.type";
 import thisModule from "modules/admin";
-import { MenuItemData } from "modules/admin/model/type";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
-
 import SiderMenu from "./SiderMenu";
 
 require("./index.less");
@@ -15,7 +14,7 @@ const Logo = require("./imgs/logo.svg");
 interface Props {
   dispatch: Dispatch<any>;
   siderCollapsed: boolean;
-  menuData: MenuItemData[];
+  menuData: global.menu.Item[];
 }
 
 interface OwnProps {}

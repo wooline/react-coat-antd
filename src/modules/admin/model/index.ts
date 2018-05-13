@@ -1,4 +1,5 @@
 import RootState from "core/RootState";
+import { global } from "core/entity/global.type";
 import thisModule from "modules/admin";
 // import appModule from "modules/app";
 import * as actionNames from "modules/admin/actionNames";
@@ -6,30 +7,51 @@ import { BaseModuleState, LoadingState, buildActionByEffect, buildActionByReduce
 import { call, put } from "redux-saga/effects";
 import * as ajax from "../api";
 import { footerData, globalSearchData } from "./metadata";
-import { FooterData, MenuItemData, Notices, NoticesChannelFilter } from "./type";
+
+type NoticeType = global.notice.NoticeType;
+const noticeType = global.notice.NoticeType;
 
 // 定义本模块的State
 interface State extends BaseModuleState {
   siderCollapsed: boolean;
-  menuData: MenuItemData[];
-  footer: FooterData;
+  menuData: global.menu.Item[];
+  footer: global.FooterData;
   globalSearch: {
     placeholder: string;
     dataSource: string[];
   };
-  notices: Notices;
+  curNotice: NoticeType;
+  notices: { [key in NoticeType]: global.notice.List };
   loading: {
     global: LoadingState;
     notices: LoadingState;
   };
 }
+const getDefaultNotices = () => ({
+  inform: {
+    filter: { type: noticeType.inform, unread: false },
+    summary: null,
+    list: null,
+  },
+  message: {
+    filter: { type: noticeType.message, unread: false },
+    summary: null,
+    list: null,
+  },
+  todo: {
+    filter: { type: noticeType.todo, unread: false },
+    summary: null,
+    list: null,
+  },
+});
 // 定义本模块State的初始值
 const state: State = {
   siderCollapsed: false,
   menuData: [],
   footer: footerData,
   globalSearch: globalSearchData,
-  notices: [],
+  curNotice: noticeType.message,
+  notices: getDefaultNotices(),
   loading: {
     notices: "Stop",
     global: "Stop",
@@ -37,33 +59,37 @@ const state: State = {
 };
 // 定义本模块的Action
 class ModuleActions {
-  [actionNames.UPDATE_NOTICES] = buildActionByReducer(function(notices: Notices, moduleState: State, rootState: RootState): State {
-    return { ...moduleState, notices };
+  [actionNames.UPDATE_NOTICES] = buildActionByReducer(function(notices: global.notice.List, moduleState: State, rootState: RootState): State {
+    return { ...moduleState, notices: { ...moduleState.notices, [notices.filter.type]: notices } };
   });
-  [actionNames.UPDATE_INIT_DATA] = buildActionByReducer(function(menuData: MenuItemData[], moduleState: State, rootState: RootState): State {
+  [actionNames.EMPTY_NOTICES] = buildActionByReducer(function(payload: null, moduleState: State, rootState: RootState): State {
+    return {
+      ...moduleState,
+      notices: getDefaultNotices(),
+    };
+  });
+  [actionNames.UPDATE_INIT_DATA] = buildActionByReducer(function(menuData: global.menu.Item[], moduleState: State, rootState: RootState): State {
     return { ...moduleState, menuData };
   });
   [actionNames.SET_SIDER_COLLAPSED] = buildActionByReducer(function(siderCollapsed: boolean, moduleState: State, rootState: RootState): State {
     return { ...moduleState, siderCollapsed };
   });
-  @buildLoading()
-  [actionNames.FILTER_NOTICES] = buildActionByEffect(function*(payload: NoticesChannelFilter, moduleState: State, rootState: RootState) {
-    yield call(ajax.api.filterNotices, payload);
-    /* const notices = moduleState.notices.map(data => {
-      if (data.type === type) {
-        olist = data.list;
-        return { ...data, list: [] };
-      } else {
-        return data;
-      }
-    });
-    yield put(thisModule.actions.admin_updateNotices(notices));
-    const curUser = rootState.project.app.curUser;
-    yield put(appModule.actions.app_setCurUser({ ...curUser, notices: curUser.notices - olist.length })); */
+  [actionNames.UPDATE_CUR_NOTICE] = buildActionByReducer(function(curNotice: NoticeType, moduleState: State, rootState: RootState): State {
+    return { ...moduleState, curNotice };
+  });
+  [actionNames.CHANGE_CUR_NOTICE] = buildActionByEffect(function*(curNotice: NoticeType, moduleState: State) {
+    const notices = moduleState.notices[curNotice];
+    const refresh = notices.list === null || curNotice === moduleState.curNotice;
+    if (curNotice !== moduleState.curNotice) {
+      yield put(thisModule.actions.admin_updateCurNotice(curNotice));
+    }
+    if (refresh) {
+      yield put(thisModule.actions.admin_getNotices(notices.filter));
+    }
   });
   @buildLoading(actionNames.NAMESPACE, "notices")
-  [actionNames.GET_NOTICES] = buildActionByEffect(function*(data: null) {
-    const notices: Notices = yield call(ajax.api.getNotices);
+  [actionNames.GET_NOTICES] = buildActionByEffect(function*(filter: global.notice.List["filter"]) {
+    const notices: global.notice.List = yield call(ajax.api.getNotices, filter);
     yield put(thisModule.actions.admin_updateNotices(notices));
   });
 }
@@ -71,7 +97,7 @@ class ModuleActions {
 class ModuleHandlers {
   @buildLoading()
   [actionNames.INIT] = buildActionByEffect(function*(data: null) {
-    const menuData: MenuItemData[] = yield call(ajax.api.getMenu);
+    const menuData: global.menu.Item[] = yield call(ajax.api.getMenu);
     yield put(thisModule.actions.admin_updateInitData(menuData));
   });
 }

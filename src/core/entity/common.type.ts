@@ -1,13 +1,16 @@
 export namespace common {
-  export interface List<Item, Filter> {
-    pagination: {
-      page: number;
-      pageSize: number;
-      total: number;
-      totalPage: number;
-    };
-    filter: Filter;
-    list: Item[];
+  export interface List<Item, Filter, Summary> {
+    filter: {
+      page?: number;
+      pageSize?: number;
+    } & Filter;
+    list: Item[] | null;
+    summary:
+      | null
+      | {
+          total?: number;
+          totalPage?: number;
+        } & Summary;
   }
   export enum ErrorCode {
     notFound = "404 notFound",

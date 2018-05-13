@@ -1,5 +1,5 @@
-import { Service, emptyNotices, getCurUser, getDashboardData, getMenu, getNotices, getPushData, getSettings, login, logout, updateSettings } from "@interface/global";
-import { Body, Controller, Param } from "@nestjs/common";
+import { Service, getCurUser, getDashboardData, getMenu, getNotices, getPushData, getSettings, login, logout, updateSettings } from "@interface/global";
+import { Body, Query, Controller, Param } from "@nestjs/common";
 import { buildMethod } from "utils";
 import { DashboardComponent } from "./dashboard.component";
 import { MenuComponent } from "./menu.component";
@@ -20,7 +20,7 @@ export class GlobalController implements Service {
     return this.settingsService.getSettings({});
   }
   @method(updateSettings.metadata)
-  async updateSettings(@Body() body): Promise<updateSettings.Response> {
+  async updateSettings(@Body() body) {
     return this.settingsService.updateSettings(body);
   }
   @method(getCurUser.metadata)
@@ -46,12 +46,11 @@ export class GlobalController implements Service {
   }
 
   @method(getNotices.metadata)
-  async getNotices() {
-    return this.noticeComponent.getNotices({});
-  }
-  @method(emptyNotices.metadata)
-  async emptyNotices(@Param() params) {
-    return this.noticeComponent.emptyNotices(params);
+  async getNotices(@Query() query) {
+    query.unread = query.unread === "true";
+    query.page = parseInt(query.page, 10) || 1;
+    query.pageSize = parseInt(query.pageSize, 10) || 5;
+    return this.noticeComponent.getNotices(query);
   }
   @method(getDashboardData.metadata)
   async getDashboardData() {

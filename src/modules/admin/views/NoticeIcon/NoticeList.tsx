@@ -1,6 +1,10 @@
-import { Avatar, Table, Pagination, Button, Badge } from "antd";
-import { NoticeItem, NoticesChannel } from "modules/admin/model/type";
+import { Avatar, Badge, Button, Pagination, Table } from "antd";
+import RootState from "core/RootState";
+import { global } from "core/entity/global.type";
+import thisModule from "modules/admin";
 import React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
 require("./NoticeList.less");
 
@@ -16,7 +20,7 @@ const columns = [
     title: "content",
     dataIndex: "title",
     className: "content",
-    render: (text: string, item: NoticeItem) => (
+    render: (text: string, item: global.notice.Item) => (
       <div>
         <div className="title">
           {item.unread ? <Badge status="error" /> : null}
@@ -32,29 +36,43 @@ const columns = [
   },
 ];
 
-interface Props {
-  dataSource: NoticesChannel;
-  onClick: (item: NoticeItem) => void;
-  onFilter: (type: string, page: number, unread: boolean) => void;
+interface Props extends OwnProps {
+  dispatch: Dispatch<any>;
+  dataSource: global.notice.List;
+}
+
+interface OwnProps {
+  type: global.notice.NoticeType;
 }
 
 interface State {
   selectedRowKeys: string[];
 }
 
-export default class Component extends React.PureComponent<Props, State> {
+class Component extends React.PureComponent<Props, State> {
   state: State = {
     selectedRowKeys: [],
   };
   onSelectChange = (selectedRowKeys: string[]) => {
     this.setState({ ...this.state, selectedRowKeys });
   };
+  onFilterUnread = () => {
+    const {
+      dispatch,
+      dataSource: { filter },
+    } = this.props;
+    dispatch(thisModule.actions.admin_getNotices({ ...filter, unread: !filter.unread }));
+  };
+  onFilterPage = (page: number) => {
+    const {
+      dispatch,
+      dataSource: { filter },
+    } = this.props;
+    dispatch(thisModule.actions.admin_getNotices({ ...filter, page }));
+  };
   public render() {
     const {
-      dataSource: {
-        type,
-        list: { pagination, list, filter },
-      },
+      dataSource: { filter, list, summary },
     } = this.props;
     const { selectedRowKeys } = this.state;
     const hasSelected = selectedRowKeys.length > 0;
@@ -63,28 +81,38 @@ export default class Component extends React.PureComponent<Props, State> {
       columnWidth: 25,
       onChange: this.onSelectChange,
     };
-    const onFilterUnread = () => {
-      this.props.onFilter(type, pagination.page, !filter.unread);
-    };
-    const onFilterPage = (page: number, pageSize: number) => {
-      this.props.onFilter(type, page, filter.unread);
-    };
     return (
       <div className="admin-NoticeList">
-        <div className="main">
-          <Table showHeader={false} rowKey="id" rowSelection={rowSelection} pagination={false} columns={columns} dataSource={list} />
-          <div className="con">
-            {hasSelected ? (
-              <Button icon="delete" size="small" className="btn" />
-            ) : (
-              <Button size="small" className="btn" onClick={onFilterUnread} type={filter.unread ? "primary" : "default"}>
-                未读
-              </Button>
-            )}
-            <Pagination onChange={onFilterPage} className="pagination" size="small" current={pagination.page} pageSize={pagination.pageSize} total={pagination.total} />
+        {list && summary ? (
+          <div className="main">
+            <Table showHeader={false} rowKey="id" rowSelection={rowSelection} pagination={false} columns={columns} dataSource={list} />
+            <div className="con">
+              {hasSelected ? (
+                <Button icon="delete" size="small" className="btn" />
+              ) : (
+                <Button size="small" className="btn" onClick={this.onFilterUnread} type={filter.unread ? "primary" : "default"}>
+                  未读
+                </Button>
+              )}
+              <Pagination onChange={this.onFilterPage} className="pagination" size="small" current={filter.page} pageSize={filter.pageSize} total={summary.total} />
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="main">
+            <div className="loading">loading...</div>
+          </div>
+        )}
       </div>
     );
   }
 }
+
+const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+  return {
+    dataSource: state.project.admin.notices[ownProps.type],
+  };
+};
+const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {
+  return { dispatch };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Component);

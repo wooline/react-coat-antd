@@ -1,5 +1,5 @@
-import { common } from "./entity/common";
-import { global } from "./entity/global";
+import { common } from "./entity/common.type";
+import { global } from "./entity/global.type";
 
 export namespace getSettings {
   export interface Request {}
@@ -59,24 +59,9 @@ export namespace getMenu {
 }
 
 export namespace getNotices {
-  export interface Request {}
-  export type Response = Array<{ title: string; type: string; list: global.notice.List }>;
+  export type Request = global.notice.ListFilter;
+  export type Response = global.notice.List;
   export const metadata = { method: "GET", path: "/ajax/global/notices" };
-  export type Action = (request: Request) => Promise<Response>;
-}
-
-export namespace filterNotices {
-  export interface Request {
-    type: string;
-    page: number;
-    unread: boolean;
-  }
-  export interface Response {
-    title: string;
-    type: string;
-    list: global.notice.List;
-  }
-  export const metadata = { method: "GET", path: "/ajax/global/notices/:type" };
   export type Action = (request: Request) => Promise<Response>;
 }
 
@@ -106,8 +91,7 @@ export interface Service {
   logout: logout.Action;
   getMenu: getMenu.Action;
   getNotices: getNotices.Action;
-  filterNotices: filterNotices.Action;
   getDashboardData: getDashboardData.Action;
 }
 
-export default { getSettings, updateSettings, getCurUser, getPushData, login, logout, getMenu, getNotices, filterNotices, getDashboardData };
+export default { getSettings, updateSettings, getCurUser, getPushData, login, logout, getMenu, getNotices, getDashboardData };

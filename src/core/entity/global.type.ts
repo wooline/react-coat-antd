@@ -1,4 +1,4 @@
-import { common } from "./common";
+import { common } from "./common.type";
 
 export namespace global {
   export namespace settings {
@@ -10,9 +10,17 @@ export namespace global {
     }
   }
   export namespace notice {
-    export interface Filter {
-      page: number;
+    export enum NoticeType {
+      message = "message",
+      todo = "todo",
+      inform = "inform",
+    }
+    export interface ListFilter {
+      type: NoticeType;
       unread: boolean;
+    }
+    export interface ListSummary {
+      unreadTotal: number;
     }
     export interface Item {
       id: string;
@@ -23,7 +31,7 @@ export namespace global {
       description: string;
       datetime: string;
     }
-    export type List = common.List<Item, Filter>;
+    export type List = common.List<Item, ListFilter, ListSummary>;
   }
 
   export namespace menu {
@@ -56,5 +64,19 @@ export namespace global {
         videos: number;
       };
     }
+  }
+  export interface FooterData {
+    links: Array<{
+      key: string;
+      title: string;
+      href: string;
+      blankTarget: boolean;
+    }>;
+    copyright: string;
+    className?: string;
+  }
+  export interface GlobalSearchData {
+    placeholder: string;
+    dataSource: string[];
   }
 }
