@@ -2,15 +2,17 @@ import { Breadcrumb, Button, Card, Form, Input, InputNumber, Radio } from "antd"
 import { FormComponentProps } from "antd/lib/form";
 import Loading from "components/Loading";
 import RootState from "core/RootState";
+import { global } from "core/entity/global.type";
+import thisModule from "modules/globalSettings";
 import * as React from "react";
 import { LoadingState } from "react-coat-pkg";
 import DocumentTitle from "react-document-title";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
-import thisModule from "modules/globalSettings";
-import { GlobalSettingsData } from "../../model/type";
 import "./index.less";
+
+type GlobalSettingsData = global.settings.Item;
 
 const FormItem = Form.Item;
 
@@ -49,7 +51,7 @@ class Component extends React.PureComponent<Props, State> {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values: GlobalSettingsData) => {
       if (!err) {
-        this.props.dispatch(thisModule.actions.globalSettings_updateGlobalSettings({ ...values }));
+        this.props.dispatch(thisModule.actions.updateGlobalSettings({ ...values }));
       }
     });
   };

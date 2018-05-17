@@ -1,13 +1,14 @@
 import { message } from "antd";
 import Lang from "assets/lang";
 import RootState from "core/RootState";
+import { global } from "core/entity/global.type";
 import appModule from "modules/app";
-import { BaseModuleState, buildActionByEffect, buildLoading, buildModel } from "react-coat-pkg";
+import { BaseModuleActions, BaseModuleHandlers, BaseModuleState, buildModel, effect } from "react-coat-pkg";
 import { call, put } from "redux-saga/effects";
-import * as actionNames from "../actionNames";
 import * as apiService from "../api";
-import { GlobalSettingsData } from "./type";
+import * as actionNames from "../exportActionNames";
 
+type GlobalSettingsData = global.settings.Item;
 // 定义本模块的State
 interface State extends BaseModuleState {
   globalSettingsData: GlobalSettingsData | null;
@@ -20,16 +21,16 @@ const state: State = {
   },
 };
 // 定义本模块的Action
-class ModuleActions {
-  @buildLoading(actionNames.NAMESPACE)
-  [actionNames.UPDATE_GLOBAL_SETTINGS] = buildActionByEffect(function*(data: GlobalSettingsData, moduleState: State, rootState: RootState) {
+class ModuleActions extends BaseModuleActions {
+  @effect(actionNames.NAMESPACE)
+  *updateGlobalSettings(data: GlobalSettingsData, moduleState: State, rootState: RootState) {
     const globalSettingsData: GlobalSettingsData = yield call(apiService.api.updateGlobalSettings, data);
-    yield put(appModule.actions.app_setProjectConfig({ ...rootState.project.app.projectConfig, ...globalSettingsData }));
+    yield put(appModule.actions.setProjectConfig({ ...rootState.project.app.projectConfig, ...globalSettingsData }));
     message.success(Lang.message.saveSuccess);
-  });
+  }
 }
 // 定义本模块的监听
-class ModuleHandlers {}
+class ModuleHandlers extends BaseModuleHandlers {}
 
 const model = buildModel(state, ModuleActions, ModuleHandlers);
 

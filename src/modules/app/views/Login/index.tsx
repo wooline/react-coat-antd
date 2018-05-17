@@ -35,7 +35,7 @@ class Component extends React.PureComponent<Props, State> {
       event.preventDefault();
       validateFields((errors, values) => {
         if (!errors) {
-          dispatch(thisModule.actions.app_login(values) as any);
+          dispatch(thisModule.actions.login(values));
         }
       });
     };

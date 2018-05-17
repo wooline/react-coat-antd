@@ -1,14 +1,22 @@
-function obj2String(obj, arr = [], idx = 0) {
-  for (let item in obj) {
-    arr[idx++] = [item, obj[item]];
-  }
-  return new URLSearchParams(arr).toString();
+export function topath(pattern: string, params: { [name: string]: string }): string {
+  let path = pattern;
+  Object.entries(params).forEach(([name, value]) => {
+    const encodedValue = encodeURIComponent(value);
+    path = path.replace(":" + name, encodedValue);
+  });
+  return path;
 }
 
-export function request(method: string, path: string, args: {}) {
+export function request(method: string, path: string, args: { [key: string]: any }) {
   let url = path.replace(/:\w+/g, flag => {
     const key = flag.substr(1);
-    return args[key] || "";
+    if (args[key]) {
+      const val: string = args[key];
+      delete args[key];
+      return encodeURIComponent(val);
+    } else {
+      return "";
+    }
   });
   method = method ? method.toLocaleLowerCase() : "get";
   let data = {};
@@ -20,8 +28,13 @@ export function request(method: string, path: string, args: {}) {
       body: JSON.stringify(args),
     };
   } else if (method === "get") {
-    const searchStr = obj2String(args);
-    url += "?" + searchStr;
+    const paramsArray: string[] = [];
+    Object.keys(args).forEach(key => paramsArray.push(key + "=" + encodeURIComponent(args[key])));
+    if (url.search(/\?/) === -1) {
+      url += "?" + paramsArray.join("&");
+    } else {
+      url += "&" + paramsArray.join("&");
+    }
   }
   return fetch(url, {
     method,

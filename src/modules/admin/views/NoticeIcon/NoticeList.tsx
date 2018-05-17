@@ -10,7 +10,7 @@ require("./NoticeList.less");
 
 const columns = [
   {
-    title: "a",
+    title: "avatar",
     dataIndex: "avatar",
     className: "avatar",
     width: 50,
@@ -61,14 +61,14 @@ class Component extends React.PureComponent<Props, State> {
       dispatch,
       dataSource: { filter },
     } = this.props;
-    dispatch(thisModule.actions.admin_getNotices({ ...filter, unread: !filter.unread }));
+    dispatch(thisModule.actions.getNotices({ ...filter, unread: !filter.unread }));
   };
   onFilterPage = (page: number) => {
     const {
       dispatch,
       dataSource: { filter },
     } = this.props;
-    dispatch(thisModule.actions.admin_getNotices({ ...filter, page }));
+    dispatch(thisModule.actions.getNotices({ ...filter, page }));
   };
   public render() {
     const {

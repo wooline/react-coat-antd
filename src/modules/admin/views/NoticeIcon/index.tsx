@@ -34,12 +34,12 @@ interface State {}
 class Component extends React.PureComponent<Props, State> {
   handleVisibleChange = visible => {
     if (visible) {
-      this.props.dispatch(thisModule.actions.admin_emptyNotices());
+      this.props.dispatch(thisModule.actions.emptyNotices());
       this.onTabClick(this.props.curNotice);
     }
   };
   onTabClick = (activeKey: NoticeType) => {
-    const action = thisModule.actions.admin_changeCurNotice(activeKey);
+    const action = thisModule.actions.changeCurNotice(activeKey);
     this.props.dispatch(action);
   };
   // handleItemClick = (type: string, item: NoticeItem) => {

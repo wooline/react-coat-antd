@@ -1,10 +1,8 @@
 import RootState from "core/RootState";
 import { global } from "core/entity/global.type";
 import thisModule from "modules/admin";
-// import appModule from "modules/app";
-import * as actionNames from "modules/admin/actionNames";
-import { BaseModuleState, LoadingState, buildActionByEffect, buildActionByReducer, buildLoading, buildModel } from "react-coat-pkg";
-import { call, put } from "redux-saga/effects";
+import * as actionNames from "modules/admin/exportActionNames";
+import { BaseModuleActions, BaseModuleHandlers, BaseModuleState, LoadingState, buildModel, effect } from "react-coat-pkg";
 import * as ajax from "../api";
 import { footerData, globalSearchData } from "./metadata";
 
@@ -57,49 +55,52 @@ const state: State = {
     global: "Stop",
   },
 };
+
 // 定义本模块的Action
-class ModuleActions {
-  [actionNames.UPDATE_NOTICES] = buildActionByReducer(function(notices: global.notice.List, moduleState: State, rootState: RootState): State {
+class ModuleActions extends BaseModuleActions {
+  updateNotices(notices: global.notice.List, moduleState: State): State {
     return { ...moduleState, notices: { ...moduleState.notices, [notices.filter.type]: notices } };
-  });
-  [actionNames.EMPTY_NOTICES] = buildActionByReducer(function(payload: null, moduleState: State, rootState: RootState): State {
+  }
+  emptyNotices(payload: null, moduleState: State): State {
     return {
       ...moduleState,
       notices: getDefaultNotices(),
     };
-  });
-  [actionNames.UPDATE_INIT_DATA] = buildActionByReducer(function(menuData: global.menu.Item[], moduleState: State, rootState: RootState): State {
+  }
+  updateInitData(menuData: global.menu.Item[], moduleState: State): State {
     return { ...moduleState, menuData };
-  });
-  [actionNames.SET_SIDER_COLLAPSED] = buildActionByReducer(function(siderCollapsed: boolean, moduleState: State, rootState: RootState): State {
+  }
+  setSiderCollapsed(siderCollapsed: boolean, moduleState: State): State {
     return { ...moduleState, siderCollapsed };
-  });
-  [actionNames.UPDATE_CUR_NOTICE] = buildActionByReducer(function(curNotice: NoticeType, moduleState: State, rootState: RootState): State {
+  }
+  updateCurNotice(curNotice: NoticeType, moduleState: State): State {
     return { ...moduleState, curNotice };
-  });
-  [actionNames.CHANGE_CUR_NOTICE] = buildActionByEffect(function*(curNotice: NoticeType, moduleState: State) {
+  }
+  @effect()
+  *changeCurNotice(curNotice: NoticeType, moduleState: State): any {
     const notices = moduleState.notices[curNotice];
     const refresh = notices.list === null || curNotice === moduleState.curNotice;
     if (curNotice !== moduleState.curNotice) {
-      yield put(thisModule.actions.admin_updateCurNotice(curNotice));
+      yield this.put(thisModule.actions.updateCurNotice(curNotice));
     }
     if (refresh) {
-      yield put(thisModule.actions.admin_getNotices(notices.filter));
+      yield this.put(thisModule.actions.getNotices(notices.filter));
     }
-  });
-  @buildLoading(actionNames.NAMESPACE, "notices")
-  [actionNames.GET_NOTICES] = buildActionByEffect(function*(filter: global.notice.List["filter"]) {
-    const notices: global.notice.List = yield call(ajax.api.getNotices, filter);
-    yield put(thisModule.actions.admin_updateNotices(notices));
-  });
+  }
+  @effect(actionNames.NAMESPACE, "notices")
+  *getNotices(filter: global.notice.List["filter"]): any {
+    const notices: global.notice.List = yield this.call(ajax.api.getNotices, filter);
+    const action = thisModule.actions.updateNotices(notices);
+    yield this.put(action);
+  }
 }
 // 定义本模块的监听
-class ModuleHandlers {
-  @buildLoading()
-  [actionNames.INIT] = buildActionByEffect(function*(data: null) {
-    const menuData: global.menu.Item[] = yield call(ajax.api.getMenu);
-    yield put(thisModule.actions.admin_updateInitData(menuData));
-  });
+class ModuleHandlers extends BaseModuleHandlers {
+  @effect()
+  *[actionNames.INIT]() {
+    const menuData: global.menu.Item[] = yield this.call(ajax.api.getMenu);
+    yield this.put(thisModule.actions.updateInitData(menuData));
+  }
 }
 
 const model = buildModel(state, ModuleActions, ModuleHandlers);

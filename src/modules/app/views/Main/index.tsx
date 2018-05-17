@@ -35,7 +35,7 @@ function hasAuth(path: string, curUser: User): AuthState {
 
 class Component extends React.PureComponent<Props, State> {
   onErrorRead(eid: string) {
-    this.props.dispatch(thisModule.actions.app_setErrorRead(eid));
+    this.props.dispatch(thisModule.actions.setErrorRead(eid));
   }
   public render() {
     const { projectConfigLoaded, curUserLoaded, curUser, globalLoading, uncaughtErrors } = this.props;

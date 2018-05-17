@@ -23,7 +23,7 @@ interface State {}
 
 class Component extends React.PureComponent<Props, State> {
   handleMenuCollapse = collapsed => {
-    this.props.dispatch(thisModule.actions.admin_setSiderCollapsed(collapsed));
+    this.props.dispatch(thisModule.actions.setSiderCollapsed(collapsed));
   };
   render() {
     const { siderCollapsed, menuData } = this.props;

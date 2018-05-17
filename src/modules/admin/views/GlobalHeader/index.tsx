@@ -26,7 +26,7 @@ interface State {}
 class Component extends React.PureComponent<Props, State> {
   onMenuItemClick = ({ key }: { key: string }) => {
     if (key === "logout") {
-      this.props.dispatch(appModule.actions.app_logout());
+      this.props.dispatch(appModule.actions.logout());
     } else if (key === "triggerError") {
       setTimeout(() => {
         throw new Error("自定义出错！");
@@ -35,7 +35,7 @@ class Component extends React.PureComponent<Props, State> {
   };
   toggleSider = () => {
     const { collapsed } = this.props;
-    this.props.dispatch(thisModule.actions.admin_setSiderCollapsed(!collapsed));
+    this.props.dispatch(thisModule.actions.setSiderCollapsed(!collapsed));
   };
   menu = (
     <Menu className="adminLayout-header-menu" selectedKeys={[]} onClick={this.onMenuItemClick}>

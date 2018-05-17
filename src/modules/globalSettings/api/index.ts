@@ -1,8 +1,8 @@
 import globalService from "service/global";
-import { GlobalSettingsData } from "../model/type";
+import { global } from "core/entity/global.type";
 
 export class API {
-  updateGlobalSettings(data: GlobalSettingsData): Promise<GlobalSettingsData> {
+  updateGlobalSettings(data: global.settings.Item): Promise<global.settings.Item> {
     return globalService.updateSettings(data);
   }
 }

@@ -1,10 +1,8 @@
 import RootState from "core/RootState";
 import thisModule from "modules/dashboard";
-import { BaseModuleState, buildActionByEffect, buildActionByReducer, buildLoading, buildModel, LOCATION_CHANGE_ACTION_NAME } from "react-coat-pkg";
-import { call, put } from "redux-saga/effects";
-
-import * as actionNames from "../actionNames";
+import { BaseModuleActions, BaseModuleHandlers, BaseModuleState, LOCATION_CHANGE_ACTION_NAME, buildModel, effect } from "react-coat-pkg";
 import * as apiService from "../api";
+import * as actionNames from "../exportActionNames";
 import { DashboardData } from "./type";
 
 // 定义本模块的State
@@ -19,23 +17,24 @@ const state: State = {
   },
 };
 // 定义本模块的Action
-class ModuleActions {
-  [actionNames.SET_DASHBOARD_DATA] = buildActionByReducer(function(dashboardData: DashboardData, moduleState: State, rootState: RootState): State {
+class ModuleActions extends BaseModuleActions {
+  setDashboardData(dashboardData: DashboardData, moduleState: State, rootState: RootState): State {
     return { ...moduleState, dashboardData };
-  });
-  @buildLoading(actionNames.NAMESPACE)
-  [actionNames.REFRESH] = buildActionByEffect(function*(data: null) {
-    const dashboardData: DashboardData = yield call(apiService.api.getDashboardData);
-    yield put(thisModule.actions.dashboard_setDashboardData(dashboardData));
-  });
+  }
+  @effect(actionNames.NAMESPACE)
+  *refresh(): any {
+    const dashboardData: DashboardData = yield this.call(apiService.api.getDashboardData);
+    yield this.put(thisModule.actions.setDashboardData(dashboardData));
+  }
 }
 // 定义本模块的监听
-class ModuleHandlers {
-  [LOCATION_CHANGE_ACTION_NAME] = buildActionByEffect(function*({ pathname }: { pathname: string }) {
+class ModuleHandlers extends BaseModuleHandlers {
+  @effect()
+  *[LOCATION_CHANGE_ACTION_NAME]({ pathname }: { pathname: string }) {
     if (pathname === "/admin/dashboard") {
-      yield put(thisModule.actions.dashboard_refresh());
+      yield this.put(thisModule.actions.refresh());
     }
-  });
+  }
 }
 
 const model = buildModel(state, ModuleActions, ModuleHandlers);
