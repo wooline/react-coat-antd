@@ -30,7 +30,11 @@ interface OwnProps {}
 interface State {}
 
 function hasAuth(path: string, curUser: User): AuthState {
-  return curUser.hasLogin ? AuthState.Authorized : AuthState.Forbidden;
+  if (path === "/login") {
+    return curUser.hasLogin ? AuthState.Forbidden : AuthState.Authorized;
+  } else {
+    return curUser.hasLogin ? AuthState.Authorized : AuthState.Forbidden;
+  }
 }
 
 class Component extends React.PureComponent<Props, State> {
@@ -45,7 +49,7 @@ class Component extends React.PureComponent<Props, State> {
           <Redirect exact={true} path="/" to="/admin/dashboard" />
           <Redirect exact={true} path="/admin" to="/admin/dashboard" />
           <VerifyRoute auth={projectConfigLoaded && curUserLoaded ? hasAuth("/admin", curUser) : AuthState.Pending} path="/admin" component={Admin} />
-          <VerifyRoute exact={true} auth={projectConfigLoaded && curUserLoaded ? AuthState.Authorized : AuthState.Pending} path="/login" component={Login} />
+          <VerifyRoute exact={true} auth={projectConfigLoaded && curUserLoaded ? hasAuth("/login", curUser) : AuthState.Pending} path="/login" component={Login} />
           <Route component={NotFound} />
         </Switch>
         <div className="errors">

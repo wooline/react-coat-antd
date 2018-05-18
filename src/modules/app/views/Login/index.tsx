@@ -3,17 +3,15 @@ import { FormComponentProps } from "antd/lib/form";
 import RootState from "core/RootState";
 import thisModule from "modules/app";
 import * as React from "react";
-import { connect } from "react-redux";
-import { Redirect, RouteComponentProps } from "react-router-dom";
-import { Dispatch } from "redux";
 import DocumentTitle from "react-document-title";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
 require("./index.less");
 const Logo = require("./imgs/logo.svg");
 
-interface Props extends FormComponentProps, RouteComponentProps<any> {
+interface Props extends FormComponentProps {
   dispatch: Dispatch<any>;
-  hasLogined: boolean;
   logining: boolean;
 }
 interface OwnProps {}
@@ -25,12 +23,9 @@ class Component extends React.PureComponent<Props, State> {
   public render() {
     const {
       dispatch,
-      hasLogined,
       logining,
-      location,
       form: { getFieldDecorator, validateFields },
     } = this.props;
-    const { from } = location.state || { from: { pathname: "/" } };
     const onSubmit = event => {
       event.preventDefault();
       validateFields((errors, values) => {
@@ -40,6 +35,7 @@ class Component extends React.PureComponent<Props, State> {
       });
     };
     const usernameDecorator = getFieldDecorator("username", {
+      validateTrigger: "onBlur",
       rules: [
         {
           required: true,
@@ -49,6 +45,7 @@ class Component extends React.PureComponent<Props, State> {
     });
 
     const passwordDecorator = getFieldDecorator("password", {
+      validateTrigger: "onBlur",
       rules: [
         {
           required: true,
@@ -56,9 +53,7 @@ class Component extends React.PureComponent<Props, State> {
         },
       ],
     });
-    return hasLogined ? (
-      <Redirect to={from} />
-    ) : (
+    return (
       <DocumentTitle title="登录">
         <div className="app-Login">
           <div className="logo">
@@ -86,14 +81,12 @@ class Component extends React.PureComponent<Props, State> {
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
   const app = state.project.app;
-  const curUser = app.curUser;
   const loginLoading = app.loading.login;
   return {
-    hasLogined: curUser.uid && curUser.uid !== "0",
     logining: Boolean(loginLoading && loginLoading !== "Stop"),
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<string>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {
   return {
     dispatch,
   };
