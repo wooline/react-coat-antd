@@ -3,8 +3,15 @@ import { getNotices as GetNotices } from "@interface/global";
 //  var Mock = require('mockjs')
 
 export function getNotices(filter: GetNotices.Request): GetNotices.Response {
-  const type: string = filter.type;
-  return { ...datasource[type], filter: { page: 1, pageSize: 5, ...filter } };
+  const unreadTotal = filterUnread(filter.type, true).length;
+  const list = filterUnread(filter.type, filter.unread);
+
+  // const type: string = filter.type;
+  // const data = { ...datasource[type], filter: { page: 1, pageSize: 5, ...filter } };
+  // if (filter.unread) {
+  // }
+  return { filter: { page: 1, pageSize: 5, ...filter }, list, summary: { total: list.length, unreadTotal } };
+  // return { ...datasource[type], filter: { page: 1, pageSize: 5, ...filter } };
 }
 export function getNoticesNum() {
   return 10;
@@ -29,12 +36,21 @@ function createList(type?: string) {
   return Mock.mock({
     filter: { page: 1 },
     summary: { total: 100, unread: 10 },
-    "list|5": [item],
-  });
+    "list|50": [item],
+  }) as GetNotices.Response;
 }
 
-const datasource = {
+const datasource: { [key: string]: GetNotices.Response } = {
   inform: createList("notice"),
   message: createList("message"),
   todo: createList("todo"),
 };
+
+function filterUnread(type: string, unread: boolean) {
+  const list = datasource[type].list;
+  if (unread) {
+    return list.filter(item => item.unread);
+  } else {
+    return list;
+  }
+}
