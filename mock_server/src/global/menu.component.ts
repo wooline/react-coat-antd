@@ -15,7 +15,7 @@ export class MenuComponent {
         name: "站点设置",
         icon: "setting",
         path: "/admin/settings",
-        children: [{ name: "全局设置", path: "/admin/settings/global" }, { name: "管理员设置", path: "/admin/settings/managers" }],
+        children: [{ name: "全局设置", path: "/admin/settings/global" }, { name: "管理员设置", path: "/admin/settings/users" }],
       },
       {
         name: "视频管理",

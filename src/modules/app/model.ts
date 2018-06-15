@@ -1,12 +1,11 @@
-import RootState from "core/RootState";
-import { global } from "core/entity/global.type";
-import thisModule from "modules/app";
+import { session, settings } from "core/entity/global.type";
 import { BaseModuleActions, BaseModuleHandlers, BaseModuleState, ERROR_ACTION_NAME, LoadingState, buildModel, effect } from "react-coat-pkg";
-import * as apiService from "../api";
-import * as actionNames from "../exportActionNames";
+import thisModule from "./";
+import * as apiService from "./api";
+import * as actionNames from "./exportActionNames";
 
-type CurUser = global.session.Item;
-type ProjectConfig = global.settings.Item;
+type CurUser = session.Item;
+type ProjectConfig = settings.Item;
 
 // 定义本模块的State
 interface State extends BaseModuleState {
@@ -42,27 +41,27 @@ const state: State = {
 let ErrorID = 0;
 // 定义本模块的Action
 class ModuleActions extends BaseModuleActions {
-  setUncaughtErrors(error: { message: string }, moduleState: State, rootState: RootState): State {
-    return { ...moduleState, uncaughtErrors: { ...moduleState.uncaughtErrors, [ErrorID++]: error.message.trim() } };
+  setUncaughtErrors({ payload, moduleState }: { payload: { message: string }; moduleState: State }): State {
+    return { ...moduleState, uncaughtErrors: { ...moduleState.uncaughtErrors, [ErrorID++]: payload.message.trim() } };
   }
-  setProjectConfig(projectConfig: ProjectConfig, moduleState: State, rootState: RootState): State {
-    return { ...moduleState, projectConfig, projectConfigLoaded: true };
+  setProjectConfig({ payload, moduleState }: { payload: ProjectConfig; moduleState: State }): State {
+    return { ...moduleState, projectConfig: payload, projectConfigLoaded: true };
   }
-  setCurUser(curUser: CurUser, moduleState: State, rootState: RootState): State {
-    return { ...moduleState, curUser, curUserLoaded: true };
+  setCurUser({ payload, moduleState }: { payload: CurUser; moduleState: State }): State {
+    return { ...moduleState, curUser: payload, curUserLoaded: true };
   }
-  setErrorRead(eid: string, moduleState: State, rootState: RootState): State {
+  setErrorRead({ payload, moduleState }: { payload: string; moduleState: State }): State {
     const uncaughtErrors = { ...moduleState.uncaughtErrors };
-    delete uncaughtErrors[eid];
+    delete uncaughtErrors[payload];
     return { ...moduleState, uncaughtErrors };
   }
   @effect(actionNames.NAMESPACE, "login") // 创建另一个局部loading状态来给“登录”按钮做反映
-  *login({ username, password }: { username: string; password: string }): any {
-    const curUser: CurUser = yield this.call(apiService.api.login, username, password);
+  *login({ payload }: { payload: { username: string; password: string } }): any {
+    const curUser: CurUser = yield this.call(apiService.api.login, payload.username, payload.password);
     yield this.put(thisModule.actions.setCurUser(curUser));
   }
   @effect()
-  *logout(payload: null) {
+  *logout() {
     yield this.call(apiService.api.logout);
     window.location.reload();
   }
@@ -71,10 +70,10 @@ class ModuleActions extends BaseModuleActions {
 class ModuleHandlers extends BaseModuleHandlers {
   // 监听全局错误Action，收集并发送给后台，不需要注入loading...
   @effect(null)
-  *[ERROR_ACTION_NAME](error: Error) {
-    console.log(error);
-    yield this.put(thisModule.actions.setUncaughtErrors(error));
-    yield this.call(apiService.api.reportError, error);
+  *[ERROR_ACTION_NAME]({ payload }: { payload: Error }) {
+    console.log(payload);
+    yield this.put(thisModule.actions.setUncaughtErrors(payload));
+    yield this.call(apiService.api.reportError, payload);
   }
   // 监听自已的INIT Action
   @effect()
@@ -86,7 +85,7 @@ class ModuleHandlers extends BaseModuleHandlers {
   }
 }
 
-const model = buildModel(state, ModuleActions, ModuleHandlers);
+const model = buildModel(state, new ModuleActions(), new ModuleHandlers());
 
 export default model;
 

@@ -1,4 +1,4 @@
-import { common } from "./common.type";
+import { TableList } from "../common.type";
 
 export namespace global {
   export namespace settings {
@@ -31,7 +31,7 @@ export namespace global {
       description: string;
       datetime: string;
     }
-    export type List = common.List<Item, ListFilter, ListSummary>;
+    export type List = TableList<Item, ListFilter, ListSummary>;
   }
 
   export namespace menu {

@@ -11,7 +11,7 @@ require("./index.less");
 const Logo = require("./imgs/logo.svg");
 
 interface Props extends FormComponentProps {
-  dispatch: Dispatch<any>;
+  dispatch: Dispatch;
   logining: boolean;
 }
 interface OwnProps {}
@@ -86,9 +86,12 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     logining: Boolean(loginLoading && loginLoading !== "Stop"),
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   return {
     dispatch,
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Component));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form.create()(Component));

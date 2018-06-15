@@ -1,17 +1,33 @@
 import * as Mock from "mockjs";
-import { getNotices as GetNotices } from "@interface/global";
+import { getNotices as GetNotices, deleteNotices as DeleteNotices } from "@interface/global";
 //  var Mock = require('mockjs')
 
-export function getNotices(filter: GetNotices.Request): GetNotices.Response {
-  const unreadTotal = filterUnread(filter.type, true).length;
-  const list = filterUnread(filter.type, filter.unread);
+function pagination(list: any[], pageSize: number, page: number) {
+  if (page < 1) {
+    page = 1;
+  }
+  if (pageSize > 10) {
+    pageSize = 10;
+  }
+  const total = list.length;
+  const totalPage = Math.ceil(list.length / pageSize);
+  if (page > totalPage) {
+    page = totalPage;
+  }
+  list = list.slice((page - 1) * pageSize, page * pageSize);
+  return { list, pageSize, page, totalPage, total };
+}
 
-  // const type: string = filter.type;
-  // const data = { ...datasource[type], filter: { page: 1, pageSize: 5, ...filter } };
-  // if (filter.unread) {
-  // }
-  return { filter: { page: 1, pageSize: 5, ...filter }, list, summary: { total: list.length, unreadTotal } };
-  // return { ...datasource[type], filter: { page: 1, pageSize: 5, ...filter } };
+export function deleteNotices(query: DeleteNotices.Request): DeleteNotices.Response {
+  const list = datasource[query.type].list.filter(item => query.ids.indexOf(item.id) === -1);
+  datasource[query.type].list = list;
+  return null;
+}
+export function getNotices(filter: GetNotices.Request): GetNotices.Response {
+  const filterData = { page: 1, pageSize: 5, ...filter };
+  const unreadTotal = filterUnread(filter.type, true).length;
+  const { list, pageSize, page, totalPage, total } = pagination(filterUnread(filter.type, filter.unread), filterData.pageSize, filterData.page);
+  return { filter: { ...filter, page, pageSize }, list, summary: { total, unreadTotal } };
 }
 export function getNoticesNum() {
   return 10;

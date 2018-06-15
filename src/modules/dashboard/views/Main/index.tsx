@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import DocumentTitle from "react-document-title";
 import { LoadingState } from "react-coat-pkg";
-import { DashboardData } from "../../model/type";
+import { DashboardData } from "../../type";
 import "./index.less";
 
 interface Props {
@@ -75,8 +75,11 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     dashboardData: data.dashboardData,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<string>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Component);

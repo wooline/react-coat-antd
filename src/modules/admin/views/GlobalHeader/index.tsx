@@ -14,7 +14,7 @@ import "./index.less";
 type User = RootState["project"]["app"]["curUser"];
 
 interface Props {
-  dispatch: Dispatch<any>;
+  dispatch: Dispatch;
   collapsed: boolean;
   curUser: User;
 }
@@ -85,7 +85,10 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     curUser: state.project.app.curUser,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   return { dispatch };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Component);

@@ -1,6 +1,6 @@
 import { Layout } from "antd";
 import RootState from "core/RootState";
-import { global } from "core/entity/global.type";
+import { menu } from "core/entity/global.type";
 import thisModule from "modules/admin";
 import React from "react";
 import { connect } from "react-redux";
@@ -12,9 +12,9 @@ require("./index.less");
 const Logo = require("./imgs/logo.svg");
 
 interface Props {
-  dispatch: Dispatch<any>;
+  dispatch: Dispatch;
   siderCollapsed: boolean;
-  menuData: global.menu.Item[];
+  menuData: menu.Item[];
 }
 
 interface OwnProps {}
@@ -47,7 +47,10 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     menuData: state.project.admin.menuData,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   return { dispatch };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Component);

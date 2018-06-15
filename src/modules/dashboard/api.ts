@@ -1,6 +1,6 @@
 import globalService from "service/global";
 
-import { DashboardData } from "../model/type";
+import { DashboardData } from "./type";
 
 export class API {
   getDashboardData(): Promise<DashboardData> {

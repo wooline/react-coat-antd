@@ -93,7 +93,10 @@ class Component extends React.PureComponent<Props, State> {
 const mapStateToProps = (state: RootState, ownProps: any) => {
   return state.project.admin.globalSearch;
 };
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   return {};
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Component);

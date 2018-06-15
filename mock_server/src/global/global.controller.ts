@@ -1,4 +1,4 @@
-import { Service, getCurUser, getDashboardData, getMenu, getNotices, getPushData, getSettings, login, logout, updateSettings } from "@interface/global";
+import { Service, getCurUser, getDashboardData, getMenu, getNotices, getPushData, getSettings, login, logout, updateSettings, deleteNotices } from "@interface/global";
 import { Body, Query, Controller, Param } from "@nestjs/common";
 import { buildMethod } from "utils";
 import { DashboardComponent } from "./dashboard.component";
@@ -43,6 +43,12 @@ export class GlobalController implements Service {
   @method(getMenu.metadata)
   async getMenu() {
     return this.menuService.getMenu({});
+  }
+
+  @method(deleteNotices.metadata)
+  async deleteNotices(@Query() query) {
+    query.ids = query.ids.split(",");
+    return this.noticeComponent.deleteNotices(query);
   }
 
   @method(getNotices.metadata)

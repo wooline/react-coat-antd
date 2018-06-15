@@ -1,6 +1,6 @@
-import { Avatar, Badge, Button, Pagination, Table } from "antd";
+import { Avatar, Badge, Button, Pagination, Table, Checkbox } from "antd";
 import RootState from "core/RootState";
-import { global } from "core/entity/global.type";
+import { notice } from "core/entity/global.type";
 import thisModule from "modules/admin";
 import React from "react";
 import { connect } from "react-redux";
@@ -20,7 +20,7 @@ const columns = [
     title: "content",
     dataIndex: "title",
     className: "content",
-    render: (text: string, item: global.notice.Item) => (
+    render: (text: string, item: notice.Item) => (
       <div>
         <div className="title">
           {item.unread ? <Badge status="error" /> : null}
@@ -37,12 +37,12 @@ const columns = [
 ];
 
 interface Props extends OwnProps {
-  dispatch: Dispatch<any>;
-  dataSource: global.notice.List;
+  dispatch: Dispatch;
+  dataSource: notice.List;
 }
 
 interface OwnProps {
-  type: global.notice.NoticeType;
+  type: notice.NoticeType;
 }
 
 interface State {
@@ -53,7 +53,25 @@ class Component extends React.PureComponent<Props, State> {
   state: State = {
     selectedRowKeys: [],
   };
+  onRowClick = (record: notice.Item) => {
+    alert(record.id);
+  };
+  onDelete = () => {
+    this.props.dispatch(
+      thisModule.actions.deleteNotice({
+        type: this.props.type,
+        ids: [...this.state.selectedRowKeys],
+        stateCallback: () => {
+          this.setState({ ...this.state, selectedRowKeys: [] });
+        },
+      }),
+    );
+  };
   onSelectChange = (selectedRowKeys: string[]) => {
+    this.setState({ ...this.state, selectedRowKeys });
+  };
+  onSelectAll = e => {
+    const selectedRowKeys = e.target.checked ? this.props.dataSource.list!.map(item => item.id) : [];
     this.setState({ ...this.state, selectedRowKeys });
   };
   onFilterUnread = () => {
@@ -68,6 +86,7 @@ class Component extends React.PureComponent<Props, State> {
       dispatch,
       dataSource: { filter },
     } = this.props;
+    this.setState({ ...this.state, selectedRowKeys: [] });
     dispatch(thisModule.actions.getNotices({ ...filter, page }));
   };
   public render() {
@@ -85,10 +104,11 @@ class Component extends React.PureComponent<Props, State> {
       <div className="admin-NoticeList">
         {list && summary ? (
           <div className="main">
-            <Table showHeader={false} rowKey="id" rowSelection={rowSelection} pagination={false} columns={columns} dataSource={list} />
+            <Checkbox className="selectAll" onChange={this.onSelectAll} checked={!!list.length && selectedRowKeys.length === list.length} />
+            <Table onRowClick={this.onRowClick} showHeader={false} rowKey="id" rowSelection={rowSelection} pagination={false} columns={columns} dataSource={list} />
             <div className="con">
               {hasSelected ? (
-                <Button icon="delete" size="small" className="btn" />
+                <Button icon="delete" size="small" className="btn" onClick={this.onDelete} />
               ) : (
                 <Button size="small" className="btn" onClick={this.onFilterUnread} type={filter.unread ? "primary" : "default"}>
                   未读
@@ -112,7 +132,10 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     dataSource: state.project.admin.notices[ownProps.type],
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   return { dispatch };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Component);

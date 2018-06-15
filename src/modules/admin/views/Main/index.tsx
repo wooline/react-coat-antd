@@ -11,6 +11,7 @@ import { Dispatch } from "redux";
 import GlobalHeader from "../GlobalHeader";
 import GlobalSider from "../GlobalSider";
 
+const Users = asyncComponent(() => import(/* webpackChunkName: "users" */ "modules/users/views"));
 const GlobalSettings = asyncComponent(() => import(/* webpackChunkName: "globalSettings" */ "modules/globalSettings/views"));
 const Dashboard = asyncComponent(() => import(/* webpackChunkName: "dashboard" */ "modules/dashboard/views"));
 
@@ -58,6 +59,7 @@ class Component extends React.PureComponent<Props, State> {
                   <Switch>
                     <Route exact={true} path={`${match.url}/dashboard`} component={Dashboard} />
                     <Route exact={true} path={`${match.url}/settings/global`} component={GlobalSettings} />
+                    <Route exact={true} path={`${match.url}/settings/users`} component={Users} />
                     <Route component={NotFound} />
                   </Switch>
                 </Layout.Content>
@@ -74,7 +76,10 @@ class Component extends React.PureComponent<Props, State> {
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
   return { pathname: state.router.location.pathname };
 };
-const mapDispatchToProps = (dispatch: Dispatch<string>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   return {};
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Component);

@@ -1,25 +1,24 @@
-import RootState from "core/RootState";
-import { global } from "core/entity/global.type";
+import { menu, notice, FooterData } from "core/entity/global.type";
 import thisModule from "modules/admin";
 import * as actionNames from "modules/admin/exportActionNames";
 import { BaseModuleActions, BaseModuleHandlers, BaseModuleState, LoadingState, buildModel, effect } from "react-coat-pkg";
 import * as ajax from "../api";
 import { footerData, globalSearchData } from "./metadata";
 
-type NoticeType = global.notice.NoticeType;
-const noticeType = global.notice.NoticeType;
+type NoticeType = notice.NoticeType;
+const noticeType = notice.NoticeType;
 
 // 定义本模块的State
 interface State extends BaseModuleState {
   siderCollapsed: boolean;
-  menuData: global.menu.Item[];
-  footer: global.FooterData;
+  menuData: menu.Item[];
+  footer: FooterData;
   globalSearch: {
     placeholder: string;
     dataSource: string[];
   };
   curNotice: NoticeType;
-  notices: { [key in NoticeType]: global.notice.List };
+  notices: { [key in NoticeType]: notice.List };
   loading: {
     global: LoadingState;
     notices: LoadingState;
@@ -58,39 +57,48 @@ const state: State = {
 
 // 定义本模块的Action
 class ModuleActions extends BaseModuleActions {
-  updateNotices(notices: global.notice.List, moduleState: State): State {
-    return { ...moduleState, notices: { ...moduleState.notices, [notices.filter.type]: notices } };
+  setNotices({ payload, moduleState }: { payload: notice.List; moduleState: State }): State {
+    return { ...moduleState, notices: { ...moduleState.notices, [payload.filter.type]: payload } };
   }
-  emptyNotices(payload: null, moduleState: State): State {
+  setEmptyNotices({ moduleState }: { moduleState: State }): State {
     return {
       ...moduleState,
       notices: getDefaultNotices(),
     };
   }
-  updateInitData(menuData: global.menu.Item[], moduleState: State): State {
-    return { ...moduleState, menuData };
+  setInitData({ payload, moduleState }: { payload: menu.Item[]; moduleState: State }): State {
+    return { ...moduleState, menuData: payload };
   }
-  setSiderCollapsed(siderCollapsed: boolean, moduleState: State): State {
-    return { ...moduleState, siderCollapsed };
+  setSiderCollapsed({ payload, moduleState }: { payload: boolean; moduleState: State }): State {
+    return { ...moduleState, siderCollapsed: payload };
   }
-  updateCurNotice(curNotice: NoticeType, moduleState: State): State {
-    return { ...moduleState, curNotice };
+  setCurNotice({ payload, moduleState }: { payload: NoticeType; moduleState: State }): State {
+    return { ...moduleState, curNotice: payload };
   }
   @effect()
-  *changeCurNotice(curNotice: NoticeType, moduleState: State): any {
-    const notices = moduleState.notices[curNotice];
-    const refresh = notices.list === null || curNotice === moduleState.curNotice;
-    if (curNotice !== moduleState.curNotice) {
-      yield this.put(thisModule.actions.updateCurNotice(curNotice));
+  *changeCurNotice({ payload, moduleState }: { payload: NoticeType; moduleState: State }): any {
+    const notices = moduleState.notices[payload];
+    const refresh = notices.list === null || payload === moduleState.curNotice;
+    if (payload !== moduleState.curNotice) {
+      yield this.put(thisModule.actions.setCurNotice(payload));
     }
     if (refresh) {
       yield this.put(thisModule.actions.getNotices(notices.filter));
     }
   }
+  @effect()
+  *deleteNotice({ payload, moduleState }: { payload: { type: string; ids: string[]; stateCallback: () => void }; moduleState: State }): any {
+    const request = { ...payload };
+    delete request.stateCallback;
+    const notices = moduleState.notices[moduleState.curNotice];
+    yield this.call(ajax.api.deleteNotices, request);
+    yield this.put(thisModule.actions.getNotices(notices.filter));
+    payload.stateCallback();
+  }
   @effect(actionNames.NAMESPACE, "notices")
-  *getNotices(filter: global.notice.List["filter"]): any {
-    const notices: global.notice.List = yield this.call(ajax.api.getNotices, filter);
-    const action = thisModule.actions.updateNotices(notices);
+  *getNotices({ payload }: { payload: notice.List["filter"] }): any {
+    const notices: notice.List = yield this.call(ajax.api.getNotices, { type: payload.type, unread: payload.unread });
+    const action = thisModule.actions.setNotices(notices);
     yield this.put(action);
   }
 }
@@ -98,12 +106,12 @@ class ModuleActions extends BaseModuleActions {
 class ModuleHandlers extends BaseModuleHandlers {
   @effect()
   *[actionNames.INIT]() {
-    const menuData: global.menu.Item[] = yield this.call(ajax.api.getMenu);
-    yield this.put(thisModule.actions.updateInitData(menuData));
+    const menuData: menu.Item[] = yield this.call(ajax.api.getMenu);
+    yield this.put(thisModule.actions.setInitData(menuData));
   }
 }
 
-const model = buildModel(state, ModuleActions, ModuleHandlers);
+const model = buildModel(state, new ModuleActions(), new ModuleHandlers());
 
 export default model;
 

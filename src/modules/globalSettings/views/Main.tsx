@@ -2,7 +2,7 @@ import { Breadcrumb, Button, Card, Form, Input, InputNumber, Radio } from "antd"
 import { FormComponentProps } from "antd/lib/form";
 import Loading from "components/Loading";
 import RootState from "core/RootState";
-import { global } from "core/entity/global.type";
+import { settings } from "core/entity/global.type";
 import thisModule from "modules/globalSettings";
 import * as React from "react";
 import { LoadingState } from "react-coat-pkg";
@@ -10,15 +10,14 @@ import DocumentTitle from "react-document-title";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Dispatch } from "redux";
-import "./index.less";
 
-type GlobalSettingsData = global.settings.Item;
+type GlobalSettingsData = settings.Item;
 
 const FormItem = Form.Item;
 
 interface Props extends FormComponentProps {
   moduleLoading: LoadingState;
-  dispatch: Dispatch<any>;
+  dispatch: Dispatch;
   pathname: string;
   formData: GlobalSettingsData;
 }
@@ -132,10 +131,13 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     formData: state.project.app.projectConfig,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   return {
     dispatch,
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Component));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Form.create()(Component));

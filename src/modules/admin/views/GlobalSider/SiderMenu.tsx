@@ -1,6 +1,6 @@
 import { Icon, Menu } from "antd";
 import RootState from "core/RootState";
-import { global } from "core/entity/global.type";
+import { menu } from "core/entity/global.type";
 import pathToRegexp from "path-to-regexp";
 import React from "react";
 import { connect } from "react-redux";
@@ -11,7 +11,7 @@ const { SubMenu } = Menu;
 
 interface Props {
   collapsed: boolean;
-  dataSource: global.menu.Item[];
+  dataSource: menu.Item[];
   pathname: string;
 }
 
@@ -22,11 +22,11 @@ interface State {
 
 interface OwnProps {}
 
-function mapMenuData(menus: global.menu.Item[]) {
+function mapMenuData(menus: menu.Item[]) {
   const maps: { [key: string]: string[] } = {};
   const links: string[] = [];
   const folders: string[] = [];
-  const checkData = (item: global.menu.Item, parent?: string) => {
+  const checkData = (item: menu.Item, parent?: string) => {
     if (!maps[item.path]) {
       maps[item.path] = [];
     }
@@ -109,7 +109,7 @@ class Component extends React.Component<Props, State> {
       openKeys,
     });
   };
-  generateMenu(menusData: global.menu.Item[]) {
+  generateMenu(menusData: menu.Item[]) {
     return menusData.map(item => {
       if (item.children && item.children.length) {
         return (
@@ -168,7 +168,10 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     pathname: state.router.location.pathname,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   return {};
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Component);

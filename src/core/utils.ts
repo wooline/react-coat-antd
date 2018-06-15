@@ -27,7 +27,7 @@ export function request(method: string, path: string, args: { [key: string]: any
       },
       body: JSON.stringify(args),
     };
-  } else if (method === "get") {
+  } else if (method === "get" || method === "delete") {
     const paramsArray: string[] = [];
     Object.keys(args).forEach(key => paramsArray.push(key + "=" + encodeURIComponent(args[key])));
     if (url.search(/\?/) === -1) {

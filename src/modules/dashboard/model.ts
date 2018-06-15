@@ -1,8 +1,7 @@
-import RootState from "core/RootState";
-import thisModule from "modules/dashboard";
 import { BaseModuleActions, BaseModuleHandlers, BaseModuleState, LOCATION_CHANGE_ACTION_NAME, buildModel, effect } from "react-coat-pkg";
-import * as apiService from "../api";
-import * as actionNames from "../exportActionNames";
+import thisModule from "./";
+import * as apiService from "./api";
+import * as actionNames from "./exportActionNames";
 import { DashboardData } from "./type";
 
 // 定义本模块的State
@@ -18,8 +17,8 @@ const state: State = {
 };
 // 定义本模块的Action
 class ModuleActions extends BaseModuleActions {
-  setDashboardData(dashboardData: DashboardData, moduleState: State, rootState: RootState): State {
-    return { ...moduleState, dashboardData };
+  setDashboardData({ payload, moduleState }: { payload: DashboardData; moduleState: State }): State {
+    return { ...moduleState, dashboardData: payload };
   }
   @effect(actionNames.NAMESPACE)
   *refresh(): any {
@@ -30,14 +29,14 @@ class ModuleActions extends BaseModuleActions {
 // 定义本模块的监听
 class ModuleHandlers extends BaseModuleHandlers {
   @effect()
-  *[LOCATION_CHANGE_ACTION_NAME]({ pathname }: { pathname: string }) {
-    if (pathname === "/admin/dashboard") {
+  *[LOCATION_CHANGE_ACTION_NAME]({ payload }: { payload: { location: { pathname: string } } }) {
+    if (payload.location.pathname === "/admin/dashboard") {
       yield this.put(thisModule.actions.refresh());
     }
   }
 }
 
-const model = buildModel(state, ModuleActions, ModuleHandlers);
+const model = buildModel(state, new ModuleActions(), new ModuleHandlers());
 
 export default model;
 

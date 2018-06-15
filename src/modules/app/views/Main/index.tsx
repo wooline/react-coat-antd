@@ -18,7 +18,7 @@ const Admin = asyncComponent(() => import(/* webpackChunkName: "admin" */ "modul
 type User = RootState["project"]["app"]["curUser"];
 
 interface Props {
-  dispatch: Dispatch<any>;
+  dispatch: Dispatch;
   uncaughtErrors: { [key: string]: string };
   projectConfigLoaded: boolean;
   curUserLoaded: boolean;
@@ -74,9 +74,12 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     globalLoading: app.loading.global,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   return {
     dispatch,
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Component);

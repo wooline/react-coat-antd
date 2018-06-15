@@ -31,7 +31,7 @@
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
     "enquire-js": "^0.2.1",
-    "react-coat-pkg": "^2.0.0",
+    "react-coat-pkg": "^2.2.1",
     "react-container-query": "^0.11.0",
     "react-countup": "^3.0.3",
     "react-document-title": "^2.0.3"
@@ -79,7 +79,7 @@
     "tsconfig-paths-webpack-plugin": "^2.0.0",
     "tslint": "^5.7.0",
     "tslint-react": "^3.2.0",
-    "typescript": "^2.8.3",
+    "typescript": "2.8.3",
     "uglifyjs-webpack-plugin": "^1.1.8",
     "url-loader": "0.6.2",
     "webpack": "3.8.1",

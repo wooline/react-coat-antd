@@ -1,6 +1,6 @@
-import { global } from "core/entity/global.type";
+import { GlobalSearchData, FooterData } from "core/entity/global.type";
 
-export const footerData: global.FooterData = {
+export const footerData: FooterData = {
   links: [
     {
       key: "Pro 首页",
@@ -23,7 +23,7 @@ export const footerData: global.FooterData = {
   ],
   copyright: "2018 蚂蚁金服体验技术部出品",
 };
-export const globalSearchData: global.GlobalSearchData = {
+export const globalSearchData: GlobalSearchData = {
   placeholder: "站内搜索",
   dataSource: ["搜索提示一", "搜索提示二", "搜索提示三"],
 };

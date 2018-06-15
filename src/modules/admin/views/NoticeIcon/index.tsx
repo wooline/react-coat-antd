@@ -1,6 +1,6 @@
 import { Badge, Icon, Popover, Spin, Tabs } from "antd";
 import RootState from "core/RootState";
-import { global } from "core/entity/global.type";
+import { notice } from "core/entity/global.type";
 import thisModule from "modules/admin";
 import React from "react";
 import { connect } from "react-redux";
@@ -9,8 +9,8 @@ import "./index.less";
 
 import NoticeList from "./NoticeList";
 
-type NoticeType = global.notice.NoticeType;
-const noticeType = global.notice.NoticeType;
+type NoticeType = notice.NoticeType;
+const noticeType = notice.NoticeType;
 
 declare module "antd/lib/popover" {
   interface PopoverProps {
@@ -20,11 +20,11 @@ declare module "antd/lib/popover" {
 }
 
 interface Props {
-  dispatch: Dispatch<any>;
+  dispatch: Dispatch;
   loading: boolean;
   count: number;
   curNotice: NoticeType;
-  notices: { [key in NoticeType]: global.notice.List };
+  notices: { [key in NoticeType]: notice.List };
 }
 
 interface OwnProps {}
@@ -34,7 +34,7 @@ interface State {}
 class Component extends React.PureComponent<Props, State> {
   handleVisibleChange = visible => {
     if (visible) {
-      this.props.dispatch(thisModule.actions.emptyNotices());
+      this.props.dispatch(thisModule.actions.setEmptyNotices());
       this.onTabClick(this.props.curNotice);
     }
   };
@@ -54,7 +54,7 @@ class Component extends React.PureComponent<Props, State> {
 
     const notificationBox = (
       <Spin spinning={loading} delay={0}>
-        <Tabs className="tabs" activeKey={curNotice} onTabClick={this.onTabClick}>
+        <Tabs className="tabs" activeKey={curNotice} animated={false} onTabClick={this.onTabClick}>
           <Tabs.TabPane tab="通知" key={noticeType.inform}>
             <NoticeList type={noticeType.inform} />
           </Tabs.TabPane>
@@ -88,7 +88,10 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     notices: admin.notices,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: OwnProps) => {
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   return { dispatch };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Component);

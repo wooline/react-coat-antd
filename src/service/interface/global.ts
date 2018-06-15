@@ -1,4 +1,4 @@
-import { common } from "./entity/common.type";
+import { ErrorBase } from "./common.type";
 import { global } from "./entity/global.type";
 
 export namespace getSettings {
@@ -42,7 +42,7 @@ export namespace login {
     reject = "1001 reject",
   }
   export namespace error {
-    export type Reject = common.ErrorBase<ErrorCode.reject, null>;
+    export type Reject = ErrorBase<ErrorCode.reject, null>;
   }
 }
 export namespace logout {
@@ -68,11 +68,10 @@ export namespace getNotices {
 export namespace deleteNotices {
   export interface Request {
     type: string;
-    page: number;
-    unread: boolean;
+    ids: string[];
   }
   export type Response = void;
-  export const metadata = { method: "DELETE", path: "/ajax/global/notices/:type" };
+  export const metadata = { method: "DELETE", path: "/ajax/global/notices" };
   export type Action = (request: Request) => Promise<Response>;
 }
 
@@ -91,7 +90,8 @@ export interface Service {
   logout: logout.Action;
   getMenu: getMenu.Action;
   getNotices: getNotices.Action;
+  deleteNotices: deleteNotices.Action;
   getDashboardData: getDashboardData.Action;
 }
 
-export default { getSettings, updateSettings, getCurUser, getPushData, login, logout, getMenu, getNotices, getDashboardData };
+export default { getSettings, updateSettings, getCurUser, getPushData, login, logout, getMenu, getNotices, deleteNotices, getDashboardData };
