@@ -77,7 +77,6 @@ class Component extends React.PureComponent<Props, State> {
                 </Link>
               </Breadcrumb.Item>
             </Breadcrumb>
-            <h2>全局设置</h2>
           </div>
           <div className="g-content">
             <Card bordered={false}>

@@ -8,10 +8,10 @@ import { ContainerQuery } from "react-container-query";
 import { connect } from "react-redux";
 import { Route, Switch, match } from "react-router-dom";
 import { Dispatch } from "redux";
-import GlobalHeader from "../GlobalHeader";
-import GlobalSider from "../GlobalSider";
+import GlobalHeader from "./GlobalHeader";
+import GlobalSider from "./GlobalSider";
 
-const Users = asyncComponent(() => import(/* webpackChunkName: "users" */ "modules/users/views"));
+const Supervisors = asyncComponent(() => import(/* webpackChunkName: "supervisors" */ "modules/supervisors/views"));
 const GlobalSettings = asyncComponent(() => import(/* webpackChunkName: "globalSettings" */ "modules/globalSettings/views"));
 const Dashboard = asyncComponent(() => import(/* webpackChunkName: "dashboard" */ "modules/dashboard/views"));
 
@@ -59,7 +59,7 @@ class Component extends React.PureComponent<Props, State> {
                   <Switch>
                     <Route exact={true} path={`${match.url}/dashboard`} component={Dashboard} />
                     <Route exact={true} path={`${match.url}/settings/global`} component={GlobalSettings} />
-                    <Route exact={true} path={`${match.url}/settings/users`} component={Users} />
+                    <Route exact={true} path={`${match.url}/settings/supervisors`} component={Supervisors} />
                     <Route component={NotFound} />
                   </Switch>
                 </Layout.Content>

@@ -1,13 +1,9 @@
-// import globalService from "service/global";
+import userService from "service/user";
 import { ItemCreate, ItemUpdate, ListFilter, TableList, ResourceApi, ItemCreateResult, ItemUpdateResult } from "./type";
 
 export class API implements ResourceApi {
   getTableList(filter: ListFilter): Promise<TableList> {
-    return Promise.resolve({
-      filter: { status: null, username: "" },
-      list: [{ id: "11", username: "lily" }],
-      summary: {},
-    });
+    return userService.getSupervisors(filter);
   }
   createItem(payload: ItemCreate): Promise<ItemCreateResult> {
     return Promise.resolve({ success: true });

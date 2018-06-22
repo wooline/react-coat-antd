@@ -41,6 +41,13 @@ const Component = (props: Props, state: State) => {
                       <Icon className="iconWarp" type="user" />
                       <h5 className="name">{dashboardData.username}</h5>
                       <p>{dashboardData.ip}</p>
+                      <p>
+                        <span className="primary-color">primary-color</span>
+                        <span className="normal-color">normal-color</span>
+                        <span className="primary-1">primary-1</span>
+                        <span className="primary-2">primary-2</span>
+                        <span className="text-color">text-color</span>
+                      </p>
                     </div>
                   </div>
                   <div className="number">

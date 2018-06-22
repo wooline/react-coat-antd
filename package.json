@@ -31,7 +31,7 @@
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
     "enquire-js": "^0.2.1",
-    "react-coat-pkg": "^2.2.1",
+    "react-coat-pkg": "^2.3.0",
     "react-container-query": "^0.11.0",
     "react-countup": "^3.0.3",
     "react-document-title": "^2.0.3"

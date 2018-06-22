@@ -1,5 +1,5 @@
 import { buildServiceClient } from "core/utils";
 
-import * as session from "./interface/global";
+import * as global from "./interface/global";
 
-export default buildServiceClient<session.Service>(session);
+export default buildServiceClient<global.Service>(global);

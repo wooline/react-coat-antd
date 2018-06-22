@@ -2,5 +2,10 @@
   "files.eol": "\n",
   "typescript.tsdk": "node_modules/typescript/lib",
   "prettier.stylelintIntegration": true,
-  "editor.formatOnSave": true
+  "editor.formatOnSave": true,
+  "css.validate": false,
+  "less.validate": false,
+  "stylelint.configOverrides": {
+    "ignoreFiles": "**/*.tsx"
+  }
 }

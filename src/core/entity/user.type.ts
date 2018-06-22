@@ -1,18 +1,21 @@
 import { CommonResource } from "../common.type";
 
-export namespace user {
-  export enum status {
-    enable = "enable",
+export namespace supervisor {
+  export enum Status {
+    active = "active",
     disable = "disable",
   }
   export interface ListFilter {
-    status: status;
+    status: Status;
     username: string;
   }
   export interface ListSummary {}
   export interface ListItem {
     id: string;
     username: string;
+    avatar: string;
+    createDate: Date;
+    status: Status;
   }
   export type Resource = CommonResource<{
     ListItem: ListItem;

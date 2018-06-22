@@ -1,3 +1,3 @@
 // 定义并导出Action名字，一般以namespace+"_"开头，以防止重复或冲突
-export const NAMESPACE = "managers";
-export const INIT = "managers/INIT";
+export const NAMESPACE = "supervisors";
+export const INIT = "supervisors/INIT";

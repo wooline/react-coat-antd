@@ -1,9 +1,10 @@
 import { CommonResourceActions } from "core/common";
-import * as actionNames from "./exportActionNames";
 import { NAMESPACE as ADMIN_NAMESPACE } from "modules/admin/exportActionNames";
 import { BaseModuleHandlers, buildModel, effect } from "react-coat-pkg";
+import { supervisor } from "core/entity/user.type";
 import thisModule from "./";
 import { api } from "./api";
+import * as actionNames from "./exportActionNames";
 import { ItemDetail, ListOptional, State } from "./type";
 
 // 定义本模块State的初始值
@@ -21,6 +22,9 @@ const state: State = {
 const newItem: ItemDetail = {
   id: "",
   username: "",
+  avatar: "",
+  createDate: null,
+  status: supervisor.Status.active,
 };
 // 定义本模块的Action
 class ModuleActions extends CommonResourceActions {
