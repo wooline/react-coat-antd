@@ -80,15 +80,15 @@ class Component extends React.PureComponent<Props, State> {
           <div className="item">
             <span>管理员设置</span>
             <div className="con">
-              <div className="action">x</div>
-              <div className="action">i</div>
+              <Icon className="action" type="close" />
+              <Icon className="action" type="edit" />
             </div>
           </div>
           <div className="item cur">
             <span>全局设置</span>
             <div className="con">
-              <div className="action">x</div>
-              <div className="action">i</div>
+              <Icon className="action" type="close" />
+              <Icon className="action" type="edit" />
             </div>
           </div>
           <div className="item">

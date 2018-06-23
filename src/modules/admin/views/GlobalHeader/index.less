@@ -84,16 +84,18 @@
         font-size: 12px;
         line-height: 15px;
         text-align: center;
-        color: @layout-body-background;
+        color: @border-color-base;
         visibility: visible;
       }
 
       .action {
-        height: 14px;
-        background-color: @border-color-base;
+        height: 15px;
+        background-color: #fff;
+        border-left: 1px solid @border-color-base;
+        display: block;
 
         &:first-child {
-          margin-bottom: 1px;
+          border-bottom: 1px solid @border-color-base;
         }
       }
 
