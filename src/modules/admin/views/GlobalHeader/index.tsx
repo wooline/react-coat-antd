@@ -78,18 +78,14 @@ class Component extends React.PureComponent<Props, State> {
         </div>
         <div className="tabs">
           <div className="item">
+            <Icon className="action" type="close" />
+            <Icon className="action" type="environment-o" />
             <span>管理员设置</span>
-            <div className="con">
-              <Icon className="action" type="close" />
-              <Icon className="action" type="edit" />
-            </div>
           </div>
           <div className="item cur">
+            <Icon className="action" type="close" />
+            <Icon className="action" type="environment-o" />
             <span>全局设置</span>
-            <div className="con">
-              <Icon className="action" type="close" />
-              <Icon className="action" type="edit" />
-            </div>
           </div>
           <div className="item">
             <Icon type="plus-circle-o" /> 收藏
