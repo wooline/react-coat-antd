@@ -5,13 +5,15 @@ import appModule from "modules/app";
 import React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-
+import { State as ModuleState } from "../../model/index";
 import GlobalSearch from "../GlobalSearch";
 import NoticeIcon from "../NoticeIcon";
+import TabNavs from "./TabNavs";
 import "./index.less";
 
 // import { Link } from "react-router-dom";
 type User = RootState["project"]["app"]["curUser"];
+type TabNavs = ModuleState["tabNavs"];
 
 interface Props {
   dispatch: Dispatch;
@@ -76,21 +78,7 @@ class Component extends React.PureComponent<Props, State> {
             </Dropdown>
           </div>
         </div>
-        <div className="tabs">
-          <div className="item">
-            <Icon className="action" type="close" />
-            <Icon className="action" type="environment-o" />
-            <span>管理员设置</span>
-          </div>
-          <div className="item cur">
-            <Icon className="action" type="close" />
-            <Icon className="action" type="environment-o" />
-            <span>全局设置</span>
-          </div>
-          <div className="item">
-            <Icon type="plus-circle-o" /> 收藏
-          </div>
-        </div>
+        <TabNavs />
       </Layout.Header>
     );
   }

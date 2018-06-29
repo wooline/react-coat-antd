@@ -16,6 +16,7 @@
     "no-namespace": false,
     "member-ordering": false,
     "ordered-imports": false,
+    "jsx-no-lambda": false,
     "semicolon": [true, "always", "ignore-bound-class-methods"]
   }
 }

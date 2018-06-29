@@ -18,9 +18,9 @@ export class CommonResourceActions extends BaseModuleActions implements Resource
   setTableList({ payload, moduleState }: { payload: BaseCommonResource["TableList"]; moduleState: BaseCommonResource["ResourceState"] }): BaseCommonResource["ResourceState"] {
     return { ...moduleState, tableList: payload };
   }
-  setCurItem({ payload, moduleState }: { payload: BaseCommonResource["ItemDetail"] | "create"; moduleState: BaseCommonResource["ResourceState"] }): BaseCommonResource["ResourceState"] {
+  setCurItem({ payload, moduleState }: { payload: BaseCommonResource["ItemDetail"] | "NEW"; moduleState: BaseCommonResource["ResourceState"] }): BaseCommonResource["ResourceState"] {
     let curItem: BaseCommonResource["ItemDetail"] = null;
-    if (payload === "create") {
+    if (payload === "NEW") {
       curItem = { ...this.newItem };
     } else if (payload) {
       curItem = { ...payload };

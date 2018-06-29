@@ -3,7 +3,7 @@ import Lang from "assets/lang";
 import RootState from "core/RootState";
 import { settings } from "core/entity/global.type";
 import appModule from "modules/app";
-import { BaseModuleActions, BaseModuleHandlers, BaseModuleState, buildModel, effect } from "react-coat-pkg";
+import { ActionData, BaseModuleActions, BaseModuleHandlers, BaseModuleState, buildModel, effect } from "react-coat-pkg";
 import * as apiService from "./api";
 import * as actionNames from "./exportActionNames";
 
@@ -19,10 +19,11 @@ const state: State = {
     global: "Stop",
   },
 };
+type ModuleActionData<Payload> = ActionData<Payload, State, RootState>;
 // 定义本模块的Action
 class ModuleActions extends BaseModuleActions {
   @effect(actionNames.NAMESPACE)
-  *updateGlobalSettings({ payload, moduleState, rootState }: { payload: GlobalSettingsData; moduleState: State; rootState: RootState }) {
+  *updateGlobalSettings({ payload, rootState }: ModuleActionData<GlobalSettingsData>) {
     const globalSettingsData: GlobalSettingsData = yield this.call(apiService.api.updateGlobalSettings, payload);
     yield this.put(appModule.actions.setProjectConfig({ ...rootState.project.app.projectConfig, ...globalSettingsData }));
     message.success(Lang.message.saveSuccess);

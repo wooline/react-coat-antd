@@ -14,8 +14,8 @@ const noticeType = notice.NoticeType;
 
 declare module "antd/lib/popover" {
   interface PopoverProps {
-    popupAlign: {};
-    popupClassName: string;
+    popupAlign?: {};
+    popupClassName?: string;
   }
 }
 
@@ -68,7 +68,7 @@ class Component extends React.PureComponent<Props, State> {
       </Spin>
     );
     return (
-      <Popover placement="bottomRight" content={notificationBox} popupClassName="admin-NoticeIcon-popover" trigger="click" arrowPointAtCenter popupAlign={{ offset: [20, -16] }} onVisibleChange={this.handleVisibleChange}>
+      <Popover placement="bottomRight" content={notificationBox} popupClassName="admin-NoticeIcon-popover" trigger="click" popupAlign={{ offset: [20, -16] }} onVisibleChange={this.handleVisibleChange}>
         <span className="action admin-NoticeIcon">
           <Badge count={count} className="badge">
             <Icon type="bell" className="icon" />

@@ -79,3 +79,18 @@ export function buildServiceClient<Service>(serviceModule: { default: {} }): Ser
   }, {});
   return ins as Service;
 }
+
+export function setStorage(moduleName: string, key: string, data: any) {
+  localStorage.setItem(`${moduleName}-${key}`, JSON.stringify(data));
+}
+
+export function getStorage<T>(moduleName: string, key: string): T {
+  return JSON.parse(localStorage.getItem(`${moduleName}-${key}`));
+}
+
+export function arrayToMap<T>(arr: T[], key: string = "id"): { [key: string]: T } {
+  return arr.reduce((pre, cur) => {
+    pre[cur[key]] = cur;
+    return pre;
+  }, {});
+}

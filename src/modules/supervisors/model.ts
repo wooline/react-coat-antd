@@ -1,12 +1,14 @@
+import RootState from "core/RootState";
 import { CommonResourceActions } from "core/common";
-import { NAMESPACE as ADMIN_NAMESPACE } from "modules/admin/exportActionNames";
-import { BaseModuleHandlers, buildModel, effect } from "react-coat-pkg";
 import { supervisor } from "core/entity/user.type";
+import { NAMESPACE as ADMIN_NAMESPACE } from "modules/admin/exportActionNames";
+import { ActionData, BaseModuleHandlers, buildModel, effect } from "react-coat-pkg";
 import thisModule from "./";
 import { api } from "./api";
 import * as actionNames from "./exportActionNames";
 import { ItemDetail, ListOptional, State } from "./type";
 
+type ModuleActionData<Payload> = ActionData<Payload, State, RootState>;
 // 定义本模块State的初始值
 const state: State = {
   curItem: null,
@@ -29,9 +31,8 @@ const newItem: ItemDetail = {
 // 定义本模块的Action
 class ModuleActions extends CommonResourceActions {
   @effect(ADMIN_NAMESPACE)
-  *getTableList({ payload, moduleState }: { payload: ListOptional; moduleState: State }) {
+  *getTableList({ payload, moduleState }: ModuleActionData<ListOptional>) {
     const data = yield* super.getTableList({ payload, moduleState });
-    console.log(data);
   }
 }
 // 定义本模块的监听
