@@ -3,21 +3,17 @@ import RootState from "core/RootState";
 import { menu } from "core/entity/global.type";
 import thisModule from "modules/admin";
 import React from "react";
-import { connect } from "react-redux";
+import { DispatchProp, connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Dispatch } from "redux";
 import SiderMenu from "./SiderMenu";
 
 require("./index.less");
 const Logo = require("./imgs/logo.svg");
 
-interface Props {
-  dispatch: Dispatch;
+interface Props extends DispatchProp {
   siderCollapsed: boolean;
   menuData: menu.Item[];
 }
-
-interface OwnProps {}
 
 interface State {}
 
@@ -41,16 +37,11 @@ class Component extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+const mapStateToProps = (state: RootState) => {
   return {
     siderCollapsed: state.project.admin.siderCollapsed,
     menuData: state.project.admin.menuData,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return { dispatch };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Component);
+
+export default connect(mapStateToProps)(Component);

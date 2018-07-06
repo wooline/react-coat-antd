@@ -1,10 +1,9 @@
-import { Avatar, Badge, Button, Pagination, Table, Checkbox } from "antd";
+import { Avatar, Badge, Button, Checkbox, Pagination, Table } from "antd";
 import RootState from "core/RootState";
 import { notice } from "core/entity/global.type";
 import thisModule from "modules/admin";
 import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { DispatchProp, connect } from "react-redux";
 
 require("./NoticeList.less");
 
@@ -36,8 +35,7 @@ const columns = [
   },
 ];
 
-interface Props extends OwnProps {
-  dispatch: Dispatch;
+interface Props extends OwnProps, DispatchProp {
   dataSource: notice.List;
 }
 
@@ -132,10 +130,5 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     dataSource: state.project.admin.notices[ownProps.type],
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return { dispatch };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Component);
+
+export default connect(mapStateToProps)(Component);

@@ -3,19 +3,15 @@ import classNames from "classnames";
 import RootState from "core/RootState";
 import thisModule from "modules/admin";
 import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { DispatchProp, connect } from "react-redux";
 import { TabNav } from "../../model/index";
 import TabNavEditor from "./TabNavEditor";
 
-interface Props {
-  dispatch: Dispatch;
-  tabNavsActivedId: string;
+interface Props extends DispatchProp {
+  activedTabNavId: string;
   tabNavs: TabNav[];
   curItem: TabNav;
 }
-
-interface OwnProps {}
 
 interface State {}
 
@@ -24,10 +20,10 @@ class Component extends React.PureComponent<Props, State> {
     curItem: null,
   };
   onCloseItem = (curItem: TabNav) => {
-    this.props.dispatch(thisModule.actions.closeTabNav(curItem));
+    this.props.dispatch(thisModule.actions.delTabNav(curItem.id));
   };
   onActiveItem = (curItem: TabNav) => {
-    this.props.dispatch(thisModule.actions.changeTabNavsActived(curItem));
+    this.props.dispatch(thisModule.actions.activeTabNav(curItem));
   };
   onSetNewCurItem = (create: boolean) => {
     this.props.dispatch(thisModule.actions.setNewTabNav(create));
@@ -36,11 +32,11 @@ class Component extends React.PureComponent<Props, State> {
     e.preventDefault();
   };
   render() {
-    const { tabNavs, tabNavsActivedId, curItem } = this.props;
+    const { tabNavs, activedTabNavId, curItem } = this.props;
     return (
       <div className="tabs">
         {tabNavs.map(item => (
-          <div key={item.id} className={classNames("item", { cur: item.id === tabNavsActivedId })}>
+          <div key={item.id} className={classNames("item", { cur: item.id === activedTabNavId })}>
             <Popover
               popupAlign={{ offset: [0, 3] }}
               content={<TabNavEditor onCancel={() => this.onActiveItem(null)} />}
@@ -70,18 +66,13 @@ class Component extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+const mapStateToProps = (state: RootState) => {
   const admin = state.project.admin;
   return {
     tabNavs: admin.tabNavs,
-    tabNavsActivedId: admin.tabNavsActivedId,
+    activedTabNavId: admin.activedTabNavId,
     curItem: admin.curTabNav,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return { dispatch };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Component);
+
+export default connect(mapStateToProps)(Component);

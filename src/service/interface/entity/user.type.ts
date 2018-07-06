@@ -3,10 +3,12 @@ import { TableList } from "../common.type";
 export namespace user {
   export namespace supervisor {
     export enum Status {
+      all = "all",
       active = "active",
       disable = "disable",
     }
     export interface ListFilter {
+      createDate: [Date, Date];
       status: Status;
       username: string;
     }

@@ -26,7 +26,7 @@ interface State extends BaseModuleState {
   };
   curNotice: NoticeType;
   notices: { [key in NoticeType]: notice.List };
-  tabNavsActivedId: string;
+  activedTabNavId: string;
   tabNavs: TabNav[];
   tabNavsMap: { [id: string]: TabNav };
   curTabNav: TabNav;
@@ -61,7 +61,7 @@ const state: State = {
   globalSearch: globalSearchData,
   curNotice: noticeType.message,
   notices: getDefaultNotices(),
-  tabNavsActivedId: "",
+  activedTabNavId: "",
   tabNavs: [],
   tabNavsMap: {},
   curTabNav: null,
@@ -91,7 +91,7 @@ class ModuleActions extends BaseModuleActions {
     const tabNavs: TabNav[] = getStorage(actionNames.NAMESPACE, "tabNavs") || [];
     state.tabNavs = tabNavs;
     state.tabNavsMap = arrayToMap(tabNavs);
-    state.tabNavsActivedId = "";
+    state.activedTabNavId = "";
     return state;
   }
   setNotices({ payload, moduleState }: ModuleActionData<notice.List>): State {
@@ -146,27 +146,28 @@ class ModuleActions extends BaseModuleActions {
     setStorage(actionNames.NAMESPACE, "tabNavs", tabNavs);
     return { ...moduleState, curTabNav: null, tabNavs, tabNavsMap };
   }
-  closeTabNav({ payload, moduleState }: ModuleActionData<TabNav>): State {
-    const item = moduleState.tabNavsMap[payload.url];
+  delTabNav({ payload, moduleState }: ModuleActionData<string>): State {
+    const item = moduleState.tabNavsMap[payload];
     if (item) {
-      const tabNavs = moduleState.tabNavs.filter(tab => tab.id !== payload.id);
-      const tabNavsMap = { ...moduleState.tabNavsMap, [payload.url]: undefined };
+      const tabNavs = moduleState.tabNavs.filter(tab => tab.id !== payload);
+      const tabNavsMap = { ...moduleState.tabNavsMap, [payload]: undefined };
       setStorage(actionNames.NAMESPACE, "tabNavs", tabNavs);
       return { ...moduleState, tabNavs, tabNavsMap };
     } else {
       return { ...moduleState };
     }
   }
-  setTabNavsActived({ payload, moduleState }: ModuleActionData<string>): State {
-    return { ...moduleState, tabNavsActivedId: payload, curTabNav: null };
+
+  setActivedTab({ payload, moduleState }: ModuleActionData<string>): State {
+    return { ...moduleState, activedTabNavId: payload, curTabNav: null };
   }
   setCurTabNav({ payload, moduleState }: ModuleActionData<TabNav>): State {
     return { ...moduleState, curTabNav: payload };
   }
 
   @effect()
-  *changeTabNavsActived({ payload, moduleState }: ModuleActionData<TabNav>): any {
-    if (payload && moduleState.tabNavsActivedId !== payload.id) {
+  *activeTabNav({ payload, moduleState }: ModuleActionData<TabNav>): any {
+    if (payload && moduleState.activedTabNavId !== payload.id) {
       yield this.put(this.routerActions.push(payload.url));
     } else {
       yield this.put(thisModule.actions.setCurTabNav(payload));
@@ -206,10 +207,10 @@ class ModuleHandlers extends BaseModuleHandlers {
     const menuData: menu.Item[] = yield this.call(ajax.api.getMenu);
     yield this.put(thisModule.actions.setInitData(menuData));
   }
-  @effect()
+  @effect(null)
   *[LOCATION_CHANGE_ACTION_NAME]({ payload }: ModuleActionData<{ location: { pathname: string; search: string } }>) {
     const url = getNewTabNavUrl(payload);
-    yield this.put(thisModule.actions.setTabNavsActived(url));
+    yield this.put(thisModule.actions.setActivedTab(url));
   }
 }
 

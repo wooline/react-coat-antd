@@ -1,18 +1,17 @@
-import * as React from "react";
+import { Breadcrumb, Button, Icon, Modal, Table } from "antd";
 import RootState from "core/RootState";
-import { Button, Modal, Table, Breadcrumb, Icon } from "antd";
-import { Link } from "react-router-dom";
-import { TableList, ItemDetail } from "../type";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import * as React from "react";
 import DocumentTitle from "react-document-title";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+import Filter from "./Filter";
+import { ItemDetail, TableList } from "../type";
 
 interface Props {
   editItem: ItemDetail;
   tableList: TableList;
 }
 
-interface OwnProps {}
 interface State {}
 
 class Component extends React.PureComponent<Props, State> {
@@ -55,13 +54,16 @@ class Component extends React.PureComponent<Props, State> {
             </Breadcrumb>
           </div>
           <div className="g-content">
-            <div className="g-panel">
-              <div>
+            <div className="g-panel g-list">
+              <div className="filter">
+                <Filter />
                 <Button icon="plus" type="primary">
                   新建套餐
                 </Button>
               </div>
-              <Table rowKey="id" pagination={false} columns={this.columns} dataSource={list} />
+              <div className="g-table">
+                <Table rowKey="id" pagination={false} columns={this.columns} dataSource={list} />
+              </div>
               <Modal visible={editItem && true} footer={null} width={960}>
                 dsfdsf
               </Modal>
@@ -73,16 +75,10 @@ class Component extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+const mapStateToProps = (state: RootState) => {
   return {
     tableList: state.project.supervisors.tableList,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return {};
-};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Component);
+export default connect(mapStateToProps)(Component);

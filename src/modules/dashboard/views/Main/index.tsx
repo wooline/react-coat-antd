@@ -2,11 +2,10 @@ import { Card, Col, Icon, Row } from "antd";
 import Loading from "components/Loading";
 import RootState from "core/RootState";
 import * as React from "react";
-import CountUp from "react-countup";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import DocumentTitle from "react-document-title";
 import { LoadingState } from "react-coat-pkg";
+import CountUp from "react-countup";
+import DocumentTitle from "react-document-title";
+import { connect } from "react-redux";
 import { DashboardData } from "../../type";
 import "./index.less";
 
@@ -15,7 +14,6 @@ interface Props {
   dashboardData: DashboardData | null;
 }
 
-interface OwnProps {}
 interface State {}
 
 const countUpProps = {
@@ -75,18 +73,12 @@ const Component = (props: Props, state: State) => {
   );
 };
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+const mapStateToProps = (state: RootState) => {
   const data = state.project.dashboard;
   return {
     moduleLoading: data.loading.global,
     dashboardData: data.dashboardData,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return {};
-};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Component);
+export default connect(mapStateToProps)(Component);

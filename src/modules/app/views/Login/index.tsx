@@ -4,17 +4,14 @@ import RootState from "core/RootState";
 import thisModule from "modules/app";
 import * as React from "react";
 import DocumentTitle from "react-document-title";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { DispatchProp, connect } from "react-redux";
 
 require("./index.less");
 const Logo = require("./imgs/logo.svg");
 
-interface Props extends FormComponentProps {
-  dispatch: Dispatch;
+interface Props extends FormComponentProps, DispatchProp {
   logining: boolean;
 }
-interface OwnProps {}
 interface State {
   redirectToReferrer: boolean;
 }
@@ -79,19 +76,12 @@ class Component extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+const mapStateToProps = (state: RootState) => {
   const app = state.project.app;
   const loginLoading = app.loading.login;
   return {
     logining: Boolean(loginLoading && loginLoading !== "Stop"),
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return {
-    dispatch,
-  };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Form.create()(Component));
+
+export default connect(mapStateToProps)(Form.create()(Component));

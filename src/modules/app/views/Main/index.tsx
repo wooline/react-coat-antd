@@ -6,9 +6,8 @@ import RootState from "core/RootState";
 import thisModule from "modules/app";
 import React from "react";
 import { asyncComponent, LoadingState } from "react-coat-pkg";
-import { connect } from "react-redux";
+import { connect, DispatchProp } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
-import { Dispatch } from "redux";
 
 import Login from "../Login";
 
@@ -17,8 +16,7 @@ const Admin = asyncComponent(() => import(/* webpackChunkName: "admin" */ "modul
 
 type User = RootState["project"]["app"]["curUser"];
 
-interface Props {
-  dispatch: Dispatch;
+interface Props extends DispatchProp {
   uncaughtErrors: { [key: string]: string };
   projectConfigLoaded: boolean;
   curUserLoaded: boolean;
@@ -26,7 +24,6 @@ interface Props {
   globalLoading: LoadingState;
 }
 
-interface OwnProps {}
 interface State {}
 
 function hasAuth(path: string, curUser: User): AuthState {
@@ -64,7 +61,7 @@ class Component extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+const mapStateToProps = (state: RootState) => {
   const app = state.project.app;
   return {
     uncaughtErrors: app.uncaughtErrors,
@@ -74,12 +71,5 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     globalLoading: app.loading.global,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return {
-    dispatch,
-  };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Component);
+
+export default connect(mapStateToProps)(Component);

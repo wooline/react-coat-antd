@@ -3,8 +3,7 @@ import RootState from "core/RootState";
 import thisModule from "modules/admin";
 import appModule from "modules/app";
 import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { DispatchProp, connect } from "react-redux";
 import { State as ModuleState } from "../../model/index";
 import GlobalSearch from "../GlobalSearch";
 import NoticeIcon from "../NoticeIcon";
@@ -15,13 +14,10 @@ import "./index.less";
 type User = RootState["project"]["app"]["curUser"];
 type TabNavs = ModuleState["tabNavs"];
 
-interface Props {
-  dispatch: Dispatch;
+interface Props extends DispatchProp {
   collapsed: boolean;
   curUser: User;
 }
-
-interface OwnProps {}
 
 interface State {}
 
@@ -84,16 +80,11 @@ class Component extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+const mapStateToProps = (state: RootState) => {
   return {
     collapsed: state.project.admin.siderCollapsed,
     curUser: state.project.app.curUser,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return { dispatch };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Component);
+
+export default connect(mapStateToProps)(Component);

@@ -3,11 +3,9 @@ import RootState from "core/RootState";
 import { notice } from "core/entity/global.type";
 import thisModule from "modules/admin";
 import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import "./index.less";
-
+import { DispatchProp, connect } from "react-redux";
 import NoticeList from "./NoticeList";
+import "./index.less";
 
 type NoticeType = notice.NoticeType;
 const noticeType = notice.NoticeType;
@@ -19,15 +17,12 @@ declare module "antd/lib/popover" {
   }
 }
 
-interface Props {
-  dispatch: Dispatch;
+interface Props extends DispatchProp {
   loading: boolean;
   count: number;
   curNotice: NoticeType;
   notices: { [key in NoticeType]: notice.List };
 }
-
-interface OwnProps {}
 
 interface State {}
 
@@ -79,7 +74,7 @@ class Component extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+const mapStateToProps = (state: RootState) => {
   const admin = state.project.admin;
   return {
     loading: state.project.admin.loading.notices !== "Stop",
@@ -88,10 +83,5 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     notices: admin.notices,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return { dispatch };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Component);
+
+export default connect(mapStateToProps)(Component);

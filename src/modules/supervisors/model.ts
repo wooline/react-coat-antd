@@ -13,7 +13,7 @@ type ModuleActionData<Payload> = ActionData<Payload, State, RootState>;
 const state: State = {
   curItem: null,
   tableList: {
-    filter: { status: null, username: "" },
+    filter: { status: supervisor.Status.all, username: "", createDate: null },
     summary: null,
     list: null,
   },

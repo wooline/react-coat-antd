@@ -1,6 +1,7 @@
 import { session, settings } from "core/entity/global.type";
 import RootState from "core/RootState";
 import { ActionData, BaseModuleActions, BaseModuleHandlers, BaseModuleState, ERROR_ACTION_NAME, LoadingState, buildModel, effect } from "react-coat-pkg";
+import { callPromise } from "core/utils";
 import thisModule from "./";
 import * as apiService from "./api";
 import * as actionNames from "./exportActionNames";
@@ -79,7 +80,12 @@ class ModuleHandlers extends BaseModuleHandlers {
   // 监听自已的INIT Action
   @effect()
   *[actionNames.INIT]() {
-    const config: ProjectConfig = yield this.call(apiService.api.getSettings);
+    const callProxy = callPromise(apiService.api.getSettings);
+    // const config = yield callProxy;
+    // const config = callProxy.getResponse();
+    // const callProxy = this.call(apiService.api.getSettings);
+    const config = yield callProxy;
+    console.log(config);
     yield this.put(thisModule.actions.setProjectConfig(config));
     const curUser: CurUser = yield this.call(apiService.api.getCurUser);
     yield this.put(thisModule.actions.setCurUser(curUser));

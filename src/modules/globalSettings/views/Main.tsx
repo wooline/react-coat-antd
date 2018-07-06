@@ -7,22 +7,19 @@ import thisModule from "modules/globalSettings";
 import * as React from "react";
 import { LoadingState } from "react-coat-pkg";
 import DocumentTitle from "react-document-title";
-import { connect } from "react-redux";
+import { DispatchProp, connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Dispatch } from "redux";
 
 type GlobalSettingsData = settings.Item;
 
 const FormItem = Form.Item;
 
-interface Props extends FormComponentProps {
+interface Props extends FormComponentProps, DispatchProp {
   moduleLoading: LoadingState;
-  dispatch: Dispatch;
   pathname: string;
   formData: GlobalSettingsData;
 }
 
-interface OwnProps {}
 interface State {}
 
 const formItemLayout = {
@@ -123,20 +120,12 @@ class Component extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+const mapStateToProps = (state: RootState) => {
   return {
     moduleLoading: state.project.globalSettings.loading.global,
     pathname: state.router.location.pathname,
     formData: state.project.app.projectConfig,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return {
-    dispatch,
-  };
-};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Form.create()(Component));
+export default connect(mapStateToProps)(Form.create()(Component));

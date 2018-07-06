@@ -7,7 +7,6 @@ import { asyncComponent } from "react-coat-pkg";
 import { ContainerQuery } from "react-container-query";
 import { connect } from "react-redux";
 import { Route, Switch, match } from "react-router-dom";
-import { Dispatch } from "redux";
 import GlobalHeader from "./GlobalHeader";
 import GlobalSider from "./GlobalSider";
 
@@ -20,7 +19,6 @@ interface Props {
   pathname: string;
 }
 
-interface OwnProps {}
 interface State {}
 
 const query = {
@@ -73,13 +71,8 @@ class Component extends React.PureComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+const mapStateToProps = (state: RootState) => {
   return { pathname: state.router.location.pathname };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return {};
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Component);
+
+export default connect(mapStateToProps)(Component);

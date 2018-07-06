@@ -3,15 +3,13 @@ import { FormComponentProps } from "antd/lib/form";
 import RootState from "core/RootState";
 import thisModule from "modules/admin";
 import React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { DispatchProp, connect } from "react-redux";
 import { TabNav } from "../../model/index";
 import "./TabNavEditor.less";
 
-interface Props extends FormComponentProps {
+interface Props extends FormComponentProps, DispatchProp {
   onCancel: () => void;
   curItem: TabNav;
-  dispatch: Dispatch;
 }
 
 interface State {}
@@ -58,13 +56,8 @@ const mapStateToProps = (state: RootState) => {
     curItem: admin.curTabNav,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return { dispatch };
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(
+
+export default connect(mapStateToProps)(
   Form.create({
     mapPropsToFields(props: Props) {
       return {

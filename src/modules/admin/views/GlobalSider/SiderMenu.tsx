@@ -3,24 +3,24 @@ import RootState from "core/RootState";
 import { menu } from "core/entity/global.type";
 import pathToRegexp from "path-to-regexp";
 import React from "react";
-import { connect } from "react-redux";
+import { DispatchProp, connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Dispatch } from "redux";
 
 const { SubMenu } = Menu;
 
-interface Props {
+interface Props extends DispatchProp {
   collapsed: boolean;
   dataSource: menu.Item[];
   pathname: string;
 }
 
 interface State {
+  pathname: string;
+  linksKeys: { [key: string]: string[] };
+  foldersKeys: { [key: string]: string[] };
   selectedKey: string;
   openKeys: string[];
 }
-
-interface OwnProps {}
 
 function mapMenuData(menus: menu.Item[]) {
   const maps: { [key: string]: string[] } = {};
@@ -70,29 +70,34 @@ function getIcon(icon: string | undefined) {
   return icon;
 }
 class Component extends React.Component<Props, State> {
-  linksKeys: { [key: string]: string[] };
-  foldersKeys: { [key: string]: string[] };
+  static getDerivedStateFromProps(nextProps: Props, prevState: State): State {
+    if (nextProps.pathname !== prevState.pathname) {
+      const { selectedKey, openKeys } = getSelectedMenuKeys(prevState.linksKeys, nextProps.pathname);
+      return {
+        linksKeys: prevState.linksKeys,
+        foldersKeys: prevState.foldersKeys,
+        selectedKey,
+        openKeys,
+        pathname: nextProps.pathname,
+      };
+    }
+
+    return null;
+  }
+
   constructor(props: Props) {
     super(props);
     const { links, folders } = mapMenuData(props.dataSource);
-    this.linksKeys = links;
-    this.foldersKeys = folders;
-    const { selectedKey, openKeys } = getSelectedMenuKeys(this.linksKeys, this.props.pathname);
+    const { selectedKey, openKeys } = getSelectedMenuKeys(links, this.props.pathname);
     this.state = {
+      pathname: "",
+      linksKeys: links,
+      foldersKeys: folders,
       selectedKey,
       openKeys,
     };
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.pathname !== this.props.pathname) {
-      const { selectedKey, openKeys } = getSelectedMenuKeys(this.linksKeys, nextProps.pathname);
-      this.setState({
-        selectedKey,
-        openKeys,
-      });
-    }
-  }
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     return nextProps.collapsed !== this.props.collapsed || nextState.openKeys.join(" ") !== this.state.openKeys.join(" ") || nextState.selectedKey !== this.state.selectedKey;
   }
@@ -102,7 +107,7 @@ class Component extends React.Component<Props, State> {
     if (n > -1) {
       openKeys = openKeys.slice(0, n);
     } else {
-      openKeys = this.foldersKeys[key];
+      openKeys = this.state.foldersKeys[key];
     }
     this.setState({
       selectedKey: this.state.selectedKey,
@@ -160,7 +165,7 @@ class Component extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
+const mapStateToProps = (state: RootState) => {
   const layout = state.project.admin;
   return {
     collapsed: layout.siderCollapsed,
@@ -168,10 +173,5 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => {
     pathname: state.router.location.pathname,
   };
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return {};
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Component);
+
+export default connect(mapStateToProps)(Component);

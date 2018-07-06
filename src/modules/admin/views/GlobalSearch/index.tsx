@@ -3,8 +3,6 @@ import classNames from "classnames";
 import RootState from "core/RootState";
 import React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
-
 import "./index.less";
 
 interface Props {
@@ -16,8 +14,6 @@ interface State {
   searchMode: boolean;
   value: string;
 }
-
-interface OwnProps {}
 
 class Component extends React.PureComponent<Props, State> {
   state = {
@@ -93,10 +89,5 @@ class Component extends React.PureComponent<Props, State> {
 const mapStateToProps = (state: RootState, ownProps: any) => {
   return state.project.admin.globalSearch;
 };
-const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
-  return {};
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Component);
+
+export default connect(mapStateToProps)(Component);
