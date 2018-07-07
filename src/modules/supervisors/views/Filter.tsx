@@ -21,8 +21,8 @@ class Component extends React.PureComponent<Props, State> {
     event.preventDefault();
     this.props.form.validateFields((errors, values: ListFilter) => {
       if (!errors) {
-        values.createDate[0] = values.createDate[0] && values.createDate[0].toDate();
-        values.createDate[1] = values.createDate[1] && values.createDate[1].toDate();
+        // values.createDate[0] = values.createDate[0] && values.createDate[0].toDate();
+        // values.createDate[1] = values.createDate[1] && values.createDate[1].toDate();
         this.props.dispatch(thisModule.actions.getTableList(values));
       }
     });

@@ -32,7 +32,7 @@ const newItem: ItemDetail = {
 class ModuleActions extends CommonResourceActions {
   @effect(ADMIN_NAMESPACE)
   *getTableList({ payload, moduleState }: ModuleActionData<ListOptional>) {
-    const data = yield* super.getTableList({ payload, moduleState });
+    yield* super.getTableList({ payload, moduleState });
   }
 }
 // 定义本模块的监听
