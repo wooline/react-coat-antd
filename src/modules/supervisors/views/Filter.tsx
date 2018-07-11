@@ -1,85 +1,158 @@
-import { Button, Form, Input, DatePicker, Select } from "antd";
+import { Button, Col, DatePicker, Form, Icon, Row, Select } from "antd";
 import { FormComponentProps } from "antd/lib/form";
-import moment, { Moment } from "moment";
+import Lang from "assets/lang";
+import InputWithClear from "components/InputWithClear";
+import RootState from "core/RootState";
+import { getFormDecorators, FilterCols, FilterRows } from "core/utils";
 import React from "react";
 import { connect, DispatchProp } from "react-redux";
-import { Link } from "react-router-dom";
-import RootState from "core/RootState";
-import { getFormDecorators } from "core/utils";
 import thisModule from "../index";
-import Lang from "assets/lang";
 import { ListFilter } from "../type";
 const FormItem = Form.Item;
 
-interface State {}
+interface State {
+  expandForm: boolean;
+}
 interface Props extends FormComponentProps, DispatchProp {
   filter: ListFilter;
 }
 
 class Component extends React.PureComponent<Props, State> {
+  state = {
+    expandForm: false,
+  };
   onSubmit = event => {
     event.preventDefault();
     this.props.form.validateFields((errors, values: ListFilter) => {
       if (!errors) {
-        // values.createDate[0] = values.createDate[0] && values.createDate[0].toDate();
-        // values.createDate[1] = values.createDate[1] && values.createDate[1].toDate();
         this.props.dispatch(thisModule.actions.getTableList(values));
       }
     });
   };
-
-  render() {
+  handleFormReset = event => {
+    this.props.form.resetFields();
+    this.onSubmit(event);
+  };
+  toggleForm = () => {
+    const { expandForm } = this.state;
+    this.setState({
+      expandForm: !expandForm,
+    });
+  };
+  renderSimpleForm() {
     const {
       form,
       filter: { createDate, username, status },
     } = this.props;
-    let createDateRange: [Moment, Moment];
-    if (createDate) {
-      createDateRange = [moment(createDate[0]), moment(createDate[1])];
-    } else {
-      createDateRange = [null, null];
-    }
     const formDecorators = getFormDecorators<ListFilter>(form, {
       username: {
         initialValue: username,
       },
       createDate: {
-        initialValue: createDateRange,
+        initialValue: createDate || [null, null],
       },
       status: {
         initialValue: status,
       },
     });
-    form.getFieldDecorator("createdTime");
     return (
-      <Form className="g-listFilter" hideRequiredMark layout="inline" onSubmit={this.onSubmit}>
-        <FormItem label="用户名">{formDecorators.username(<Input placeholder="搜索用户名" />)}</FormItem>
-        <FormItem label="创建时间">{formDecorators.createDate(<DatePicker.RangePicker format="YYYY-MM-DD HH:mm:ss" showTime />)}</FormItem>
-        <FormItem label="状态">
-          {formDecorators.status(
-            <Select style={{ width: "200px" }}>
-              {Lang.supervisor.status.options.map(item => (
-                <Select.Option key={item.value} value={item.value}>
-                  {item.text}
-                </Select.Option>
-              ))}
-            </Select>,
-          )}
-        </FormItem>
-        <FormItem>
-          <Button type="primary" className="g-btn-md" htmlType="submit">
-            查询
-          </Button>
-        </FormItem>
-        <div className="operator" style={{ marginBottom: "20px" }}>
-          <Link to="/admin/agent/primaryAgent/create">
-            <Button icon="plus" type="primary">
-              新建总代
-            </Button>
-          </Link>
-        </div>
+      <Form onSubmit={this.onSubmit} layout="inline">
+        <Row {...FilterRows}>
+          <Col {...FilterCols}>
+            <FormItem label="用户名">{formDecorators.username(<InputWithClear placeholder="搜索用户名" />)}</FormItem>
+          </Col>
+          <Col {...FilterCols}>
+            <FormItem label="创建时间">{formDecorators.createDate(<DatePicker.RangePicker format="YYYY-MM-DD HH:mm:ss" showTime className="form-item" />)}</FormItem>
+          </Col>
+          <Col {...FilterCols}>
+            <FormItem label="状态">
+              {formDecorators.status(
+                <Select>
+                  {Lang.supervisor.status.options.map(item => (
+                    <Select.Option key={item.value} value={item.value}>
+                      {item.text}
+                    </Select.Option>
+                  ))}
+                </Select>,
+              )}
+            </FormItem>
+          </Col>
+          <Col {...FilterCols}>
+            <FormItem>
+              <Button type="primary" className="g-btn-md" htmlType="submit">
+                查询
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                重置
+              </Button>
+              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
+                <Icon type="down" /> 展开
+              </a>
+            </FormItem>
+          </Col>
+        </Row>
       </Form>
     );
+  }
+  renderAdvancedForm() {
+    const {
+      form,
+      filter: { createDate, username, status },
+    } = this.props;
+    const formDecorators = getFormDecorators<ListFilter>(form, {
+      username: {
+        initialValue: username,
+      },
+      createDate: {
+        initialValue: createDate || [null, null],
+      },
+      status: {
+        initialValue: status,
+      },
+    });
+    return (
+      <Form onSubmit={this.onSubmit} layout="inline">
+        <Row {...FilterRows}>
+          <Col {...FilterCols}>
+            <FormItem label="用户名">{formDecorators.username(<InputWithClear placeholder="搜索用户名" />)}</FormItem>
+          </Col>
+          <Col {...FilterCols}>
+            <FormItem label="创建时间">{formDecorators.createDate(<DatePicker.RangePicker format="YYYY-MM-DD HH:mm:ss" showTime className="form-item" />)}</FormItem>
+          </Col>
+          <Col {...FilterCols}>
+            <FormItem label="状态">
+              {formDecorators.status(
+                <Select>
+                  {Lang.supervisor.status.options.map(item => (
+                    <Select.Option key={item.value} value={item.value}>
+                      {item.text}
+                    </Select.Option>
+                  ))}
+                </Select>,
+              )}
+            </FormItem>
+          </Col>
+          <Col {...FilterCols}>
+            <FormItem>
+              <Button type="primary" className="g-btn-md" htmlType="submit">
+                查询
+              </Button>
+              <Button style={{ marginLeft: 8 }} onClick={this.handleFormReset}>
+                重置
+              </Button>
+              <a style={{ marginLeft: 8 }} onClick={this.toggleForm}>
+                <Icon type="up" /> 收起
+              </a>
+            </FormItem>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+  render() {
+    const { expandForm } = this.state;
+
+    return expandForm ? this.renderAdvancedForm() : this.renderSimpleForm();
   }
 }
 

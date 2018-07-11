@@ -3,6 +3,7 @@ import { CommonResourceActions } from "core/common";
 import { supervisor } from "core/entity/user.type";
 import { NAMESPACE as ADMIN_NAMESPACE } from "modules/admin/exportActionNames";
 import { ActionData, BaseModuleHandlers, buildModel, effect } from "react-coat-pkg";
+
 import thisModule from "./";
 import { api } from "./api";
 import * as actionNames from "./exportActionNames";
@@ -13,7 +14,7 @@ type ModuleActionData<Payload> = ActionData<Payload, State, RootState>;
 const state: State = {
   curItem: null,
   tableList: {
-    filter: { status: supervisor.Status.all, username: "", createDate: null },
+    filter: { status: supervisor.Status.all, username: "枯", createDate: null },
     summary: null,
     list: null,
   },

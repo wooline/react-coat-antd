@@ -1,5 +1,6 @@
 import { BaseModuleActions } from "react-coat-pkg";
 import { message } from "antd";
+import { filterEmpty } from "core/utils";
 import { CommonResource } from "./common.type";
 
 type BaseCommonResource = CommonResource;
@@ -11,7 +12,7 @@ export class CommonResourceActions extends BaseModuleActions implements Resource
   }
   *getTableList({ payload, moduleState }: { payload: BaseCommonResource["ListOptional"]; moduleState: BaseCommonResource["ResourceState"] }): any {
     const request: BaseCommonResource["ListFilter"] = { ...moduleState.tableList.filter, ...payload };
-    const response: BaseCommonResource["TableList"] = yield this.call(this.api.getTableList, request);
+    const response: BaseCommonResource["TableList"] = yield this.call(this.api.getTableList, filterEmpty(request));
     yield this.put(this.actions.setTableList(response));
     return response;
   }

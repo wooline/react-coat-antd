@@ -6,6 +6,7 @@ import * as actionNames from "modules/admin/exportActionNames";
 import { ActionData, BaseModuleActions, BaseModuleHandlers, BaseModuleState, LOCATION_CHANGE_ACTION_NAME, LoadingState, buildModel, effect } from "react-coat-pkg";
 import * as ajax from "../api";
 import { footerData, globalSearchData } from "./metadata";
+import { NoticeTableList, NoticeListOptional, NoticeListFilter } from "../type";
 
 type NoticeType = notice.NoticeType;
 const noticeType = notice.NoticeType;
@@ -25,7 +26,7 @@ interface State extends BaseModuleState {
     dataSource: string[];
   };
   curNotice: NoticeType;
-  notices: { [key in NoticeType]: notice.List };
+  notices: { [key in NoticeType]: NoticeTableList };
   activedTabNavId: string;
   tabNavs: TabNav[];
   tabNavsMap: { [id: string]: TabNav };
@@ -94,7 +95,7 @@ class ModuleActions extends BaseModuleActions {
     state.activedTabNavId = "";
     return state;
   }
-  setNotices({ payload, moduleState }: ModuleActionData<notice.List>): State {
+  setNotices({ payload, moduleState }: ModuleActionData<NoticeTableList>): State {
     return { ...moduleState, notices: { ...moduleState.notices, [payload.filter.type]: payload } };
   }
   setEmptyNotices({ moduleState }: { moduleState: State }): State {
@@ -194,8 +195,10 @@ class ModuleActions extends BaseModuleActions {
     payload.stateCallback();
   }
   @effect(actionNames.NAMESPACE, "notices")
-  *getNotices({ payload }: ModuleActionData<notice.List["filter"]>): any {
-    const notices: notice.List = yield this.call(ajax.api.getNotices, { type: payload.type, unread: payload.unread });
+  *getNotices({ payload, moduleState }: ModuleActionData<NoticeListOptional>): any {
+    const filter = moduleState.notices[payload.type].filter;
+    const request: NoticeListFilter = { ...filter, ...payload };
+    const notices: NoticeTableList = yield this.call(ajax.api.getNotices, request);
     const action = thisModule.actions.setNotices(notices);
     yield this.put(action);
   }

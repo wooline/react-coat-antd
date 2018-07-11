@@ -3,8 +3,8 @@ import { getNotices as GetNotices, deleteNotices as DeleteNotices } from "@inter
 import { pagination } from "utils";
 
 export function deleteNotices(query: DeleteNotices.Request): DeleteNotices.Response {
-  const list = datasource[query.type].list.filter(item => query.ids.indexOf(item.id) === -1);
-  datasource[query.type].list = list;
+  // const list = datasource[query.type].list.filter(item => query.ids.indexOf(item.id) === -1);
+  // datasource[query.type].list = list;
   return null;
 }
 export function getNotices(filter: GetNotices.Request): GetNotices.Response {
@@ -35,8 +35,8 @@ function createList(type?: string) {
   }
   return Mock.mock({
     filter: { page: 1 },
-    summary: { total: 100, unread: 10 },
-    "list|50": [item],
+    summary: { total: 20, unread: 10 },
+    "list|20": [item],
   }) as GetNotices.Response;
 }
 

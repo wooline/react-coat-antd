@@ -1,5 +1,4 @@
-import { TableList } from "../common.type";
-
+import { CommonResource } from "../common.type";
 export namespace settings {
   export type ThemeValue = "blue" | "green" | "red";
   export interface Item {
@@ -21,7 +20,7 @@ export namespace notice {
   export interface ListSummary {
     unreadTotal: number;
   }
-  export interface Item {
+  export interface ListItem {
     id: string;
     unread: boolean;
     avatar: string;
@@ -30,7 +29,17 @@ export namespace notice {
     description: string;
     datetime: string;
   }
-  export type List = TableList<Item, ListFilter, ListSummary>;
+
+  export type Resource = CommonResource<{
+    ListItem: ListItem;
+    ListFilter: ListFilter;
+    ListSummary: ListSummary;
+    ItemDetail: ListItem;
+    ItemCreate: any;
+    ItemUpdate: any;
+    ItemCreateResult: any;
+    ItemUpdateResult: any;
+  }>;
 }
 
 export namespace menu {

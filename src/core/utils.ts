@@ -108,6 +108,29 @@ export function enumValues<T extends string>(maps: { [key in T]: string }, value
     options,
   };
 }
+export function filterEmpty<T>(data: T): T {
+  return Object.keys(data).reduce((previous, current) => {
+    if (data[current] !== "" && data[current] !== undefined && data[current] !== null) {
+      previous[current] = data[current];
+    }
+    return previous;
+  }, {}) as T;
+}
+export const FilterRows = {
+  gutter: {
+    sm: 24,
+    xxl: 35,
+  },
+};
+export const FilterCols = {
+  xxl: 6,
+  xl: 8,
+  md: 12,
+  sm: 24,
+  style: {
+    marginBottom: 16,
+  },
+};
 export interface CallProxy<T> extends CallEffect {
   getResponse: () => T;
 }

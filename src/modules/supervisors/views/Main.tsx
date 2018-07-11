@@ -57,11 +57,13 @@ class Component extends React.PureComponent<Props, State> {
             <div className="g-panel g-list">
               <div className="filter">
                 <Filter />
+              </div>
+              <div className="operator" style={{ marginBottom: "20px" }}>
                 <Button icon="plus" type="primary">
-                  新建套餐
+                  新建总代
                 </Button>
               </div>
-              <div className="g-table">
+              <div className="table">
                 <Table rowKey="id" pagination={false} columns={this.columns} dataSource={list} />
               </div>
               <Modal visible={editItem && true} footer={null} width={960}>

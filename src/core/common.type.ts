@@ -15,7 +15,7 @@ export interface TableList<Item, Filter, Summary> {
   list: Item[];
   summary: DefListSummary & Summary;
 }
-export interface CommonResource<Resource extends { ListItem; ListFilter; ListSummary; ItemDetail; ItemCreate; ItemUpdate; ItemCreateResult; ItemUpdateResult } = { ListItem; ListFilter; ListSummary; ItemDetail; ItemCreate; ItemUpdate; ItemCreateResult; ItemUpdateResult }> {
+export interface CommonResource<Resource extends { ListItem?; ListFilter?; ListSummary?; ItemDetail?; ItemCreate?; ItemUpdate?; ItemCreateResult?; ItemUpdateResult? } = { ListItem; ListFilter; ListSummary; ItemDetail; ItemCreate; ItemUpdate; ItemCreateResult; ItemUpdateResult }> {
   ListItem: Resource["ListItem"];
   ListFilter: DefListFilter & Resource["ListFilter"];
   ListSummary: DefListSummary & Resource["ListSummary"];

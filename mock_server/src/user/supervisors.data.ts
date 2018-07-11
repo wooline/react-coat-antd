@@ -15,8 +15,8 @@ const datasource: GetSupervisors.Response = (() => {
   };
   return Mock.mock({
     filter: { page: 1 },
-    summary: { total: 50 },
-    "list|50": [item],
+    summary: { total: 20 },
+    "list|20": [item],
   });
 })();
 

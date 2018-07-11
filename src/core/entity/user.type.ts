@@ -1,4 +1,5 @@
 import { CommonResource } from "../common.type";
+import { Moment } from "moment";
 
 export namespace supervisor {
   export enum Status {
@@ -9,7 +10,7 @@ export namespace supervisor {
   export interface ListFilter {
     status: Status;
     username: string;
-    createDate: [Date, Date];
+    createDate: [Moment, Moment];
   }
   export interface ListSummary {}
   export interface ListItem {
