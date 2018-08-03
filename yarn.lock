@@ -4530,6 +4530,10 @@ jsesc@~0.5.0:
   version "0.5.0"
   resolved "https://registry.npmjs.org/jsesc/-/jsesc-0.5.0.tgz#e7dee66e35d6fc16f710fe91d5cf69f70f08911d"
 
+json-format@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/json-format/-/json-format-1.0.1.tgz#143f67e62af129d6bffed288a46265ea23d0df0c"
+
 json-loader@^0.5.4:
   version "0.5.7"
   resolved "https://registry.npmjs.org/json-loader/-/json-loader-0.5.7.tgz#dca14a70235ff82f0ac9a3abeb60d337a365185d"
@@ -6673,9 +6677,9 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-coat-pkg@^2.3.1:
-  version "2.3.1"
-  resolved "https://registry.npmjs.org/react-coat-pkg/-/react-coat-pkg-2.3.1.tgz#3ffa48e8ce79a3d43d1bfe8b978bb655630a1e53"
+react-coat-pkg@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/react-coat-pkg/-/react-coat-pkg-3.0.0.tgz#23e1251ba9cab041e8d055bfd7d1ae72bdd62b88"
   dependencies:
     "@types/history" "4.6.2"
     "@types/react" "16.3.17"
@@ -8252,9 +8256,9 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@^2.9.2:
-  version "2.9.2"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
+typescript@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-3.0.1.tgz#43738f29585d3a87575520a4b93ab6026ef11fdb"
 
 ua-parser-js@^0.7.18:
   version "0.7.18"

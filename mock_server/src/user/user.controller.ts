@@ -1,4 +1,4 @@
-import { Service, getSupervisors } from "@interface/user";
+import { Service, getSupervisors } from "@interface/userService";
 import { Body, Query, Controller, Param } from "@nestjs/common";
 import { buildMethod } from "utils";
 import { user } from "@interface/entity/user.type";

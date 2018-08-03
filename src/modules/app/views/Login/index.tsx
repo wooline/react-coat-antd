@@ -4,7 +4,7 @@ import RootState from "core/RootState";
 import thisModule from "modules/app";
 import * as React from "react";
 import DocumentTitle from "react-document-title";
-import { DispatchProp, connect } from "react-redux";
+import { connect, DispatchProp } from "react-redux";
 
 require("./index.less");
 const Logo = require("./imgs/logo.svg");

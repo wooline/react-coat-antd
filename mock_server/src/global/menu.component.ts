@@ -1,4 +1,4 @@
-import { getMenu } from "@interface/global";
+import { getMenu } from "@interface/globalService";
 import { Component } from "@nestjs/common";
 
 @Component()
@@ -12,15 +12,15 @@ export class MenuComponent {
         children: [],
       },
       {
-        name: "站点设置",
+        name: "资源管理范例",
         icon: "setting",
-        path: "/admin/settings",
-        children: [{ name: "全局设置", path: "/admin/settings/global" }, { name: "管理员设置", path: "/admin/settings/supervisors" }],
+        path: "/admin/user",
+        children: [{ name: "独立表单页", path: "/admin/user/global" }, { name: "资源一(用户)", path: "/admin/user/supervisors" }, { name: "资源二(套餐)", path: "/admin/user/incomePlan" }],
       },
       {
-        name: "视频管理",
-        icon: "picture",
-        path: "/admin/photos",
+        name: "不存在页",
+        icon: "setting",
+        path: "/admin/finance",
         children: [],
       },
     ]);

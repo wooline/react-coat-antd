@@ -1,4 +1,4 @@
-import { getNotices, deleteNotices } from "@interface/global";
+import { getNotices, deleteNotices } from "@interface/globalService";
 import { Component } from "@nestjs/common";
 import * as notices from "./notices.data";
 

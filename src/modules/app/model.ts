@@ -1,39 +1,23 @@
-import { session, settings } from "core/entity/global.type";
+import { ProjectConfig, SessionItem } from "core/entity/global.type";
 import RootState from "core/RootState";
-import { ActionData, BaseModuleActions, BaseModuleHandlers, BaseModuleState, ERROR_ACTION_NAME, LoadingState, buildModel, effect } from "react-coat-pkg";
-import { callPromise } from "core/utils";
-import thisModule from "./";
+import { Actions, BaseModuleHandlers, BaseModuleState, effect, ERROR, exportModel, globalLoading, loading, LoadingState, reducer, SagaIterator } from "react-coat-pkg";
 import * as apiService from "./api";
-import * as actionNames from "./exportActionNames";
+import { NAMESPACE } from "./exportNames";
 
-type CurUser = session.Item;
-type ProjectConfig = settings.Item;
-type ModuleActionData<Payload> = ActionData<Payload, State, RootState>;
-// 定义本模块的State
-interface State extends BaseModuleState {
+export interface ModuleState extends BaseModuleState {
   uncaughtErrors: { [key: string]: string };
-  projectConfigLoaded: boolean;
-  curUserLoaded: boolean;
-  projectConfig: ProjectConfig | null;
-  curUser: CurUser;
+  projectConfig: ProjectConfig;
+  curUser: SessionItem;
   loading: {
     global: LoadingState;
     login: LoadingState;
   };
 }
-// 定义本模块State的初始值
-const state: State = {
+
+const initState: ModuleState = {
   uncaughtErrors: {},
-  projectConfigLoaded: false,
-  curUserLoaded: false,
   projectConfig: null,
-  curUser: {
-    avatar: "",
-    uid: "",
-    username: "",
-    hasLogin: false,
-    notices: 0,
-  },
+  curUser: null,
   loading: {
     global: "Stop",
     login: "Stop",
@@ -41,61 +25,55 @@ const state: State = {
 };
 
 let ErrorID = 0;
-// 定义本模块的Action
-class ModuleActions extends BaseModuleActions {
-  setUncaughtErrors({ payload, moduleState }: ModuleActionData<{ message: string }>): State {
-    return { ...moduleState, uncaughtErrors: { ...moduleState.uncaughtErrors, [ErrorID++]: payload.message.trim() } };
+
+export type ModuleActions = Actions<ModuleHandlers>;
+
+class ModuleHandlers extends BaseModuleHandlers<ModuleState, RootState, ModuleActions> {
+  @reducer
+  setUncaughtErrors({ message }: { message: string }): ModuleState {
+    return { ...this.state, uncaughtErrors: { ...this.state.uncaughtErrors, [ErrorID++]: message.trim() } };
   }
-  setProjectConfig({ payload, moduleState }: ModuleActionData<ProjectConfig>): State {
-    return { ...moduleState, projectConfig: payload, projectConfigLoaded: true };
+  @reducer
+  setCurUser(curUser: SessionItem): ModuleState {
+    return { ...this.state, curUser };
   }
-  setCurUser({ payload, moduleState }: ModuleActionData<CurUser>): State {
-    return { ...moduleState, curUser: payload, curUserLoaded: true };
+  @reducer
+  setErrorRead(errorId: string): ModuleState {
+    const uncaughtErrors = { ...this.state.uncaughtErrors };
+    delete uncaughtErrors[errorId];
+    return { ...this.state, uncaughtErrors };
   }
-  setErrorRead({ payload, moduleState }: ModuleActionData<string>): State {
-    const uncaughtErrors = { ...moduleState.uncaughtErrors };
-    delete uncaughtErrors[payload];
-    return { ...moduleState, uncaughtErrors };
+  @loading("login")
+  @effect
+  *login({ username, password }: { username: string; password: string }): SagaIterator {
+    const login = this.callPromise(apiService.api.login, username, password);
+    yield login;
+    const curUser = login.getResponse();
+    yield this.put(this.actions.setCurUser(curUser));
   }
-  @effect(actionNames.NAMESPACE, "login") // 创建另一个局部loading状态来给“登录”按钮做反映
-  *login({ payload }: ModuleActionData<{ username: string; password: string }>): any {
-    const curUser: CurUser = yield this.call(apiService.api.login, payload.username, payload.password);
-    yield this.put(thisModule.actions.setCurUser(curUser));
-  }
-  @effect()
-  *logout() {
-    yield this.call(apiService.api.logout);
+  @globalLoading
+  @effect
+  *logout(): SagaIterator {
+    yield this.callPromise(apiService.api.logout);
     window.location.reload();
   }
-}
-// 定义本模块的监听
-class ModuleHandlers extends BaseModuleHandlers {
-  // 监听全局错误Action，收集并发送给后台，不需要注入loading...
-  @effect(null)
-  *[ERROR_ACTION_NAME]({ payload }: ModuleActionData<Error>) {
-    console.log(payload);
-    yield this.put(thisModule.actions.setUncaughtErrors(payload));
-    yield this.call(apiService.api.reportError, payload);
+  @globalLoading // 使用全局loading状态
+  @effect
+  *START(): SagaIterator {
+    const getSettings = this.callPromise(apiService.api.getSettings);
+    yield getSettings;
+    const projectConfig = getSettings.getResponse();
+    const getCurUser = this.callPromise(apiService.api.getCurUser);
+    yield getCurUser;
+    const curUser = getCurUser.getResponse();
+    yield this.put(this.actions.STARTED({ ...this.state, projectConfig, curUser }));
   }
-  // 监听自已的INIT Action
-  @effect()
-  *[actionNames.INIT]() {
-    const callProxy = callPromise(apiService.api.getSettings);
-    // const config = yield callProxy;
-    // const config = callProxy.getResponse();
-    // const callProxy = this.call(apiService.api.getSettings);
-    const config = yield callProxy;
-    console.log(config);
-    yield this.put(thisModule.actions.setProjectConfig(config));
-    const curUser: CurUser = yield this.call(apiService.api.getCurUser);
-    yield this.put(thisModule.actions.setCurUser(curUser));
+  @effect
+  *[ERROR](error: Error): SagaIterator {
+    console.log(error);
+    yield this.put(this.actions.setUncaughtErrors(error));
+    yield this.callPromise(apiService.api.reportError, error);
   }
 }
 
-const model = buildModel(state, new ModuleActions(), new ModuleHandlers());
-
-export default model;
-
-type Actions = typeof model.actions;
-
-export { Actions, State };
+export default exportModel(NAMESPACE, initState, new ModuleHandlers());

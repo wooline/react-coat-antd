@@ -1,4 +1,4 @@
-import { getSupervisors } from "@interface/user";
+import { getSupervisors } from "@interface/userService";
 import { Component } from "@nestjs/common";
 import * as supervisors from "./supervisors.data";
 

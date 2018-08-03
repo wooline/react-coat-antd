@@ -1,35 +1,52 @@
-import { BaseModuleActions } from "react-coat-pkg";
 import { message } from "antd";
 import { filterEmpty } from "core/utils";
-import { CommonResource } from "./common.type";
+import { Actions, BaseModuleHandlers, effect, globalLoading, reducer, RootState, SagaIterator } from "react-coat-pkg";
+import { ResourceDefined, ResourceExpand } from "./common.type";
 
-type BaseCommonResource = CommonResource;
-type ResourceActions = BaseCommonResource["ResourceActions"];
+type ResourceListFilter = ResourceDefined["ListFilter"];
+type ResourceItemDetail = ResourceDefined["ItemDetail"];
+type ResourceItemUpdateData = ResourceDefined["ItemUpdateData"];
+type ResourceItemCreateData = ResourceDefined["ItemCreateData"];
+type ResourceListOptional = ResourceExpand["ListOptional"];
+type ResourceTableList = ResourceExpand["TableList"];
+type ResourceState = ResourceExpand["State"];
+type ResourceActions = ResourceExpand["Actions"];
+type ResourceAPI = ResourceExpand["API"];
 
-export class CommonResourceActions extends BaseModuleActions implements ResourceActions {
-  constructor(protected actions: BaseCommonResource["ResourceActionsCreator"], protected api: BaseCommonResource["ResourceApi"], protected newItem: BaseCommonResource["ItemDetail"]) {
+export class CommonResourceActions extends BaseModuleHandlers<ResourceState, RootState, Actions<CommonResourceActions>> implements ResourceActions {
+  constructor(protected api: ResourceAPI, protected newItem: ResourceItemDetail) {
     super();
   }
-  *getTableList({ payload, moduleState }: { payload: BaseCommonResource["ListOptional"]; moduleState: BaseCommonResource["ResourceState"] }): any {
-    const request: BaseCommonResource["ListFilter"] = { ...moduleState.tableList.filter, ...payload };
-    const response: BaseCommonResource["TableList"] = yield this.call(this.api.getTableList, filterEmpty(request));
-    yield this.put(this.actions.setTableList(response));
-    return response;
+  @reducer
+  setTableList(tableList: ResourceTableList): ResourceState {
+    return { ...this.state, tableList };
   }
-  setTableList({ payload, moduleState }: { payload: BaseCommonResource["TableList"]; moduleState: BaseCommonResource["ResourceState"] }): BaseCommonResource["ResourceState"] {
-    return { ...moduleState, tableList: payload };
-  }
-  setCurItem({ payload, moduleState }: { payload: BaseCommonResource["ItemDetail"] | "NEW"; moduleState: BaseCommonResource["ResourceState"] }): BaseCommonResource["ResourceState"] {
-    let curItem: BaseCommonResource["ItemDetail"] = null;
+  @reducer
+  setCurItem(payload: ResourceItemDetail | "NEW"): ResourceState {
+    let curItem: ResourceItemDetail = null;
     if (payload === "NEW") {
       curItem = { ...this.newItem };
     } else if (payload) {
       curItem = { ...payload };
     }
-    return { ...moduleState, curItem };
+    return { ...this.state, curItem };
   }
-  *updateItem({ payload }: { payload: BaseCommonResource["ItemUpdate"] }): any {
-    const response: BaseCommonResource["ItemUpdateResult"] = yield this.call(this.api.updateItem, payload);
+  @effect
+  @globalLoading
+  *getTableList(options: ResourceListOptional): SagaIterator {
+    const request: ResourceListFilter = { ...this.state.tableList.filter, ...options };
+    const getTableList = this.callPromise(this.api.getTableList, filterEmpty(request));
+    yield getTableList;
+    const response = getTableList.getResponse();
+    yield this.put(this.actions.setTableList(response));
+    return response;
+  }
+  @effect
+  @globalLoading
+  *updateItem(data: ResourceItemUpdateData): SagaIterator {
+    const updateItem = this.callPromise(this.api.updateItem, data);
+    yield updateItem;
+    const response = updateItem.getResponse();
     if (response.success) {
       message.success("操作成功");
       yield this.put(this.actions.setCurItem(null));
@@ -37,8 +54,12 @@ export class CommonResourceActions extends BaseModuleActions implements Resource
     }
     return response;
   }
-  *createItem({ payload }: { payload: BaseCommonResource["ItemCreate"] }): any {
-    const response: BaseCommonResource["ItemCreateResult"] = yield this.call(this.api.createItem, payload);
+  @effect
+  @globalLoading
+  *createItem(data: ResourceItemCreateData): SagaIterator {
+    const createItem = this.callPromise(this.api.createItem, data);
+    yield createItem;
+    const response = createItem.getResponse();
     if (response.success) {
       message.success("操作成功");
       yield this.put(this.actions.setCurItem(null));

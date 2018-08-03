@@ -1,18 +1,21 @@
-import { Alert } from "antd";
+import { Alert, LocaleProvider } from "antd";
+import zh_CN from "antd/lib/locale-provider/zh_CN";
 import Loading from "components/Loading";
 import NotFound from "components/NotFound";
 import VerifyRoute, { AuthState } from "components/ProtectedRoute";
 import RootState from "core/RootState";
 import thisModule from "modules/app";
+import moment from "moment";
 import React from "react";
-import { asyncComponent, LoadingState } from "react-coat-pkg";
+import { async, LoadingState } from "react-coat-pkg";
 import { connect, DispatchProp } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
-
 import Login from "../Login";
 
 require("./index.less");
-const Admin = asyncComponent(() => import(/* webpackChunkName: "admin" */ "modules/admin/views"));
+
+moment.locale("zh_CN");
+const Admin = null; // async(() => import(/* webpackChunkName: "admin" */ "modules/admin/views"));
 
 type User = RootState["project"]["app"]["curUser"];
 
@@ -41,22 +44,24 @@ class Component extends React.PureComponent<Props, State> {
   public render() {
     const { projectConfigLoaded, curUserLoaded, curUser, globalLoading, uncaughtErrors } = this.props;
     return (
-      <div className="application">
-        <Switch>
-          <Redirect exact={true} path="/" to="/admin/dashboard" />
-          <Redirect exact={true} path="/admin" to="/admin/dashboard" />
-          <VerifyRoute auth={projectConfigLoaded && curUserLoaded ? hasAuth("/admin", curUser) : AuthState.Pending} path="/admin" component={Admin} />
-          <VerifyRoute exact={true} auth={projectConfigLoaded && curUserLoaded ? hasAuth("/login", curUser) : AuthState.Pending} path="/login" component={Login} />
-          <Route component={NotFound} />
-        </Switch>
-        <div className="errors">
-          {Object.keys(uncaughtErrors).map(eid => {
-            const onClose = () => this.onErrorRead(eid);
-            return <Alert key={eid} message={uncaughtErrors[eid]} type="error" closable showIcon onClose={onClose} />;
-          })}
+      <LocaleProvider locale={zh_CN}>
+        <div className="application">
+          <Switch>
+            <Redirect exact={true} path="/" to="/admin/dashboard" />
+            <Redirect exact={true} path="/admin" to="/admin/dashboard" />
+            <VerifyRoute auth={projectConfigLoaded && curUserLoaded ? hasAuth("/admin", curUser) : AuthState.Pending} path="/admin" component={Admin} />
+            <VerifyRoute exact={true} auth={projectConfigLoaded && curUserLoaded ? hasAuth("/login", curUser) : AuthState.Pending} path="/login" component={Login} />
+            <Route component={NotFound} />
+          </Switch>
+          <div className="errors">
+            {Object.keys(uncaughtErrors).map(eid => {
+              const onClose = () => this.onErrorRead(eid);
+              return <Alert key={eid} message={uncaughtErrors[eid]} type="error" closable showIcon onClose={onClose} />;
+            })}
+          </div>
+          <Loading loading={globalLoading} />
         </div>
-        <Loading loading={globalLoading} />
-      </div>
+      </LocaleProvider>
     );
   }
 }
@@ -65,8 +70,8 @@ const mapStateToProps = (state: RootState) => {
   const app = state.project.app;
   return {
     uncaughtErrors: app.uncaughtErrors,
-    projectConfigLoaded: app.projectConfigLoaded,
-    curUserLoaded: app.curUserLoaded,
+    projectConfigLoaded: !!app.projectConfig,
+    curUserLoaded: !!app.curUser,
     curUser: app.curUser,
     globalLoading: app.loading.global,
   };

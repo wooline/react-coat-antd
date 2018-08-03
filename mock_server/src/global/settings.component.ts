@@ -1,8 +1,9 @@
-import { getSettings, updateSettings } from "@interface/global";
+import { getSettings, updateSettings } from "@interface/globalService";
+import { global } from "@interface/entity/global.type";
 import { Component, HttpException, HttpStatus } from "@nestjs/common";
 
 const settings: getSettings.Response = {
-  theme: "blue",
+  theme: global.settings.ThemeValue.blue,
   videoDir: "http://www.baidu.com/",
   pageSize: 20,
 };

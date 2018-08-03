@@ -1,4 +1,3 @@
-import { ErrorBase } from "./common.type";
 import { global } from "./entity/global.type";
 
 export namespace getSettings {
@@ -42,7 +41,11 @@ export namespace login {
     reject = "1001 reject",
   }
   export namespace error {
-    export type Reject = ErrorBase<ErrorCode.reject, null>;
+    export interface Reject {
+      code: ErrorCode.reject;
+      message: string;
+      detail: null;
+    }
   }
 }
 export namespace logout {
@@ -60,7 +63,7 @@ export namespace getMenu {
 
 export namespace getNotices {
   export type Request = global.notice.ListFilter;
-  export type Response = global.notice.List;
+  export type Response = global.notice.TableList;
   export const metadata = { method: "GET", path: "/ajax/global/notices" };
   export type Action = (request: Request) => Promise<Response>;
 }

@@ -1,4 +1,4 @@
-import { getCurUser, getPushData, login, logout } from "@interface/global";
+import { getCurUser, getPushData, login, logout } from "@interface/globalService";
 import { Component, HttpException, HttpStatus } from "@nestjs/common";
 import * as notices from "./notices.data";
 

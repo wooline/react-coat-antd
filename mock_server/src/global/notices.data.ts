@@ -1,5 +1,5 @@
 import * as Mock from "mockjs";
-import { getNotices as GetNotices, deleteNotices as DeleteNotices } from "@interface/global";
+import { getNotices as GetNotices, deleteNotices as DeleteNotices } from "@interface/globalService";
 import { pagination } from "utils";
 
 export function deleteNotices(query: DeleteNotices.Request): DeleteNotices.Response {

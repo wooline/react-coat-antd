@@ -1,4 +1,4 @@
-import { getDashboardData } from "@interface/global";
+import { getDashboardData } from "@interface/globalService";
 import { Component } from "@nestjs/common";
 
 @Component()

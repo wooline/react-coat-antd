@@ -1,4 +1,4 @@
-import { Service, getCurUser, getDashboardData, getMenu, getNotices, getPushData, getSettings, login, logout, updateSettings, deleteNotices } from "@interface/global";
+import { Service, getCurUser, getDashboardData, getMenu, getNotices, getPushData, getSettings, login, logout, updateSettings, deleteNotices } from "@interface/globalService";
 import { Body, Query, Controller, Param } from "@nestjs/common";
 import { buildMethod } from "utils";
 import { DashboardComponent } from "./dashboard.component";

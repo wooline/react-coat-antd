@@ -1,6 +1,6 @@
 import * as Mock from "mockjs";
 import { user } from "@interface/entity/user.type";
-import { getSupervisors as GetSupervisors } from "@interface/user";
+import { getSupervisors as GetSupervisors } from "@interface/userService";
 import { pagination } from "utils";
 
 const datasource: GetSupervisors.Response = (() => {

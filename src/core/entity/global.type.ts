@@ -1,77 +1,19 @@
-import { CommonResource } from "../common.type";
-export namespace settings {
-  export type ThemeValue = "blue" | "green" | "red";
-  export interface Item {
-    theme: ThemeValue;
-    videoDir: string;
-    pageSize: number;
-  }
+export interface MenuItem {
+  name: string;
+  icon?: string;
+  path: string;
+  children?: MenuItem[];
+  target?: string;
 }
-export namespace notice {
-  export enum NoticeType {
-    message = "message",
-    todo = "todo",
-    inform = "inform",
-  }
-  export interface ListFilter {
-    type: NoticeType;
-    unread: boolean;
-  }
-  export interface ListSummary {
-    unreadTotal: number;
-  }
-  export interface ListItem {
-    id: string;
-    unread: boolean;
-    avatar: string;
-    title: string;
-    extra: string;
-    description: string;
-    datetime: string;
-  }
-
-  export type Resource = CommonResource<{
-    ListItem: ListItem;
-    ListFilter: ListFilter;
-    ListSummary: ListSummary;
-    ItemDetail: ListItem;
-    ItemCreate: any;
-    ItemUpdate: any;
-    ItemCreateResult: any;
-    ItemUpdateResult: any;
-  }>;
+export interface SessionPushData {
+  notices: number;
 }
-
-export namespace menu {
-  export interface Item {
-    name: string;
-    icon?: string;
-    path: string;
-    children?: Item[];
-    target?: string;
-  }
-}
-export namespace session {
-  export interface PushData {
-    notices: number;
-  }
-  export interface Item {
-    avatar: string;
-    uid: string;
-    username: string;
-    hasLogin: boolean;
-    notices: number;
-  }
-}
-export namespace dashboardData {
-  export interface Item {
-    username: string;
-    ip: string;
-    total: {
-      pictures: number;
-      videos: number;
-    };
-  }
+export interface SessionItem {
+  avatar: string;
+  uid: string;
+  username: string;
+  hasLogin: boolean;
+  notices: number;
 }
 export interface FooterData {
   links: Array<{
@@ -87,3 +29,4 @@ export interface GlobalSearchData {
   placeholder: string;
   dataSource: string[];
 }
+export interface ProjectConfig {}
