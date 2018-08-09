@@ -11,7 +11,7 @@ interface State {}
 
 const Component = function(props: Props, state: State) {
   const { loading } = props;
-  return loading === "Start" || loading === "Depth" ? (
+  return loading === LoadingState.Start || loading === LoadingState.Depth ? (
     <div className={"comp-loading " + loading}>
       <div className="loading-icon">
         <Spin />

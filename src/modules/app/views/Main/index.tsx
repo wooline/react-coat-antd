@@ -3,6 +3,7 @@ import zh_CN from "antd/lib/locale-provider/zh_CN";
 import Loading from "components/Loading";
 import NotFound from "components/NotFound";
 import VerifyRoute, { AuthState } from "components/ProtectedRoute";
+import { Item as User } from "core/entity/session";
 import RootState from "core/RootState";
 import thisModule from "modules/app";
 import moment from "moment";
@@ -15,9 +16,7 @@ import Login from "../Login";
 require("./index.less");
 
 moment.locale("zh_CN");
-const Admin = null; // async(() => import(/* webpackChunkName: "admin" */ "modules/admin/views"));
-
-type User = RootState["project"]["app"]["curUser"];
+const Admin = async(() => import(/* webpackChunkName: "admin" */ "modules/admin/views"));
 
 interface Props extends DispatchProp {
   uncaughtErrors: { [key: string]: string };

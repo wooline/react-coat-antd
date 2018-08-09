@@ -5,6 +5,7 @@ import thisModule from "modules/app";
 import * as React from "react";
 import DocumentTitle from "react-document-title";
 import { connect, DispatchProp } from "react-redux";
+import { LoadingState } from "react-coat-pkg";
 
 require("./index.less");
 const Logo = require("./imgs/logo.svg");
@@ -77,10 +78,8 @@ class Component extends React.PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => {
-  const app = state.project.app;
-  const loginLoading = app.loading.login;
   return {
-    logining: Boolean(loginLoading && loginLoading !== "Stop"),
+    logining: state.project.app.loading.login !== LoadingState.Stop,
   };
 };
 

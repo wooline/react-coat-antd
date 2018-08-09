@@ -1,26 +1,26 @@
+import { ProjectConfig } from "core/entity/global";
+import { LoginRequest, LoginResponse, Item as SessionItem } from "core/entity/session";
 import { delayPromise } from "react-coat-pkg";
-import globalService from "service/globalServiceClient";
-
-import { SessionItem, ProjectConfig } from "core/entity/global.type";
+import GlobalService from "service/GlobalService";
 
 export class API {
   getCurUser(): Promise<SessionItem> {
-    return globalService.getCurUser({ a: 1 });
+    return GlobalService.curUser();
   }
-  login(username: string, password: string): Promise<SessionItem> {
-    return globalService.login({ username, password });
+  login(request: LoginRequest): Promise<LoginResponse> {
+    return GlobalService.login(request);
   }
   logout(): Promise<void> {
-    return globalService.logout({});
+    return GlobalService.logout();
   }
   // 模拟1秒延迟
   @delayPromise(1)
   getSettings(): Promise<ProjectConfig> {
-    return globalService.getSettings({});
+    return GlobalService.settings();
   }
   reportError(error: any): Promise<boolean> {
     return Promise.resolve(true);
   }
 }
 
-export const api = new API();
+export default new API();

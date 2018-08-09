@@ -1,0 +1,15 @@
+{
+  "url": "localhost:3000/ajax/global/settings?",
+  "statusCode": 200,
+  "statusMessage": "OK",
+  "headers": {
+    "x-powered-by": "Express",
+    "content-type": "application/json; charset=utf-8",
+    "connection": "close"
+  },
+  "response": {
+    "theme": "blue",
+    "videoDir": "http://www.baidu.com/",
+    "pageSize": 20
+  }
+}

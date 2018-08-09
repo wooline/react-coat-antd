@@ -1,0 +1,108 @@
+@import "~antd/lib/style/themes/default.less";
+
+.admin-notice-NoticeList {
+  > .main {
+    table {
+      table-layout: fixed;
+    }
+
+    td {
+      padding: 0;
+
+      &:last-child {
+        padding-right: 15px;
+      }
+
+      .title {
+        margin-top: 1em;
+        margin-bottom: 0.4em;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .avatar {
+        background: #fff;
+      }
+
+      .datetime {
+        float: left;
+        font-size: 11px;
+        color: @text-color-secondary;
+        margin-bottom: 1em;
+      }
+
+      .extra {
+        float: right;
+        font-size: 11px;
+        padding-right: 6px;
+      }
+
+      p {
+        font-size: 12px;
+        line-height: 20px;
+        height: 20px;
+        overflow: hidden;
+        color: @text-color-secondary;
+        margin-bottom: 0.1em;
+      }
+    }
+
+    .ant-table-wrapper {
+      height: 450px;
+      overflow: hidden;
+    }
+
+    .ant-table-selection-column {
+      text-align: right;
+      padding-top: 5px;
+      vertical-align: top;
+      min-width: 25px;
+      width: 25px;
+    }
+
+    .ant-checkbox-inner {
+      border-color: #dedede;
+      width: 12px;
+      height: 12px;
+
+      &::after {
+        left: 3px;
+        top: 0;
+      }
+    }
+  }
+
+  .con {
+    height: 46px;
+    line-height: 46px;
+    transition: all 0.3s;
+    padding: 10px 10px 0 10px;
+
+    > .btn {
+      font-size: 12px;
+      float: left;
+    }
+
+    > .pagination {
+      float: right;
+    }
+  }
+
+  .selectAll {
+    position: absolute;
+    top: 12px;
+    left: 13px;
+  }
+
+  .ant-pagination.mini {
+    .ant-pagination-item {
+      min-width: 22px;
+    }
+
+    .ant-pagination-jump-prev,
+    .ant-pagination-jump-next {
+      min-width: 28px;
+    }
+  }
+}

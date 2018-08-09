@@ -1,7 +1,13 @@
 import "assets/global.less";
 import appViews from "modules/app/views";
-import { createApp } from "react-coat-pkg";
+import {createApp} from "react-coat-pkg";
 
+declare module "antd/lib/popover" {
+  interface PopoverProps {
+    popupClassName?: string;
+    popupAlign?: {};
+  }
+}
 /* createApp()还可以传两个参数以自定义扩展Store：
 storeMiddlewares?: Middleware[]
 storeEnhancers?: Function[]

@@ -1,0 +1,10 @@
+{
+  "url": "localhost:3000/ajax/global/settings?",
+  "statusCode": 200,
+  "statusMessage": "OK",
+  "headers": {
+    "x-powered-by": "Express",
+    "connection": "close"
+  },
+  "response": ""
+}

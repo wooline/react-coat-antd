@@ -3,11 +3,9 @@
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
 const path = require('path');
-const fs = require('fs');
-const jsonFormat = require('json-format');
 const config = require('./webpack.config.dev');
 const paths = require('./paths');
-
+const mock = require('./mock');
 const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
 const host = process.env.HOST || '0.0.0.0';
 
@@ -32,7 +30,7 @@ module.exports = function(proxy, allowedHost) {
     disableHostCheck: !proxy ||
       process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
     // Enable gzip compression of generated files.
-    compress: true,
+    compress: false,
     // Silence WebpackDevServer's own logs since they're generally not useful.
     // It will still show compile warnings and errors with this setting.
     clientLogLevel: 'none',
@@ -89,59 +87,8 @@ module.exports = function(proxy, allowedHost) {
     public: allowedHost,
     proxy,
     before(app) {
+      app.use(mock());
       // This lets us open files from the runtime error overlay.
-      app.use((req, res, next) => {
-        const name = (req.method.toLowerCase() + '/' + req.url).replace(/\//g,'-').replace('?','$').replace(/[?*:"<>\/|]/g,'-');
-        const fileName = `./proxy/${name}.json`;
-        fs.exists(fileName, function(exists) {
-          if(exists){
-            fs.readFile(fileName,'utf-8',function (err, content) {
-              if(err) {
-                  console.log(err);
-                  next();
-              } else {
-                  try{
-                    const data = JSON.parse(content);
-                    const str = JSON.stringify(data.response);
-                    const len = Buffer.byteLength(str);
-                    console.log(len, str.length, str);
-                    res.set(data.headers);
-                    res.end(str);
-                  }catch(err){
-                    console.log(err);
-                    next();
-                  }
-                  // res.setHeader('content-length', Buffer.byteLength(output));
-                  
-              }
-            });
-          } else {
-            const _write = res.write;
-            res.write = (...args) => {
-              const contentType = res.get('Content-Type') || '';
-              if(contentType.indexOf('application/json')===0){
-                const data = {
-                  statusCode: res.statusCode,
-                  statusMessage: res.statusMessage,
-                  headers: res.getHeaders(),
-                  response: JSON.parse(args[0].toString(contentType.split('charset=')[1])),
-                }
-                
-                fs.writeFile(fileName, jsonFormat(data), function(err){
-                  if (err) {
-                    console.log(err);
-                  }
-                });
-              }       
-              return _write.apply(res, args);
-            }
-            next();
-          }
-        });
-      	
-        
-      });
-
       app.use(errorOverlayMiddleware());
       // This service worker file is effectively a 'no-op' that will reset any
       // previous service worker registered for the same host:port combination.

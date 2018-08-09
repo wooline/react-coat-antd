@@ -17,6 +17,7 @@
     "member-ordering": false,
     "ordered-imports": false,
     "jsx-no-lambda": false,
+    "jsx-curly-spacing": false,
     "semicolon": [true, "always", "ignore-bound-class-methods"]
   }
 }

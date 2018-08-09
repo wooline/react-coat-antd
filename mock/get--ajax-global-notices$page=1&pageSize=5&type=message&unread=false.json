@@ -1,0 +1,70 @@
+{
+  "url": "/ajax/global/notices?type=message&unread=false&page=1&pageSize=5",
+  "statusCode": 200,
+  "statusMessage": "OK",
+  "headers": {
+    "x-powered-by": "Express",
+    "server": "nginx/1.12.2",
+    "content-type": "application/json; charset=utf-8",
+    "connection": "close"
+  },
+  "response": {
+    "filter": {
+      "type": "message",
+      "unread": false,
+      "page": 1,
+      "pageSize": 5
+    },
+    "list": [
+      {
+        "id": "410000197605229886",
+        "title": "地作斯而需资水化自于候议重军度又有见",
+        "description": "青品压个表水快气质手区须记",
+        "extra": "Paul Young",
+        "unread": false,
+        "avatar": "https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png",
+        "datetime": "2017-12-07 21:39:17"
+      },
+      {
+        "id": "150000197411074448",
+        "title": "么样按型立格革能持价连委",
+        "description": "什市用车金压际空农完林铁温提多高况复器它油任候方性自只军前百九世与入金得运即将则断部议生达确县思部准原所济书提影情就布王法现子府市列改报式界眼则消说她住形通须上革现金准满际易五都京即党常",
+        "extra": "Susan Rodriguez",
+        "unread": true,
+        "avatar": "https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png",
+        "datetime": "2015-10-27 19:13:24"
+      },
+      {
+        "id": "500000197111261917",
+        "title": "专已群传利入南转且六",
+        "description": "过体者工求志起山们自月点还候分进酸值为率么史构行装内手百任铁个国改住",
+        "extra": "Helen Perez",
+        "unread": false,
+        "avatar": "https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png",
+        "datetime": "1973-06-24 00:17:53"
+      },
+      {
+        "id": "350000199510118238",
+        "title": "人米派比委个只些年需",
+        "description": "儿干王市那员京四党须使还程们候层",
+        "extra": "Charles Rodriguez",
+        "unread": false,
+        "avatar": "https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg",
+        "datetime": "2012-03-14 16:45:47"
+      },
+      {
+        "id": "710000199508216872",
+        "title": "矿过三对感温段发儿儿发三局提",
+        "description": "产厂构手复动整商重业半共何新前真年备究果动完它会切织活集因眼精任素千示义干听处其叫界权亲",
+        "extra": "Linda Johnson",
+        "unread": false,
+        "avatar": "https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png",
+        "datetime": "1989-07-22 23:00:29"
+      }
+    ],
+    "summary": {
+      "total": 15,
+      "unreadTotal": 15
+    }
+  }
+}

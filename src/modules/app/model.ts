@@ -1,7 +1,9 @@
-import { ProjectConfig, SessionItem } from "core/entity/global.type";
+import { ProjectConfig } from "core/entity/global";
+import { Item as SessionItem } from "core/entity/session";
 import RootState from "core/RootState";
+import { message as Alert } from "antd";
 import { Actions, BaseModuleHandlers, BaseModuleState, effect, ERROR, exportModel, globalLoading, loading, LoadingState, reducer, SagaIterator } from "react-coat-pkg";
-import * as apiService from "./api";
+import apiService from "./api";
 import { NAMESPACE } from "./exportNames";
 
 export interface ModuleState extends BaseModuleState {
@@ -19,8 +21,8 @@ const initState: ModuleState = {
   projectConfig: null,
   curUser: null,
   loading: {
-    global: "Stop",
-    login: "Stop",
+    global: LoadingState.Stop,
+    login: LoadingState.Stop,
   },
 };
 
@@ -46,24 +48,29 @@ class ModuleHandlers extends BaseModuleHandlers<ModuleState, RootState, ModuleAc
   @loading("login")
   @effect
   *login({ username, password }: { username: string; password: string }): SagaIterator {
-    const login = this.callPromise(apiService.api.login, username, password);
+    const login = this.callPromise(apiService.login, { username, password });
     yield login;
-    const curUser = login.getResponse();
-    yield this.put(this.actions.setCurUser(curUser));
+    const response = login.getResponse();
+    if (!response.errorCode) {
+      const curUser = response.data;
+      yield this.put(this.actions.setCurUser(curUser));
+    } else {
+      Alert.error(response.errorMessage);
+    }
   }
   @globalLoading
   @effect
   *logout(): SagaIterator {
-    yield this.callPromise(apiService.api.logout);
+    yield this.callPromise(apiService.logout);
     window.location.reload();
   }
-  @globalLoading // 使用全局loading状态
+  @globalLoading
   @effect
   *START(): SagaIterator {
-    const getSettings = this.callPromise(apiService.api.getSettings);
+    const getSettings = this.callPromise(apiService.getSettings);
     yield getSettings;
     const projectConfig = getSettings.getResponse();
-    const getCurUser = this.callPromise(apiService.api.getCurUser);
+    const getCurUser = this.callPromise(apiService.getCurUser);
     yield getCurUser;
     const curUser = getCurUser.getResponse();
     yield this.put(this.actions.STARTED({ ...this.state, projectConfig, curUser }));
@@ -72,7 +79,7 @@ class ModuleHandlers extends BaseModuleHandlers<ModuleState, RootState, ModuleAc
   *[ERROR](error: Error): SagaIterator {
     console.log(error);
     yield this.put(this.actions.setUncaughtErrors(error));
-    yield this.callPromise(apiService.api.reportError, error);
+    yield this.callPromise(apiService.reportError, error);
   }
 }
 
