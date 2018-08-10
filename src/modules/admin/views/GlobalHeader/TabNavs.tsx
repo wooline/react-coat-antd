@@ -1,10 +1,10 @@
-import { Icon, Popover } from "antd";
+import {Icon, Popover} from "antd";
 import classNames from "classnames";
 import RootState from "core/RootState";
 import thisModule from "modules/admin";
 import React from "react";
-import { TabNav } from "core/entity/global";
-import { DispatchProp, connect } from "react-redux";
+import {TabNav} from "core/entity/global";
+import {DispatchProp, connect} from "react-redux";
 import TabNavEditor from "./TabNavEditor";
 
 interface Props extends DispatchProp {
@@ -32,13 +32,13 @@ class Component extends React.PureComponent<Props, State> {
     e.preventDefault();
   };
   render() {
-    const { tabNavs, activedTabNavId, curItem } = this.props;
+    const {tabNavs, activedTabNavId, curItem} = this.props;
     return (
       <div className="tabs">
         {tabNavs.map(item => (
-          <div key={item.id} className={classNames("item", { cur: item.id === activedTabNavId })}>
+          <div key={item.id} className={classNames("item", {cur: item.id === activedTabNavId})}>
             <Popover
-              popupAlign={{ offset: [0, 3] }}
+              popupAlign={{offset: [0, 3]}}
               content={<TabNavEditor onCancel={() => this.onActiveItem(null)} />}
               trigger="click"
               visible={curItem && curItem.id === item.id}
@@ -56,7 +56,7 @@ class Component extends React.PureComponent<Props, State> {
             <Icon className="action" type="close-circle-o" onClick={() => this.onCloseItem(item)} />
           </div>
         ))}
-        <Popover popupAlign={{ offset: [0, 3] }} onVisibleChange={this.onSetNewCurItem} visible={curItem && !curItem.id} content={<TabNavEditor onCancel={() => this.onSetNewCurItem(false)} />} trigger="click">
+        <Popover popupAlign={{offset: [0, 3]}} onVisibleChange={this.onSetNewCurItem} visible={curItem && !curItem.id} content={<TabNavEditor onCancel={() => this.onSetNewCurItem(false)} />} trigger="click">
           <div className="item">
             <Icon type="plus-circle-o" /> 收藏
           </div>

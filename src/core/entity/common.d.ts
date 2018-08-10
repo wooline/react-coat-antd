@@ -1,4 +1,7 @@
 import {LoadingState} from "react-coat-pkg";
+
+export type SortOrder = "DESC" | "ASC";
+
 export type Optional<F> = {[K in keyof F]?: F[K]};
 export interface TableList<Item, Filter, Summary> {
   filter: Filter;
@@ -36,8 +39,9 @@ export interface ResourceExpand<Resource extends ResourceBase = ResourceBase> {
   ListOptional: Optional<Resource["ListFilter"]>;
   State: {
     curItem?: Resource["ItemDetail"];
+    selectedIds?: string[];
     tableList: TableList<Resource["ListItem"], Resource["ListFilter"], Resource["ListSummary"]>;
-    loading: {[key: string]: LoadingState};
+    loading: {};
   };
   ResourceSelectorState: {
     selectedItems: Array<Resource["ListItem"]>;
@@ -45,15 +49,15 @@ export interface ResourceExpand<Resource extends ResourceBase = ResourceBase> {
   };
   API: {
     getTableList(payload: Optional<Resource["ListFilter"]>): Promise<TableList<Resource["ListItem"], Resource["ListFilter"], Resource["ListSummary"]>>;
-    createItem(payload: Resource["ItemCreateData"]): Promise<Resource["ItemCreateResult"]>;
-    updateItem(payload: Resource["ItemUpdateData"]): Promise<Resource["ItemUpdateResult"]>;
+    createItem?(payload: Resource["ItemCreateData"]): Promise<Resource["ItemCreateResult"]>;
+    updateItem?(payload: Resource["ItemUpdateData"]): Promise<Resource["ItemUpdateResult"]>;
   };
-  Actions: {
+  Handlers: {
     getTableList(filter: Optional<Resource["ListFilter"]>);
     setTableList(tableList: TableList<Resource["ListItem"], Resource["ListFilter"], Resource["ListSummary"]>);
-    setCurItem(item: Resource["ItemDetail"] | "create");
-    updateItem(item: Resource["ItemUpdateData"]);
-    createItem(item: Resource["ItemCreateData"]);
+    setCurItem?(item: Resource["ItemDetail"] | "create");
+    updateItem?(item: Resource["ItemUpdateData"]);
+    createItem?(item: Resource["ItemCreateData"]);
   };
   ActionsCreator: {
     getTableList(payload: Optional<Resource["ListFilter"]>);

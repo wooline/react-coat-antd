@@ -15,16 +15,19 @@ export interface ModuleState extends BaseModuleState {
 
 const getDefaultNotices = () => ({
   inform: {
+    selectedIds: [],
     filter: {type: noticeType.inform, unread: false, page: 1, pageSize: 5},
     summary: null,
     list: null,
   },
   message: {
+    selectedIds: [],
     filter: {type: noticeType.message, unread: false, page: 1, pageSize: 5},
     summary: null,
     list: null,
   },
   todo: {
+    selectedIds: [],
     filter: {type: noticeType.todo, unread: false, page: 1, pageSize: 5},
     summary: null,
     list: null,
@@ -39,11 +42,13 @@ const initState: ModuleState = {
   },
 };
 
-export type ModuleActions = Actions<ModuleHandlers>;
-
-class ModuleHandlers extends BaseModuleHandlers<ModuleState, RootState, ModuleActions> {
+class ModuleHandlers extends BaseModuleHandlers<ModuleState, RootState> {
   @reducer
-  setTableList(tableList: TableList): ModuleState {
+  setSelectedRows({type, selectedIds}: {type: NoticeType; selectedIds: string[]}): ModuleState {
+    return {...this.state, notices: {...this.state.notices, [type]: {...this.state.notices[type], selectedIds}}};
+  }
+  @reducer
+  protected setTableList(tableList: TableList): ModuleState {
     return {...this.state, notices: {...this.state.notices, [tableList.filter.type]: tableList}};
   }
   @reducer
@@ -54,7 +59,7 @@ class ModuleHandlers extends BaseModuleHandlers<ModuleState, RootState, ModuleAc
     };
   }
   @reducer
-  setCurType(curType: NoticeType): ModuleState {
+  protected setCurType(curType: NoticeType): ModuleState {
     return {...this.state, curType};
   }
   @effect
@@ -65,19 +70,21 @@ class ModuleHandlers extends BaseModuleHandlers<ModuleState, RootState, ModuleAc
     const notices = this.state.notices[curNotice];
     const refresh = notices.list === null || curNotice === this.state.curType;
     if (curNotice !== this.state.curType) {
-      yield this.put(this.actions.setCurType(curNotice));
+      yield this.put(this.callThisAction(this.setCurType, curNotice));
     }
     if (refresh) {
-      yield this.put(this.actions.getTableList(notices.filter));
+      yield this.put(this.callThisAction(this.getTableList, notices.filter));
     }
   }
   @moduleLoading
   @effect
-  *deleteList({type, ids, stateCallback}: {type: string; ids: string[]; stateCallback: () => void}): SagaIterator {
-    const request = {type, ids};
-    yield this.callPromise(apiService.deleteList, request);
-    yield this.put(this.actions.getTableList({}));
-    stateCallback();
+  *deleteList(type: NoticeType): SagaIterator {
+    const ids = this.state.notices[type].selectedIds;
+    if (ids.length) {
+      const request = {type, ids};
+      yield this.callPromise(apiService.deleteList, request);
+      yield this.put(this.callThisAction(this.getTableList, {}));
+    }
   }
   @moduleLoading
   @effect
@@ -88,8 +95,11 @@ class ModuleHandlers extends BaseModuleHandlers<ModuleState, RootState, ModuleAc
     const getTabelList = this.callPromise(apiService.getTabelList, request);
     yield getTabelList;
     const tableList = getTabelList.getResponse();
-    yield this.put(this.actions.setTableList(tableList));
+    tableList.selectedIds = [];
+    yield this.put(this.callThisAction(this.setTableList, tableList));
   }
 }
+
+export type ModuleActions = Actions<ModuleHandlers>;
 
 export default exportModel(NAMESPACE, initState, new ModuleHandlers());

@@ -8,11 +8,7 @@
     "connection": "close"
   },
   "response": {
-    "menu": [
-      { "name": "首页", "icon": "dashboard", "path": "/admin/dashboard", "children": [] },
-      { "name": "站点设置", "icon": "setting", "path": "/admin/settings", "children": [{ "name": "全局设置", "path": "/admin/settings/global" }, { "name": "管理员设置", "path": "/admin/settings/supervisors" }] },
-      { "name": "视频管理", "icon": "picture", "path": "/admin/photos", "children": [] }
-    ],
+    "menu": [{"name": "首页", "icon": "dashboard", "path": "/admin/dashboard", "children": []}, {"name": "资源管理范例", "icon": "setting", "path": "/admin/resource", "children": [{"name": "独立表单页", "path": "/admin/resource/form"}, {"name": "资源一(用户)", "path": "/admin/resource/agent"}]}],
     "footer": {
       "links": [
         {

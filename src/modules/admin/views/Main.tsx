@@ -1,15 +1,17 @@
-import {Layout, Tabs, Popover, Icon} from "antd";
+import {Layout} from "antd";
 import classNames from "classnames";
+import NotFound from "components/NotFound";
+import {Item} from "core/entity/adminLayout";
 import RootState from "core/RootState";
 import React from "react";
+import {async} from "react-coat-pkg";
 import {ContainerQuery} from "react-container-query";
 import {connect} from "react-redux";
-import {match} from "react-router-dom";
+import {match, Route, Switch} from "react-router-dom";
 import GlobalHeader from "./GlobalHeader";
 import GlobalSider from "./GlobalSider";
-import {Item} from "core/entity/adminLayout";
 
-// const Supervisors = asyncComponent(() => import(/* webpackChunkName: "supervisors" */ "modules/supervisors/views"));
+const Agent = async(() => import(/* webpackChunkName: "agent" */ "modules/agent/views"));
 // const GlobalSettings = asyncComponent(() => import(/* webpackChunkName: "globalSettings" */ "modules/globalSettings/views"));
 // const Dashboard = asyncComponent(() => import(/* webpackChunkName: "dashboard" */ "modules/dashboard/views"));
 
@@ -44,8 +46,7 @@ const query = {
 class Component extends React.PureComponent<Props, State> {
   render() {
     // tslint:disable-next-line:no-shadowed-variable
-    // const { match, layout } = this.props;
-    const {layout} = this.props;
+    const {match, layout} = this.props;
     return (
       layout && (
         <ContainerQuery query={query}>
@@ -56,28 +57,10 @@ class Component extends React.PureComponent<Props, State> {
                 <Layout>
                   <GlobalHeader />
                   <Layout.Content className="g-page">
-                    <div>
-                      <Popover
-                        content={
-                          <Tabs defaultActiveKey="b">
-                            <Tabs.TabPane tab="通知" key="a">
-                              aaaa
-                            </Tabs.TabPane>
-                            <Tabs.TabPane tab="消息" key="b">
-                              bbb
-                            </Tabs.TabPane>
-                            <Tabs.TabPane tab="待办" key="c">
-                              ccc
-                            </Tabs.TabPane>
-                          </Tabs>
-                        }
-                        trigger="click"
-                      >
-                        <span className="action noticeIcon">
-                          <Icon type="bell" className="icon" />
-                        </span>
-                      </Popover>
-                    </div>
+                    <Switch>
+                      <Route exact={true} path={`${match.url}/resource/agent`} component={Agent} />
+                      <Route component={NotFound} />
+                    </Switch>
                   </Layout.Content>
                   <Layout.Footer>GlobalFooter</Layout.Footer>
                 </Layout>

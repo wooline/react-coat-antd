@@ -1,7 +1,7 @@
-import { ajax } from "core/utils/request";
+import {ajax} from "core/utils/request";
 import * as global from "./interface/global";
 
-export default class GlobalService {
+export default class Service {
   static settings(): Promise<global.settings.Item> {
     return ajax("GET", "/ajax/global/settings");
   }
@@ -9,7 +9,7 @@ export default class GlobalService {
     return ajax("GET", "/ajax/global/adminLayout");
   }
   static curUser(): Promise<global.session.Item> {
-    return ajax<{ loggedIn: boolean; username: string; userId: string }>("GET", "/ajax/currentUser").then(data => {
+    return ajax<{loggedIn: boolean; username: string; userId: string}>("GET", "/ajax/currentUser").then(data => {
       return {
         notices: 10,
         avatar: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png",
@@ -20,7 +20,7 @@ export default class GlobalService {
     });
   }
   static login(request: global.session.LoginAPI.Request): Promise<global.session.LoginAPI.Response> {
-    return ajax<{ success: boolean; errorMessage: string; username: string; userId: string }>("PUT", "/ajax/login", request).then(data => {
+    return ajax<{success: boolean; errorMessage: string; username: string; userId: string}>("PUT", "/ajax/login", request).then(data => {
       if (data.success) {
         return {
           data: {

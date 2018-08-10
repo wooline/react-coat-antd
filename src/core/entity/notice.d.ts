@@ -1,4 +1,4 @@
-import { DefaultListFilter, DefaultListItem, DefaultListSummary, ResourceDefined, ResourceExpand } from "./common";
+import {DefaultListFilter, DefaultListItem, DefaultListSummary, ResourceDefined, ResourceExpand} from "./common";
 import * as CONST from "../Const";
 
 export type NoticeType = "message" | "todo" | "inform";
@@ -32,6 +32,4 @@ export type ListItem = Defined["ListItem"];
 export type ListFilter = Defined["ListFilter"];
 export type ListSummary = Defined["ListSummary"];
 export type ListOptional = Expand["ListOptional"];
-export type TableList = Expand["TableList"];
-export type State = Expand["State"];
-export type Actions = Expand["Actions"];
+export type TableList = Expand["TableList"] & {selectedIds: string[]};

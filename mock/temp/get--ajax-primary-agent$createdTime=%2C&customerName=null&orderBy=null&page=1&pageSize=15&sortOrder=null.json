@@ -1,0 +1,106 @@
+{
+  "primaryAgents": [
+    {
+      "no": 1,
+      "customerId": "120fae0a-fe16-4e43-9aed-582ae41f7887",
+      "customerName": "backend-test-501625",
+      "prize": "1950",
+      "planName": "1950B套餐",
+      "salesPerson": "backend-test-service",
+      "remark": "test:remarks",
+      "createdTime": "2018-08-10T10:08:11Z"
+    },
+    {
+      "no": 2,
+      "customerId": "643b5187-58c2-4f35-a66a-2ba841458ac6",
+      "customerName": "backend-test-796576",
+      "prize": "1700",
+      "planName": "1700I套餐",
+      "salesPerson": "backend-test-service",
+      "remark": "test:remarks",
+      "createdTime": "2018-08-10T10:08:11Z"
+    },
+    {
+      "no": 3,
+      "customerId": "f189a89e-34e9-4bda-8157-ef8be2a3c860",
+      "customerName": "backend-test-90618",
+      "prize": "1960",
+      "planName": "1960D套餐",
+      "salesPerson": "backend-test-service",
+      "remark": "test:remarks",
+      "createdTime": "2018-08-10T09:21:08Z"
+    },
+    {
+      "no": 4,
+      "customerId": "fd740939-1df9-4745-8471-76086a38c1d9",
+      "customerName": "backend-test-803194",
+      "prize": "1960",
+      "planName": "1960C套餐",
+      "salesPerson": "backend-test-service",
+      "remark": "test:remarks",
+      "createdTime": "2018-08-10T09:21:08Z"
+    },
+    {
+      "no": 5,
+      "customerId": "8f6324bb-473b-40ff-867c-4b8f9a7c5a26",
+      "customerName": "backend-test-229870",
+      "prize": "1980",
+      "planName": "1980N套餐",
+      "salesPerson": "backend-test-service",
+      "remark": "test:remarks",
+      "createdTime": "2018-08-10T09:00:38Z"
+    },
+    {
+      "no": 6,
+      "customerId": "362ba3f8-74fb-40a4-a302-7b85dabd976e",
+      "customerName": "backend-test-218556",
+      "prize": "1980",
+      "planName": "1980N套餐",
+      "salesPerson": "backend-test-service",
+      "remark": "test:remarks",
+      "createdTime": "2018-08-10T08:00:37Z"
+    },
+    {
+      "no": 7,
+      "customerId": "559a4b69-ed37-455f-9fa8-f774204ba6b4",
+      "customerName": "backend-test-836253",
+      "prize": "1980",
+      "planName": "1980套餐oliver",
+      "salesPerson": "backend-test-service",
+      "remark": "test:remarks",
+      "createdTime": "2018-08-10T07:00:37Z"
+    },
+    {
+      "no": 8,
+      "customerId": "8056f311-e6b7-4aca-b14f-9ea179a9da58",
+      "customerName": "backend-test-192487",
+      "prize": "1950",
+      "planName": "1950A套餐",
+      "salesPerson": "backend-test-service",
+      "remark": "test:remarks",
+      "createdTime": "2018-08-10T07:00:37Z"
+    },
+    {
+      "no": 9,
+      "customerId": "9a60e535-f716-4823-8a2e-1e2674f1bde4",
+      "customerName": "backend-test-310518",
+      "prize": "1700",
+      "planName": "1700I套餐",
+      "salesPerson": "backend-test-service",
+      "remark": "test:remarks",
+      "createdTime": "2018-08-10T07:00:37Z"
+    },
+    {
+      "no": 10,
+      "customerId": "c51c7ff6-0ee9-4584-a142-87aadfdb5504",
+      "customerName": "backend-test-999569",
+      "prize": "1960",
+      "planName": "1960C套餐",
+      "salesPerson": "backend-test-service",
+      "remark": "test:remarks",
+      "createdTime": "2018-08-10T04:30:19Z"
+    }
+  ],
+  "total": 3448,
+  "totalPage": 345
+}

@@ -1,4 +1,4 @@
-export function topath(pattern: string, params: { [name: string]: string }): string {
+export function topath(pattern: string, params: {[name: string]: string}): string {
   let path = pattern;
   Object.entries(params).forEach(([name, value]) => {
     const encodedValue = encodeURIComponent(value);
@@ -6,7 +6,16 @@ export function topath(pattern: string, params: { [name: string]: string }): str
   });
   return path;
 }
-
+export function parseQuery(search: string): {[key: string]: any} {
+  let [, query] = search.split("query=");
+  if (query) {
+    query = query.split("&")[0];
+  }
+  if (query) {
+    return JSON.parse(unescape(query));
+  }
+  return {};
+}
 export function setStorage(moduleName: string, key: string, data: any) {
   localStorage.setItem(`${moduleName}-${key}`, JSON.stringify(data));
 }
@@ -15,7 +24,7 @@ export function getStorage<T>(moduleName: string, key: string): T {
   return JSON.parse(localStorage.getItem(`${moduleName}-${key}`));
 }
 
-export function arrayToMap<T>(arr: T[], key: string = "id"): { [key: string]: T } {
+export function arrayToMap<T>(arr: T[], key: string = "id"): {[key: string]: T} {
   return arr.reduce((pre, cur) => {
     pre[cur[key]] = cur;
     return pre;

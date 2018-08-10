@@ -5,16 +5,6 @@ const zlib = require("zlib");
 const jsonFormat = require("json-format");
 const crypto = require("crypto");
 
-fs.writeFile(
-  "C:\\work\\wooline\\react-coat-antd\\mock\\temp\\httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%httpswww.baidu.comswd=node7js%.txt",
-  "1111",
-  err => {
-    if (err) {
-      console.log(err);
-    }
-  },
-);
-
 module.exports = function(maxNum) {
   maxNum = maxNum || 1000;
   const dir = path.resolve("./mock");

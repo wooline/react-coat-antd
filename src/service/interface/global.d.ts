@@ -1,3 +1,6 @@
+export namespace common {
+  export type SortOrder = "DESC" | "ASC";
+}
 export namespace settings {
   export type ThemeValue = "blue" | "green" | "red";
   export interface Item {

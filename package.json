@@ -21,7 +21,8 @@
       "react-container-query",
       "react-document-title",
       "classnames",
-      "enquire-js"
+      "enquire-js",
+      "react-coat-pkg"
     ]
   },
   "dependencies": {
@@ -29,7 +30,7 @@
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.5",
     "enquire-js": "^0.2.1",
-    "react-coat-pkg": "^3.0.0",
+    "react-coat-pkg": "3.1.0",
     "react-container-query": "^0.11.0",
     "react-countup": "^3.0.3",
     "react-document-title": "^2.0.3"
@@ -140,7 +141,7 @@
   "mockServer": "http://localhost:3002",
   "proxy": {
     "/ajax": {
-      "target": "http://47.74.133.16",
+      "target": "https://bo.ceshi9527.com",
       "secure": false,
       "changeOrigin": true
     }

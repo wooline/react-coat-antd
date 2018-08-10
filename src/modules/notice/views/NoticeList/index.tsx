@@ -43,47 +43,30 @@ interface OwnProps {
   type: NoticeType;
 }
 
-interface State {
-  selectedRowKeys: string[];
-}
-
-class Component extends React.PureComponent<Props, State> {
-  state: State = {
-    selectedRowKeys: [],
-  };
+class Component extends React.PureComponent<Props, null> {
   onDelete = () => {
-    this.props.dispatch(
-      thisModule.actions.deleteList({
-        type: this.props.type,
-        ids: [...this.state.selectedRowKeys],
-        stateCallback: () => {
-          this.setState({...this.state, selectedRowKeys: []});
-        },
-      }),
-    );
+    this.props.dispatch(thisModule.actions.deleteList(this.props.type));
   };
-  onSelectChange = (selectedRowKeys: string[]) => {
-    this.setState({...this.state, selectedRowKeys});
+  onSelectChange = (selectedIds: string[]) => {
+    this.props.dispatch(thisModule.actions.setSelectedRows({type: this.props.type, selectedIds}));
   };
   onSelectAll = e => {
-    const selectedRowKeys = e.target.checked ? this.props.dataSource.list!.map(item => item.id) : [];
-    this.setState({...this.state, selectedRowKeys});
+    const selectedIds = e.target.checked ? this.props.dataSource.list.map(item => item.id) : [];
+    this.onSelectChange(selectedIds);
   };
   onFilterUnread = () => {
     this.props.dispatch(thisModule.actions.getTableList({unread: !this.props.dataSource.filter.unread, page: 1}));
   };
   onFilterPage = (page: number) => {
-    this.setState({...this.state, selectedRowKeys: []});
     this.props.dispatch(thisModule.actions.getTableList({page}));
   };
   public render() {
     const {
-      dataSource: {filter, list, summary},
+      dataSource: {filter, list, summary, selectedIds},
     } = this.props;
-    const {selectedRowKeys} = this.state;
-    const hasSelected = selectedRowKeys.length > 0;
+    const hasSelected = selectedIds.length > 0;
     const rowSelection = {
-      selectedRowKeys,
+      selectedRowKeys: selectedIds,
       columnWidth: 25,
       onChange: this.onSelectChange,
     };
@@ -91,7 +74,7 @@ class Component extends React.PureComponent<Props, State> {
       <div className="admin-notice-NoticeList">
         {list && (
           <div className="main">
-            <Checkbox className="selectAll" onChange={this.onSelectAll} checked={!!list.length && selectedRowKeys.length === list.length} />
+            <Checkbox className="selectAll" onChange={this.onSelectAll} checked={!!list.length && selectedIds.length === list.length} />
             <Table showHeader={false} rowKey="id" rowSelection={rowSelection} pagination={false} columns={columns} dataSource={list} />
             <div className="con">
               {hasSelected ? (
