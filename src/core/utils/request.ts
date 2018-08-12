@@ -1,6 +1,11 @@
 export function ajax<T>(method: string, path: string, args: {[key: string]: any} = {}, headers: {[key: string]: string} = {}): Promise<T> {
   method = method.toLocaleLowerCase();
-
+  args = Object.keys(args).reduce((pre, cur) => {
+    if (args[cur] !== undefined && args[cur] !== null) {
+      pre[cur] = args[cur];
+    }
+    return pre;
+  }, {});
   let url = path.replace(/:\w+/g, flag => {
     const key = flag.substr(1);
     if (args[key]) {

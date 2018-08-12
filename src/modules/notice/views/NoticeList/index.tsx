@@ -3,6 +3,7 @@ import RootState from "core/RootState";
 import {NoticeType, TableList} from "core/entity/notice";
 import thisModule from "modules/notice";
 import React from "react";
+import {ntrue} from "core/Const";
 import {DispatchProp, connect} from "react-redux";
 
 import "./index.less";
@@ -55,7 +56,7 @@ class Component extends React.PureComponent<Props, null> {
     this.onSelectChange(selectedIds);
   };
   onFilterUnread = () => {
-    this.props.dispatch(thisModule.actions.getTableList({unread: !this.props.dataSource.filter.unread, page: 1}));
+    this.props.dispatch(thisModule.actions.getTableList({unread: this.props.dataSource.filter.unread ? null : ntrue, page: 1}));
   };
   onFilterPage = (page: number) => {
     this.props.dispatch(thisModule.actions.getTableList({page}));

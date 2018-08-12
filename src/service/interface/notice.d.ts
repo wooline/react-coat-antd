@@ -1,9 +1,11 @@
+import * as global from "./global";
 export type NoticeType = "message" | "todo" | "inform";
+
 export interface ListFilter {
   page: number;
   pageSize: number;
   type: NoticeType;
-  unread: boolean;
+  unread: global.common.NTrue | null;
 }
 export interface ListSummary {
   total: number;

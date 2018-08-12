@@ -6,12 +6,12 @@ export type OrderBy = "DATE" | "TEAM_SALE_AMOUNT";
 export interface ListFilter {
   page: number;
   pageSize: number;
-  createdTime?: [number, number];
-  customerName?: string;
-  sortOrder: global.common.SortOrder;
-  orderBy: OrderBy;
+  createdTime: [number, number] | null;
+  customerName: string | null;
+  sort: [OrderBy, global.common.SortOrder] | null;
 }
 export interface ListSummary {
+  total: number;
   totalSaleAmount: number;
   username: string;
   userType: string;
@@ -24,11 +24,11 @@ export interface ListItem {
   id: number;
   userId: string;
   username: string;
-  userType: string;
   planName: string;
-  planNameId: string;
-  date: string;
-  teamSaleAmount: number;
+  planId: string;
+  parentUsername: string;
+  createdTime: string;
+  teamSale: number;
 }
 export interface TableList {
   filter: ListFilter;

@@ -11,7 +11,7 @@
   "response": {
     "filter": {
       "type": "todo",
-      "unread": false,
+      "unread": null,
       "page": 2,
       "pageSize": 5
     },

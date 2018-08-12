@@ -1,5 +1,6 @@
 export namespace common {
   export type SortOrder = "DESC" | "ASC";
+  export type NTrue = "1";
 }
 export namespace settings {
   export type ThemeValue = "blue" | "green" | "red";

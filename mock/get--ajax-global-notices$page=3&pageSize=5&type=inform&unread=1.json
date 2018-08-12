@@ -11,7 +11,7 @@
   "response": {
     "filter": {
       "type": "inform",
-      "unread": true,
+      "unread": "1",
       "page": 3,
       "pageSize": 5
     },

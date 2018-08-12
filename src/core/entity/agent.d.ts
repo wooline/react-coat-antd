@@ -8,17 +8,16 @@ type Defined = ResourceDefined<{
     id: number;
     userId: string;
     username: string;
-    userType: string;
     planName: string;
-    planNameId: string;
-    date: string;
-    teamSaleAmount: number;
+    planId: string;
+    parentUsername: string;
+    createdTime: string;
+    teamSale: number;
   } & DefaultListItem;
   ListFilter: {
-    createdTime?: [number, number];
-    customerName?: string;
-    sortOrder: SortOrder;
-    orderBy: OrderBy;
+    createdTime: [number, number] | null;
+    customerName: string | null;
+    sort: [OrderBy, SortOrder] | null;
   } & DefaultListFilter;
   ListSummary: {
     totalSaleAmount: number;
@@ -41,6 +40,7 @@ export type ListItem = Defined["ListItem"];
 export type ListFilter = Defined["ListFilter"];
 export type ListSummary = Defined["ListSummary"];
 export type ListOptional = Expand["ListOptional"];
+export type ItemDetail = ListItem;
 export type TableList = Expand["TableList"];
 export type State = Expand["State"];
 export type Handlers = Expand["Handlers"];

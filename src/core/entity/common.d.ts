@@ -1,6 +1,7 @@
 import {LoadingState} from "react-coat-pkg";
 
 export type SortOrder = "DESC" | "ASC";
+export type NTrue = "1";
 
 export type Optional<F> = {[K in keyof F]?: F[K]};
 export interface TableList<Item, Filter, Summary> {
@@ -9,15 +10,14 @@ export interface TableList<Item, Filter, Summary> {
   summary: Summary;
 }
 export interface DefaultListItem {
-  id: string | number;
+  id: string;
 }
 export interface DefaultListFilter {
   page: number;
   pageSize: number;
 }
 export interface DefaultListSummary {
-  total?: number;
-  totalPage?: number;
+  total: number;
 }
 export interface DefaultActionResult {
   success: boolean;

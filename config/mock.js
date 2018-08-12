@@ -124,7 +124,7 @@ module.exports = function(maxNum) {
               data.headers["content-type"] = "application/json; charset=utf-8";
               str = JSON.stringify(str);
             }
-            data.headers["content-length"] = str.length.toString();
+            data.headers["content-length"] = Buffer.byteLength(str).toString();
             if (data.headers["x-delay"]) {
               setTimeout(() => {
                 res.set(data.headers);

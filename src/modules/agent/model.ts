@@ -8,12 +8,11 @@ import apiService from "./api";
 export interface ModuleState extends State {}
 
 const defaultFilter: ListFilter = {
-  createdTime: [null, null],
+  createdTime: null,
   customerName: null,
-  sortOrder: null,
-  orderBy: null,
+  sort: null,
   page: 1,
-  pageSize: 15,
+  pageSize: 10,
 };
 
 const initState: ModuleState = {

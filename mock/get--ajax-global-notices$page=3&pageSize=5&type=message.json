@@ -11,7 +11,7 @@
   "response": {
     "filter": {
       "type": "message",
-      "unread": false,
+      "unread": null,
       "page": 3,
       "pageSize": 5
     },

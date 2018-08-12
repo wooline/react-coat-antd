@@ -16,19 +16,19 @@ export interface ModuleState extends BaseModuleState {
 const getDefaultNotices = () => ({
   inform: {
     selectedIds: [],
-    filter: {type: noticeType.inform, unread: false, page: 1, pageSize: 5},
+    filter: {type: noticeType.inform, unread: null, page: 1, pageSize: 5},
     summary: null,
     list: null,
   },
   message: {
     selectedIds: [],
-    filter: {type: noticeType.message, unread: false, page: 1, pageSize: 5},
+    filter: {type: noticeType.message, unread: null, page: 1, pageSize: 5},
     summary: null,
     list: null,
   },
   todo: {
     selectedIds: [],
-    filter: {type: noticeType.todo, unread: false, page: 1, pageSize: 5},
+    filter: {type: noticeType.todo, unread: null, page: 1, pageSize: 5},
     summary: null,
     list: null,
   },

@@ -1,4 +1,4 @@
-import {DefaultListFilter, DefaultListItem, DefaultListSummary, ResourceDefined, ResourceExpand} from "./common";
+import {DefaultListFilter, DefaultListItem, DefaultListSummary, ResourceDefined, ResourceExpand, NTrue} from "./common";
 import * as CONST from "../Const";
 
 export type NoticeType = "message" | "todo" | "inform";
@@ -15,7 +15,7 @@ type Defined = ResourceDefined<{
   } & DefaultListItem;
   ListFilter: {
     type: NoticeType;
-    unread: boolean;
+    unread: NTrue | null;
   } & DefaultListFilter;
   ListSummary: {
     unreadTotal: number;
@@ -32,4 +32,4 @@ export type ListItem = Defined["ListItem"];
 export type ListFilter = Defined["ListFilter"];
 export type ListSummary = Defined["ListSummary"];
 export type ListOptional = Expand["ListOptional"];
-export type TableList = Expand["TableList"] & {selectedIds: string[]};
+export type TableList = Expand["TableList"] & {selectedIds?: string[]};
