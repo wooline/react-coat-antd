@@ -1,20 +1,18 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
     "module": "commonjs",
     "declaration": false,
     "noImplicitAny": false,
     "removeComments": true,
     "noLib": false,
+    "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es6",
     "sourceMap": true,
     "allowJs": true,
     "outDir": "./dist",
-    "paths": {
-      "@interface/*": ["../../src/service/interface/*"]
-    }
+    "baseUrl": "./src"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]

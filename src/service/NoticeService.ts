@@ -3,9 +3,9 @@ import * as notice from "./interface/notice";
 
 export default class Service {
   static deleteList(request: notice.DeleteListRequest): Promise<void> {
-    return ajax("DELETE", "/ajax/global/notices/:type", request);
+    return ajax("DELETE", "/ajax/notice/:type", request);
   }
-  static list(request: notice.ListFilter): Promise<notice.TableList> {
-    return ajax("GET", "/ajax/global/notices", request);
+  static getTableList(request: notice.ListFilter): Promise<notice.TableList> {
+    return ajax("GET", "/ajax/notice/notices", request);
   }
 }
