@@ -1,4 +1,3 @@
-import {message} from "antd";
 import {parseQuery} from "core/utils";
 import {BaseModuleHandlers, effect, globalLoading, reducer, RootState, SagaIterator, LOCATION_CHANGE, RouterState} from "react-coat-pkg";
 import {ResourceDefined, ResourceExpand} from "./entity/common";

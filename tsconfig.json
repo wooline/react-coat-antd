@@ -21,5 +21,6 @@
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "mock_service", "dist"]
 }

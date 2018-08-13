@@ -8272,13 +8272,14 @@ ts-jest@22.0.1:
     source-map-support "^0.5.0"
     yargs "^10.0.3"
 
-ts-loader@^2.3.7:
-  version "2.3.7"
-  resolved "https://registry.npmjs.org/ts-loader/-/ts-loader-2.3.7.tgz#a9028ced473bee12f28a75f9c5b139979d33f2fc"
+ts-loader@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.npmjs.org/ts-loader/-/ts-loader-3.5.0.tgz#151d004dcddb4cf8e381a3bf9d6b74c2d957a9c0"
   dependencies:
-    chalk "^2.0.1"
+    chalk "^2.3.0"
     enhanced-resolve "^3.0.0"
     loader-utils "^1.0.2"
+    micromatch "^3.1.4"
     semver "^5.0.1"
 
 tsconfig-paths-webpack-plugin@^2.0.0:

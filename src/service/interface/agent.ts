@@ -21,7 +21,7 @@ export interface ListSummary {
   createdTime: string;
 }
 export interface ListItem {
-  id: number;
+  id: string;
   userId: string;
   username: string;
   planName: string;

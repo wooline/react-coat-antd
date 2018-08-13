@@ -5,7 +5,6 @@ export type OrderBy = "DATE" | "TEAM_SALE_AMOUNT";
 
 type Defined = ResourceDefined<{
   ListItem: {
-    id: number;
     userId: string;
     username: string;
     planName: string;
