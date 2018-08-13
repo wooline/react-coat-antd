@@ -4,9 +4,9 @@ import * as React from "react";
 import DocumentTitle from "react-document-title";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {tableColumns} from "core/utils/typeCheck";
+import {tableColumns} from "utils/typeCheck";
 // import Filter from "./Filter";
-import {ItemDetail, TableList, ListItem} from "core/entity/agent";
+import {ItemDetail, TableList, ListItem} from "entity/agent";
 
 interface Props {
   editItem: ItemDetail;

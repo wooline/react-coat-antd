@@ -1,5 +1,5 @@
 import {Avatar, Badge, Dropdown, Icon, Layout, Menu, Popover, Tooltip} from "antd";
-import {Item as User} from "core/entity/session";
+import {Item as User} from "entity/session";
 import RootState from "core/RootState";
 import thisModule from "modules/admin";
 import appModule from "modules/app";

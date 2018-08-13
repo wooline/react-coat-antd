@@ -1,6 +1,6 @@
 import {Avatar, Badge, Button, Checkbox, Pagination, Table} from "antd";
 import RootState from "core/RootState";
-import {NoticeType, TableList} from "core/entity/notice";
+import {NoticeType, TableList} from "entity/notice";
 import thisModule from "modules/notice";
 import React from "react";
 import {ntrue} from "core/Const";

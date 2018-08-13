@@ -1,6 +1,6 @@
 import { Layout } from "antd";
 import RootState from "core/RootState";
-import { MenuItem } from "core/entity/adminLayout";
+import { MenuItem } from "entity/adminLayout";
 import thisModule from "modules/admin";
 import React from "react";
 import { DispatchProp, connect } from "react-redux";

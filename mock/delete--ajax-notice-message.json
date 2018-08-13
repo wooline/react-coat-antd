@@ -1,0 +1,10 @@
+{
+    "url": "/ajax/notice/message",
+    "statusCode": 200,
+    "statusMessage": "OK",
+    "headers": {
+        "x-powered-by": "Express",
+        "connection": "close"
+    },
+    "response": ""
+}

@@ -1,5 +1,5 @@
 // import { enumValues } from "core";
-// import { supervisor } from "core/entity/user.type";
+// import { supervisor } from "entity/user.type";
 
 export default {
   message: {

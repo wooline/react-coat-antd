@@ -1,0 +1,19 @@
+{
+    "url": "/ajax/global/login",
+    "statusCode": 200,
+    "statusMessage": "OK",
+    "headers": {
+        "x-powered-by": "Express",
+        "content-type": "application/json; charset=utf-8",
+        "connection": "close"
+    },
+    "response": {
+        "data": {
+            "notices": 10,
+            "avatar": "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png",
+            "uid": "admin",
+            "username": "admin",
+            "hasLogin": true
+        }
+    }
+}

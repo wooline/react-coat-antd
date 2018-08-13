@@ -1,20 +1,23 @@
-import {ajax} from "core/utils/request";
-import * as global from "./interface/global";
+import {ajax} from "utils/request";
+import * as global from "interface//entity/global";
+import {IGlobalService} from "interface//IGlobalService";
 
-export default class Service {
-  static getSettings(): Promise<global.settings.Item> {
+export class Service implements IGlobalService {
+  getSettings(): Promise<global.settings.Item> {
     return ajax("GET", "/ajax/global/settings");
   }
-  static getAdminLayout(): Promise<global.adminLayout.Item> {
+  getAdminLayout(): Promise<global.adminLayout.Item> {
     return ajax("GET", "/ajax/global/adminLayout");
   }
-  static getCurUser(): Promise<global.session.Item> {
+  getCurUser(): Promise<global.session.Item> {
     return ajax("GET", "/ajax/global/curUser");
   }
-  static login(request: global.session.LoginAPI.Request): Promise<global.session.LoginAPI.Response> {
+  login(request: global.session.LoginAPI.Request): Promise<global.session.LoginAPI.Response> {
     return ajax("PUT", "/ajax/global/login", request);
   }
-  static logout(): Promise<void> {
+  logout(): Promise<void> {
     return ajax("DELETE", "/ajax/global/logout");
   }
 }
+
+export default new Service();

@@ -1,6 +1,6 @@
 import { Button, Form, Input } from "antd";
 import { FormComponentProps } from "antd/lib/form";
-import { TabNav } from "core/entity/global";
+import { TabNav } from "entity/global";
 import RootState from "core/RootState";
 import thisModule from "modules/admin";
 import React from "react";

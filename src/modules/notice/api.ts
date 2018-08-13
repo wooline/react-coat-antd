@@ -1,4 +1,4 @@
-import {NoticeType, TableList, ListFilter} from "core/entity/notice";
+import {NoticeType, TableList, ListFilter} from "entity/notice";
 import NoticeService from "service/NoticeService";
 
 export class API {

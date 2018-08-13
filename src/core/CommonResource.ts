@@ -1,6 +1,6 @@
-import {parseQuery} from "core/utils";
+import {parseQuery} from "../utils";
 import {BaseModuleHandlers, effect, globalLoading, reducer, RootState, SagaIterator, LOCATION_CHANGE, RouterState} from "react-coat-pkg";
-import {ResourceDefined, ResourceExpand} from "./entity/common";
+import {ResourceDefined, ResourceExpand} from "../entity/common";
 
 type ResourceListFilter = ResourceDefined["ListFilter"];
 // type ResourceItemDetail = ResourceDefined["ItemDetail"];

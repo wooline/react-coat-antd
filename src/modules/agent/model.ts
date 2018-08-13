@@ -1,5 +1,5 @@
 import {CommonResourceHandlers} from "core/CommonResource";
-import {State, ListFilter} from "core/entity/agent";
+import {State, ListFilter} from "entity/agent";
 import RootState from "core/RootState";
 import {Actions, exportModel} from "react-coat-pkg";
 import {NAMESPACE} from "./exportNames";

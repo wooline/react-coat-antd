@@ -1,5 +1,5 @@
-import {ProjectConfig} from "core/entity/global";
-import {LoginRequest, LoginResponse, Item as SessionItem} from "core/entity/session";
+import {ProjectConfig} from "entity/global";
+import {LoginRequest, LoginResponse, Item as SessionItem} from "entity/session";
 import {delayPromise} from "react-coat-pkg";
 import GlobalService from "service/GlobalService";
 

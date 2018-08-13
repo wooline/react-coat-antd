@@ -1,4 +1,4 @@
-import {Item as AdminLayoutItem} from "core/entity/adminLayout";
+import {Item as AdminLayoutItem} from "entity/adminLayout";
 import GlobalService from "service/GlobalService";
 
 export class API {

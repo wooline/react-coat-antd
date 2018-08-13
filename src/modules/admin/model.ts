@@ -1,7 +1,7 @@
-import {Item} from "core/entity/adminLayout";
-import {TabNav} from "core/entity/global";
+import {Item} from "entity/adminLayout";
+import {TabNav} from "entity/global";
 import RootState from "core/RootState";
-import {arrayToMap, getStorage, setStorage} from "core/utils";
+import {arrayToMap, getStorage, setStorage} from "utils";
 import {Actions, BaseModuleHandlers, BaseModuleState, effect, exportModel, globalLoading, LOCATION_CHANGE, reducer, RouterState, SagaIterator} from "react-coat-pkg";
 import apiService from "./api";
 import {NAMESPACE} from "./exportNames";

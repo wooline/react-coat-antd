@@ -1,0 +1,51 @@
+{
+    "url": "/ajax/notice/notices?page=2&pageSize=5&type=inform&unread=1",
+    "statusCode": 200,
+    "statusMessage": "OK",
+    "headers": {
+        "x-powered-by": "Express",
+        "content-type": "application/json; charset=utf-8",
+        "connection": "close"
+    },
+    "response": {
+        "filter": {
+            "page": "2",
+            "pageSize": "5",
+            "type": "inform",
+            "unread": "1"
+        },
+        "list": [
+            {
+                "id": "150000199604101683",
+                "title": "设南心复业有石身采候什员计往计别",
+                "description": "为存可文想般市务广有队过因查圆此高水把圆克上八回只照却北队价节表号图工派时第了",
+                "extra": "",
+                "unread": true,
+                "avatar": "https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg",
+                "datetime": "2005-02-26 19:10:19"
+            },
+            {
+                "id": "320000198512207146",
+                "title": "们面路属矿则状领构府山质议报之就型同",
+                "description": "主非头到光细条改斯来石金传者将形就毛属公约间新从程矿间克他但至王于节亲而象算活过复老有你须效法段",
+                "extra": "",
+                "unread": true,
+                "avatar": "https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg",
+                "datetime": "1976-04-11 14:38:03"
+            },
+            {
+                "id": "650000199606215957",
+                "title": "人图议电及建种种根深",
+                "description": "头专别始传通研领定标三今效切清果气劳原状级于按较争运近却那再将反七好京起比龙书也号省被选标全观体图数不过清真劳业克一习矿这决成月办速造物极马府面工",
+                "extra": "",
+                "unread": true,
+                "avatar": "https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg",
+                "datetime": "1982-09-18 23:31:37"
+            }
+        ],
+        "summary": {
+            "total": 8,
+            "unreadTotal": 8
+        }
+    }
+}

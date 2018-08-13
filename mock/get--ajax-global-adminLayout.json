@@ -1,0 +1,66 @@
+{
+    "url": "/ajax/global/adminLayout",
+    "statusCode": 200,
+    "statusMessage": "OK",
+    "headers": {
+        "x-powered-by": "Express",
+        "content-type": "application/json; charset=utf-8",
+        "connection": "close"
+    },
+    "response": {
+        "menu": [
+            {
+                "name": "首页",
+                "icon": "dashboard",
+                "path": "/admin/dashboard",
+                "children": []
+            },
+            {
+                "name": "资源管理范例",
+                "icon": "setting",
+                "path": "/admin/resource",
+                "children": [
+                    {
+                        "name": "独立表单页",
+                        "path": "/admin/resource/form"
+                    },
+                    {
+                        "name": "资源一(用户)",
+                        "path": "/admin/resource/agent"
+                    }
+                ]
+            }
+        ],
+        "footer": {
+            "links": [
+                {
+                    "key": "Pro 首页",
+                    "title": "Pro 首页",
+                    "href": "http://pro.ant.design",
+                    "blankTarget": true
+                },
+                {
+                    "key": "github",
+                    "title": "github",
+                    "href": "https://github.com/ant-design/ant-design-pro",
+                    "blankTarget": true
+                },
+                {
+                    "key": "Ant Design",
+                    "title": "Ant Design",
+                    "href": "http://ant.design",
+                    "blankTarget": true
+                }
+            ],
+            "copyright": "2018 蚂蚁金服体验技术部出品"
+        },
+        "globalSearch": {
+            "placeholder": "站内搜索",
+            "dataSource": [
+                "搜索提示一",
+                "搜索提示二",
+                "搜索提示三"
+            ]
+        }
+    }
+}

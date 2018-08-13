@@ -1,4 +1,4 @@
-import {ListOptional, NoticeType, TableList} from "core/entity/notice";
+import {ListOptional, NoticeType, TableList} from "entity/notice";
 import {noticeType} from "core/Const";
 import RootState from "core/RootState";
 import {Actions, BaseModuleHandlers, BaseModuleState, effect, exportModel, moduleLoading, reducer, SagaIterator, LoadingState} from "react-coat-pkg";

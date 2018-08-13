@@ -3,7 +3,7 @@ import zh_CN from "antd/lib/locale-provider/zh_CN";
 import Loading from "components/Loading";
 import NotFound from "components/NotFound";
 import VerifyRoute, { AuthState } from "components/ProtectedRoute";
-import { Item as User } from "core/entity/session";
+import { Item as User } from "entity/session";
 import RootState from "core/RootState";
 import thisModule from "modules/app";
 import moment from "moment";

@@ -1,5 +1,5 @@
 import { Icon, Menu } from "antd";
-import { MenuItem } from "core/entity/adminLayout";
+import { MenuItem } from "entity/adminLayout";
 import RootState from "core/RootState";
 import pathToRegexp from "path-to-regexp";
 import React from "react";

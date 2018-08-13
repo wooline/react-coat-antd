@@ -1,0 +1,69 @@
+{
+    "url": "/ajax/notice/notices?page=1&pageSize=5&type=message",
+    "statusCode": 200,
+    "statusMessage": "OK",
+    "headers": {
+        "x-powered-by": "Express",
+        "content-type": "application/json; charset=utf-8",
+        "connection": "close"
+    },
+    "response": {
+        "filter": {
+            "page": 1,
+            "pageSize": 5,
+            "type": "message",
+            "unread": null
+        },
+        "list": [
+            {
+                "id": "420000201801132513",
+                "title": "构用石相个位整情",
+                "description": "整图事林象见值广北区史她",
+                "extra": "Jason Gonzalez",
+                "unread": false,
+                "avatar": "https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg",
+                "datetime": "1973-11-03 11:14:35"
+            },
+            {
+                "id": "610000198504302695",
+                "title": "些着史指本问斗传开决本方场传快之设深",
+                "description": "低指极原风战造指各王记真样则地阶调理命信即按看作复完性较红究然道合当更生象油方专本县铁今论感战满划消作据起六断构住开积组布很",
+                "extra": "Karen Davis",
+                "unread": true,
+                "avatar": "https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png",
+                "datetime": "1987-07-02 01:01:02"
+            },
+            {
+                "id": "43000019890221999X",
+                "title": "建保都称科知",
+                "description": "产战有新向如石日志活快海得整步应点",
+                "extra": "Scott Martin",
+                "unread": false,
+                "avatar": "https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg",
+                "datetime": "2002-02-27 12:06:44"
+            },
+            {
+                "id": "320000197411179831",
+                "title": "派立厂本走入制已等认住",
+                "description": "置至命集",
+                "extra": "Margaret Anderson",
+                "unread": false,
+                "avatar": "https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg",
+                "datetime": "2002-10-20 10:22:56"
+            },
+            {
+                "id": "620000201709305933",
+                "title": "实济身标外革部小南合",
+                "description": "强革族次容常名或百史保名界议把识建里油使大社叫会可车四青上办目节电料整美带最多算办老参装回总无提新向委却最年众总技拉加周小名性此分装属来术领原好众清影广么体新些果五知厂天米具算信都活理同向是",
+                "extra": "Linda Hall",
+                "unread": false,
+                "avatar": "https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png",
+                "datetime": "1982-02-25 03:31:03"
+            }
+        ],
+        "summary": {
+            "total": 15,
+            "unreadTotal": 5
+        }
+    }
+}

@@ -1,5 +1,5 @@
-import {ProjectConfig} from "core/entity/global";
-import {Item as SessionItem} from "core/entity/session";
+import {ProjectConfig} from "entity/global";
+import {Item as SessionItem} from "entity/session";
 import RootState from "core/RootState";
 import {message as Alert} from "antd";
 import {Actions, BaseModuleHandlers, BaseModuleState, effect, ERROR, exportModel, globalLoading, loading, LoadingState, reducer, SagaIterator} from "react-coat-pkg";

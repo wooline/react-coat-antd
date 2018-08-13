@@ -1,6 +1,6 @@
 import {Spin, Tabs} from "antd";
 import {noticeType} from "core/Const";
-import {NoticeType, TableList} from "core/entity/notice";
+import {NoticeType, TableList} from "entity/notice";
 import RootState from "core/RootState";
 import thisModule from "modules/notice";
 import React from "react";

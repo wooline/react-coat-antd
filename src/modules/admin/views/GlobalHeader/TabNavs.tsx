@@ -3,7 +3,7 @@ import classNames from "classnames";
 import RootState from "core/RootState";
 import thisModule from "modules/admin";
 import React from "react";
-import {TabNav} from "core/entity/global";
+import {TabNav} from "entity/global";
 import {DispatchProp, connect} from "react-redux";
 import TabNavEditor from "./TabNavEditor";
 

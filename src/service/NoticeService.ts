@@ -1,11 +1,13 @@
-import {ajax} from "core/utils/request";
-import * as notice from "./interface/notice";
+import {ajax} from "utils/request";
+import * as notice from "interface//entity/notice";
+import {INoticeService} from "interface//INoticeService";
 
-export default class Service {
-  static deleteList(request: notice.DeleteListRequest): Promise<void> {
+export class Service implements INoticeService {
+  deleteList(request: notice.DeleteListRequest): Promise<void> {
     return ajax("DELETE", "/ajax/notice/:type", request);
   }
-  static getTableList(request: notice.ListFilter): Promise<notice.TableList> {
+  getTableList(request: notice.ListFilter): Promise<notice.TableList> {
     return ajax("GET", "/ajax/notice/notices", request);
   }
 }
+export default new Service();
