@@ -1,33 +1,34 @@
 import {Body, Controller, Delete, Get, Put} from "@nestjs/common";
-import Service from "service/GlobalService";
-import * as global from "./interface/global";
+import * as global from "../interface/entity/global";
+import {IGlobalService} from "../interface/IGlobalService";
+import Service from "../service/GlobalService";
 
 @Controller("/ajax/global/")
-export default class GlobalController {
+export default class GlobalController implements IGlobalService {
   constructor(private readonly service: Service) {}
 
   @Get("settings")
-  settings(): global.settings.Item {
+  async getSettings(): Promise<global.settings.Item> {
     return this.service.getSettings();
   }
 
   @Get("adminLayout")
-  adminLayout(): global.adminLayout.Item {
+  async getAdminLayout(): Promise<global.adminLayout.Item> {
     return this.service.getAdminLayout();
   }
 
   @Get("curUser")
-  curUser(): global.session.Item {
+  async getCurUser(): Promise<global.session.Item> {
     return this.service.getCurUser();
   }
 
   @Put("login")
-  login(@Body() request: global.session.LoginAPI.Request): global.session.LoginAPI.Response {
+  async login(@Body() request: global.session.LoginAPI.Request): Promise<global.session.LoginAPI.Response> {
     return this.service.login(request);
   }
 
   @Delete("logout")
-  logout(): void {
+  async logout(): Promise<void> {
     return this.service.logout();
   }
 }

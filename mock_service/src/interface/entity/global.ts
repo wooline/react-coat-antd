@@ -3,9 +3,8 @@ export namespace common {
   export type NTrue = "1";
 }
 export namespace settings {
-  export type ThemeValue = "blue" | "green" | "red";
   export interface Item {
-    theme: ThemeValue;
+    theme: string;
     videoDir: string;
     pageSize: number;
   }

@@ -1,21 +1,26 @@
 import {Injectable} from "@nestjs/common";
-import * as global from "../controllers/interface/global";
+import * as global from "../interface/entity/global";
+import {IGlobalService} from "../interface/IGlobalService";
 
 @Injectable()
-export default class Service {
-  getSettings(): global.settings.Item {
+export default class GlobalService implements IGlobalService {
+  getSettings(): Promise<global.settings.Item> {
+    return Promise.resolve({
+      theme: "blue",
+      videoDir: "http://www.baidu.com/",
+      pageSize: 20,
+    });
+  }
+  getAdminLayout(): Promise<global.adminLayout.Item> {
     return {} as any;
   }
-  getAdminLayout(): global.adminLayout.Item {
+  getCurUser(): Promise<global.session.Item> {
     return {} as any;
   }
-  getCurUser(): global.session.Item {
+  login(request: global.session.LoginAPI.Request): Promise<global.session.LoginAPI.Response> {
     return {} as any;
   }
-  login(request: global.session.LoginAPI.Request): global.session.LoginAPI.Response {
-    return {} as any;
-  }
-  logout(): void {
+  logout(): Promise<void> {
     return {} as any;
   }
 }

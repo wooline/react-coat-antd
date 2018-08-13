@@ -1,13 +1,14 @@
 import {Controller, Get, Query} from "@nestjs/common";
-import Service from "service/AgentService";
-import * as agent from "./interface/agent";
+import * as agent from "../interface/entity/agent";
+import {IAgentService} from "../interface/IAgentService";
+import Service from "../service/AgentService";
 
 @Controller("/ajax/agent/")
-export default class AgentController {
+export default class AgentController implements IAgentService {
   constructor(private readonly service: Service) {}
 
   @Get("agents")
-  getTableList(@Query() request: agent.ListFilter): agent.TableList {
+  async getTableList(@Query() request: agent.ListFilter): Promise<agent.TableList> {
     return this.service.getTableList(request);
   }
 }

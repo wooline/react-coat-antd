@@ -1,5 +1,5 @@
 {
-  "name": "project",
+  "name": "project2",
   "version": "0.0.0",
   "description": "description",
   "author": "",
@@ -21,7 +21,8 @@
     "@nestjs/core": "^5.0.0",
     "fastify-formbody": "^2.0.0",
     "reflect-metadata": "^0.1.12",
-    "rxjs": "^6.0.0"
+    "rxjs": "^6.0.0",
+    "typescript": "^3.0.1"
   },
   "devDependencies": {
     "@nestjs/testing": "^5.0.0",
@@ -34,10 +35,10 @@
     "prettier": "^1.11.1",
     "supertest": "^3.0.0",
     "ts-jest": "^21.2.4",
-    "ts-loader": "^4.1.0",
-    "ts-node": "^4.1.0",
+    "ts-loader": "^4.4.2",
+    "ts-node": "^7.0.1",
+    "tsconfig-paths": "^3.5.0",
     "tslint": "5.3.2",
-    "typescript": "^3.0.1",
     "webpack": "^4.2.0",
     "webpack-cli": "^2.0.13",
     "webpack-node-externals": "^1.6.0"
